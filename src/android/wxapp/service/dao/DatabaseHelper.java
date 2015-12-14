@@ -6,42 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * 表结构如下
- * <p>
- * org_code(id,org_code,description);
- * <p>
- * org_code_person(id,user_id,user_name,org_code,remark,contacts,name);
- * <p>
- * myinfo(id,user_name,name,description,remark,contacts);
- * <p>
- * affair(id,affiarid,type （1：任务 2：请示 3：通知）, senderid,description, topic,
- * createtime, endtime, completetime, lastoperatetype（1-新建，2-置完成（手动），3-置延误（自动）
- * ，4-修改截止日期）, lastoperatetime, updatetime,readtime, attachment [ {
- * "at":"XXXXXXXX", //附件类型（1：文本 2：图片3：录像4：录音5 ：GPS） "u":"XXXXXXXX" //附件链接 },… ]
- * )
- * <p>
- * person_on_duty(id,affair_id,person_id,type(1:责任人，2:抄送人),update_time)
- * <p>
- * attachment(id,attachment_id,type(1：文本 2：图片3：录像4：录音5：GPS),url)
- * <p>
- * message(id,mid,type,sender_id,relation_id,send_time,content,attachment_type,
- * attachment_url,update_time,isread)
- * <p>
- * conference(id,cid,name,sponsor_id,,convene_time,from（1：通过手机，2：通过Web（PC或移动终端），
- * 3 ：通过PC客户端，4：系统自动处置，5：其他）,start_time(会议实际开始时间),end_time,remark)
- * <p>
- * ConferencePerson(id,cid,uid,type//成员角色（1：发言人，2：收听人，3：视频源，4：发言+视频源）,
- * response_time,remark)
- * <p>
- * group(id,gid,type（1：基本群组，2：非基本群组）,name,create_time,update_time,rids)
- * <p>
- * gps(id,gid,person_id,time,longitude,latitude,gps_type(1:GPS,2:AGPS,3:手台GPS),
- * accuracy,heigh,speed,update_time)
- * 
- * @author JerryLiu
- * @time 2015-6-1
- */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// 版本
@@ -52,7 +16,224 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// 数据库名
 	public static final String DATABASE_NAME = "App.db";
 
-	// Jerry 6.1
+	public static final String TB_ORG = "org";
+	public static final String FIELD_ORG_ID = "id";
+	public static final String FIELD_ORG_ORG_CODE = "org_code";
+	public static final String FIELD_ORG_ORG_NAME = "org_name";
+	public static final String FIELD_ORG_REMARK = "remark";
+	public static final String SQL_ORGE_CREATE_TABLE = "create table " + TB_ORG + " ("
+			+ FIELD_ORG_ID + " integer primary key autoincrement, " + FIELD_ORG_ORG_CODE + " text,"
+			+ FIELD_ORG_ORG_NAME + " text," + FIELD_ORG_REMARK + " text)";
+
+	public static final String TB_PERSON = "person";
+	public static final String FIELD_PERSON_ID = "id";
+	public static final String FIELD_PERSON_ALIAS = "alias";
+	public static final String FIELD_PERSON_ORG_CODE = "Org_code";
+	public static final String FIELD_PERSON_NAME = "name";
+	public static final String FIELD_PERSON_IDENTIFY_CODE = "identify_code";
+	public static final String FIELD_PERSON_REMARK = "remark";
+	public static final String FIELD_PERSON_IMSI = "imsi";
+	public static final String FIELD_PERSON_FORCE_OFFLINE = "force_offline";
+	public static final String FIELD_PERSON_SEQUENCE = "sequence";
+	public static final String SQL_PERSON_CREATE_TABLE = "create table " + TB_PERSON + " ("
+			+ FIELD_PERSON_ID + " integer primary key autoincrement, " + FIELD_PERSON_ALIAS
+			+ " text," + FIELD_PERSON_ORG_CODE + " text," + FIELD_PERSON_NAME + " text,"
+			+ FIELD_PERSON_IDENTIFY_CODE + " text," + FIELD_PERSON_REMARK + " text,"
+			+ FIELD_PERSON_IMSI + " text," + FIELD_PERSON_FORCE_OFFLINE + " text,"
+			+ FIELD_PERSON_SEQUENCE + " text)";
+
+	public static final String TB_ROLE = "role";
+	public static final String FIELD_ROLE_ID = "id";
+	public static final String FIELD_ROLE_NAME = "role_name";
+	public static final String FIELD_ROLE_REMARK = "remark";
+	public static final String SQL_ROLE_CREATE_TABLE = "create table " + TB_ROLE + " ("
+			+ FIELD_ROLE_ID + " integer primary key autoincrement, " + FIELD_ROLE_NAME + " text,"
+			+ FIELD_ROLE_REMARK + " text)";
+
+	public static final String TB_ROLE_PERSON = "role_person";
+	public static final String FIELD_ROLE_PERSON_ID = "id";
+	public static final String FIELD_ROLE_PERSON_PID = "person_id";
+	public static final String FIELD_ROLE_PERSON_RID = "role_id";
+	public static final String SQL_ROLE_PERSON_CREATE_TABLE = "create table " + TB_ROLE_PERSON
+			+ " (" + FIELD_ROLE_PERSON_ID + " integer primary key autoincrement, "
+			+ FIELD_ROLE_PERSON_PID + " text," + FIELD_ROLE_PERSON_RID + " text)";
+
+	public static final String TB_PERMISSION = "permission";
+	public static final String FIELD_PERMISSION_ID = "id";
+	public static final String FIELD_PERMISSION_MENU_CODE = "Menu_code";
+	public static final String FIELD_PERMISSION_CODE = "code";
+	public static final String FIELD_PERMISSION_NAME = "name";
+	public static final String FIELD_PERMISSION_ROLE_ID = "Role_id";
+	public static final String SQL_PERMISSION_CREATE_TABLE = "create table " + TB_PERMISSION + " ("
+			+ FIELD_PERMISSION_ID + " integer primary key autoincrement, "
+			+ FIELD_PERMISSION_MENU_CODE + " text," + FIELD_PERMISSION_CODE + " text,"
+			+ FIELD_PERMISSION_NAME + " text," + FIELD_PERMISSION_ROLE_ID + " text)";
+
+	public static final String TB_LOG = "tb_log";
+	public static String FIELD_LOG_ID = "id";
+	public static String FIELD_LOG_USER_NAME = "User_name";
+	public static String FIELD_LOG_TYPE = "Type";
+	public static String FIELD_LOG_CONTENT = "content";
+	public static String FIELD_LOG_TIME = "time";
+	public static String FIELD_LOG_LONGITUDE = "longitude";
+	public static String FIELD_LOG_LATITUDE = "latitude";
+	public static String FIELD_LOG_CLIENT = "client";
+	public static String FIELD_LOG_IP = "ip";
+	public static final String SQL_LOG_CREATE_TABLE = "create table " + TB_LOG + " (" + FIELD_LOG_ID
+			+ " integer primary key autoincrement, " + FIELD_LOG_USER_NAME + " text,"
+			+ FIELD_LOG_TYPE + " text," + FIELD_LOG_CONTENT + " text," + FIELD_LOG_TIME + " text,"
+			+ FIELD_LOG_LONGITUDE + " text," + FIELD_LOG_LATITUDE + " text," + FIELD_LOG_CLIENT
+			+ " text," + FIELD_LOG_IP + " text)";
+
+	public static final String TB_DICTIONARY = "dictionary";
+	public static final String FIELD_DIC_ID = "id";
+	public static final String FIELD_DIC_CODE = "code";
+	public static final String FIELD_DIC_NAME = "name";
+	public static final String SQL_DIC_CREATE_TABLE = "create table " + TB_DICTIONARY + " ("
+			+ FIELD_DIC_ID + " integer primary key autoincrement, " + FIELD_DIC_CODE + " text,"
+			+ FIELD_DIC_NAME + " text)";
+
+	public static final String TB_DIC_DATA = "dic_data";
+	public static final String FIELD_DICDATA_ID = "Id";
+	public static final String FIELD_DICDATA_DATA_CODE = "data_code";
+	public static final String FIELD_DICDATA_DATA_VALUE = "data_value";
+	public static final String FIELD_DICDATA_DICTIONARY_CODE = "dictionary_code";
+	public static final String SQL_DIC_DATA_CREATE_TABLE = "create table " + TB_DIC_DATA + " ("
+			+ FIELD_DICDATA_ID + " integer primary key autoincrement, " + FIELD_DICDATA_DATA_CODE
+			+ " text," + FIELD_DICDATA_DATA_VALUE + " text," + FIELD_DICDATA_DICTIONARY_CODE
+			+ " text)";
+
+	public static final String TB_TASK = "task_info";
+	public static final String FIELD_TASKINFO_ID = "id";
+	public static final String FIELD_TASKINFO_WEATHER = "weather";
+	public static final String FIELD_TASKINFO_NAME = "name";
+	public static final String FIELD_TASKINFO_POWER_CUT_RANGE = "power_cut_range";
+	public static final String FIELD_TASKINFO_EFFECT_EARA = "effect_eara";
+	public static final String FIELD_TASKINFO_CONTENT = "content";
+	public static final String FIELD_TASKINFO_RESPONSIBILITY_USER = "responsibility_user";
+	public static final String FIELD_TASKINFO_PLAN_START_TIME = "plan_start_time";
+	public static final String FIELD_TASKINFO_PLAN_END_TIME = "plan_end_time";
+	public static final String FIELD_TASKINFO_START_TIME = "start_time";
+	public static final String FIELD_TASKINFO_END_TIME = "end_time";
+	public static final String FIELD_TASKINFO_CATEGORY = "category";
+	public static final String FIELD_TASKINFO_IS_PUBLISH = "is_publish";
+	public static final String FIELD_TASKINFO_SPECIAL = "special";
+	public static final String FIELD_TASKINFO_LEADER = "leader";
+	public static final String FIELD_TASKINFO_MEASURES = "measures";
+	public static final String FIELD_TASKINFO_DOMAIN = "domain";
+	public static final String FIELD_TASKINFO_IS_POWER_CUT = "is_power_cut";
+	public static final String FIELD_TASKINFO_CUT_TYPE = "cut_type";
+	public static final String FIELD_TASKINFO_IMPLEMENT_ORG = "implement_org";
+	public static final String FIELD_TASKINFO_NUMBER = "number";
+	public static final String FIELD_TASKINFO_REMARK = "remark";
+	public static final String FIELD_TASKINFO_PLAN_TYPE = "plan_type";
+	public static final String FIELD_TASKINFO_CREATOR_ID = "creator_id";
+	public static final String FIELD_TASKINFO_CREATOR_TIME = "creator_time";
+	public static final String FIELD_TASKINFO_IS_KEEP = "is_keep";
+	public static final String FIELD_TASKINFO_STATUS = "status";
+	public static final String FIELD_TASKINFO_EXAMINE_ID = "examine_id";
+	public static final String FIELD_TASKINFO_APPROVE_ID = "approve_id";
+	public static final String SQL_TASK_CREATE_TABLE = "create table " + TB_TASK + " ("
+			+ FIELD_TASKINFO_ID + " integer primary key autoincrement, " + FIELD_TASKINFO_WEATHER
+			+ " text," + FIELD_TASKINFO_NAME + " text," + FIELD_TASKINFO_POWER_CUT_RANGE + " text,"
+			+ FIELD_TASKINFO_EFFECT_EARA + " text," + FIELD_TASKINFO_CONTENT + " text,"
+			+ FIELD_TASKINFO_RESPONSIBILITY_USER + " text," + FIELD_TASKINFO_PLAN_START_TIME
+			+ " text," + FIELD_TASKINFO_PLAN_END_TIME + " text," + FIELD_TASKINFO_START_TIME
+			+ " text," + FIELD_TASKINFO_END_TIME + " text," + FIELD_TASKINFO_CATEGORY + " text,"
+			+ FIELD_TASKINFO_IS_PUBLISH + " text," + FIELD_TASKINFO_SPECIAL + " text,"
+			+ FIELD_TASKINFO_LEADER + " text," + FIELD_TASKINFO_MEASURES + " text,"
+			+ FIELD_TASKINFO_DOMAIN + " text," + FIELD_TASKINFO_IS_POWER_CUT + " text,"
+			+ FIELD_TASKINFO_CUT_TYPE + " text," + FIELD_TASKINFO_IMPLEMENT_ORG + " text,"
+			+ FIELD_TASKINFO_NUMBER + " text," + FIELD_TASKINFO_REMARK + " text,"
+			+ FIELD_TASKINFO_PLAN_TYPE + " text," + FIELD_TASKINFO_CREATOR_ID + " text,"
+			+ FIELD_TASKINFO_CREATOR_TIME + " text," + FIELD_TASKINFO_IS_KEEP + " text,"
+			+ FIELD_TASKINFO_STATUS + " text," + FIELD_TASKINFO_EXAMINE_ID + " text,"
+			+ FIELD_TASKINFO_APPROVE_ID + " text)";
+
+	public static final String TB_TASK_STANDARD = "task_standard";
+	public static final String FIELD_TASK_STANDARD_ID = "id";
+	public static final String FIELD_TASK_STANDARD_STANDARD = "standard";
+	public static final String FIELD_TASK_STANDARD_TOTAL_SCORE = "total_score";
+	public static final String FIELD_TASK_STANDARD_CAREGORE = "category";
+	public static final String SQL_TASK_STANDARD_CREATE_TABLE = "create table " + TB_TASK_STANDARD
+			+ " (" + FIELD_TASK_STANDARD_ID + " integer primary key autoincrement, "
+			+ FIELD_TASK_STANDARD_STANDARD + " text," + FIELD_TASK_STANDARD_TOTAL_SCORE + " text,"
+			+ FIELD_TASK_STANDARD_CAREGORE + " text)";
+
+	public static final String TB_TASK_EVALUATE = "task_evaluate";
+	public static final String FIELD_TASK_EVALUATE_ID = "id";
+	public static final String FIELD_TASK_EVALUATE_TASK_ID = "task_id";
+	public static final String FIELD_TASK_EVALUATE_STANDARD_ID = "standard_id";
+	public static final String FIELD_TASK_EVALUATE_SCORE = "score";
+	public static final String FIELD_TASK_EVALUATE_EVALUATE = "evaluate";
+	public static final String FIELD_TASK_EVALUATE_USER_ID = "user_id";
+	public static final String FIELD_TASK_EVALUATE_TIME = "time";
+	public static final String SQL_TASK_EVALUATE_CREATE_TABLE = "create table " + TB_TASK_EVALUATE
+			+ " (" + FIELD_TASK_EVALUATE_ID + " integer primary key autoincrement, "
+			+ FIELD_TASK_EVALUATE_TASK_ID + " text," + FIELD_TASK_EVALUATE_STANDARD_ID + " text,"
+			+ FIELD_TASK_EVALUATE_SCORE + " text," + FIELD_TASK_EVALUATE_EVALUATE + " text,"
+			+ FIELD_TASK_EVALUATE_USER_ID + " text," + FIELD_TASK_EVALUATE_TIME + " text)";
+
+	public static final String TB_TASK_ATTACHMENT = "task_attachment";
+	public static final String FIELD_TASK_ATTCHMENT_ID = "id";
+	public static final String FIELD_TASK_ATTCHMENT_TASK_ID = "task_id";
+	public static final String FIELD_TASK_ATTCHMENT_HISTORYGPS = "historygps";
+	public static final String FIELD_TASK_ATTCHMENT_STANDARD = "standard";
+	public static final String FIELD_TASK_ATTCHMENT_TYPE = "type";
+	public static final String FIELD_TASK_ATTCHMENT_URL = "url";
+	public static final String FIELD_TASK_ATTCHMENT_UPLOAD_TIME = "upload_time";
+	public static final String FIELD_TASK_ATTCHMENT_MD5 = "md5";
+	public static final String SQL_TASK_ATTACHMENT_CREATE_TABLE = "create table "
+			+ TB_TASK_ATTACHMENT + " (" + FIELD_TASK_ATTCHMENT_ID
+			+ " integer primary key autoincrement, " + FIELD_TASK_ATTCHMENT_TASK_ID + " text,"
+			+ FIELD_TASK_ATTCHMENT_HISTORYGPS + " text," + FIELD_TASK_ATTCHMENT_STANDARD + " text,"
+			+ FIELD_TASK_ATTCHMENT_TYPE + " text," + FIELD_TASK_ATTCHMENT_URL + " text,"
+			+ FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " text," + FIELD_TASK_ATTCHMENT_MD5 + " text)";
+
+	public static final String TB_TASK_INSTRUCTIONS = "task_instructions";
+	public static final String FIELD_TASK_INSTRUCTIONS_ID = "id";
+	public static final String FIELD_TASK_INSTRUCTIONS_TASK_ID = "task_id";
+	public static final String FIELD_TASK_INSTRUCTIONS_CONTENT = "content";
+	public static final String FIELD_TASK_INSTRUCTIONS_SEND_ID = "send_id";
+	public static final String FIELD_TASK_INSTRUCTIONS_SEND_TIME = "send_time";
+	public static final String SQL_TASK_INSTRUCTIONS_CREATE_TABLE = "create table "
+			+ TB_TASK_INSTRUCTIONS + " (" + FIELD_TASK_INSTRUCTIONS_ID
+			+ " integer primary key autoincrement, " + FIELD_TASK_INSTRUCTIONS_TASK_ID + " text,"
+			+ FIELD_TASK_INSTRUCTIONS_CONTENT + " text," + FIELD_TASK_INSTRUCTIONS_SEND_ID
+			+ " text," + FIELD_TASK_INSTRUCTIONS_SEND_TIME + " text)";
+
+	public static final String TB_TASK_INSTRUCTIONS_RECEIVE = "receive";
+	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_ID = "id";
+	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_INSTRUCTIONS_ID = "instructions_id";
+	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID = "receive_id";
+	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME = "receive_time";
+	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ = "is_read";
+	public static final String SQL_TASK_INSTRUCTIONS_RECEIVE_CREATE_TABLE = "create table "
+			+ TB_TASK_INSTRUCTIONS_RECEIVE + " (" + FIELD_TASK_INSTRUCTIONS_RECIEVE_ID
+			+ " integer primary key autoincrement, "
+			+ FIELD_TASK_INSTRUCTIONS_RECIEVE_INSTRUCTIONS_ID + " text,"
+			+ FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID + " text,"
+			+ FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME + " text,"
+			+ FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ + " text)";
+
+	public static final String TB_TASK_INSTRUCTIONS_ATTACHMENT = "ins_att";
+	public static final String FIELD_TASK_INS_ATT_ID = "id";
+	public static final String FIELD_TASK_INS_ATT_INSTRUCTIONS_ID = "instructions_id";
+	public static final String FIELD_TASK_INS_ATT_TYPE = "type";
+	public static final String FIELD_TASK_INS_ATT_URL = "url";
+	public static final String FIELD_TASK_INS_ATT_UPDATE_TIME = "update_time";
+	public static final String FIELD_TASK_INS_ATT_MD5 = "md5";
+	public static final String SQL_TASK_INS_ATT_CREATE_TABLE = "create table "
+			+ TB_TASK_INSTRUCTIONS_ATTACHMENT + " (" + FIELD_TASK_INS_ATT_ID
+			+ " integer primary key autoincrement, " + FIELD_TASK_INS_ATT_INSTRUCTIONS_ID + " text,"
+			+ FIELD_TASK_INS_ATT_TYPE + " text," + FIELD_TASK_INS_ATT_URL + " text,"
+			+ FIELD_TASK_INS_ATT_UPDATE_TIME + " text," + FIELD_TASK_INS_ATT_MD5 + " text)";
+
+	// ====================================================================================
+	// ====================================================================================
+	// ====================================================================================
+	// ====================================================================================
+	// ==============================弃用 start
 	// 表名 org_code
 	public static final String TABLE_ORG_CODE = "org_code";
 	// 字段
@@ -74,12 +255,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_ORG_PERSON_REMARK = "remark";
 	public static final String FIELD_ORG_PERSON_CONTACTS = "contacts";
 	public static final String FIELD_ORG_PERSON_NAME = "name";
-	public static final String SQL_ORG_PERSON_CREATE_TABLE = "create table " + TABLE_ORG_PERSON + " ("
-			+ FIELD_ORG_PERSON_ID + " integer primary key autoincrement, " + FIELD_ORG_PERSON_USER_ID
-			+ " text," + FIELD_ORG_PERSON_ORG_CODE + " text," + FIELD_ORG_PERSON_REMARK + " text,"
-			+ FIELD_ORG_PERSON_CONTACTS + " text," + FIELD_ORG_PERSON_USER_NAME + " text, "
-			+ FIELD_ORG_PERSON_NAME + " text)";
-
+	public static final String SQL_ORG_PERSON_CREATE_TABLE = "create table " + TABLE_ORG_PERSON
+			+ " (" + FIELD_ORG_PERSON_ID + " integer primary key autoincrement, "
+			+ FIELD_ORG_PERSON_USER_ID + " text," + FIELD_ORG_PERSON_ORG_CODE + " text,"
+			+ FIELD_ORG_PERSON_REMARK + " text," + FIELD_ORG_PERSON_CONTACTS + " text,"
+			+ FIELD_ORG_PERSON_USER_NAME + " text, " + FIELD_ORG_PERSON_NAME + " text)";
 	// 表名 myinfo
 	public static final String TABLE_MY_INFO = "myinfo";
 	// 字段
@@ -119,14 +299,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	public static final String FIELD_AFFIARINFO_ATTACHMENT = "attachment";
 	// 创建表的SQL
-	public static final String SQL_AFFAIRINFO_CREATE_TABLE = "create table " + TABLE_AFFIARINFO + " ("
-			+ FIELD_AFFIARINFO_ID + " integer primary key autoincrement, " + FIELD_AFFIARINFO_AFFAIR_ID
-			+ " text," + FIELD_AFFIARINFO_TYPE + " text," + FIELD_AFFIARINFO_SENDERID + " text,"
-			+ FIELD_AFFIARINFO_DES + " text," + FIELD_AFFIARINFO_TOPIC + " text,"
-			+ FIELD_AFFIARINFO_CREATETIME + " text," + FIELD_AFFIARINFO_ENDTIME + " text,"
-			+ FIELD_AFFIARINFO_COMPLETETIME + " text," + FIELD_AFFIARINFO_READTIME + " text,"
-			+ FIELD_AFFIARINFO_LAST_OPERATE_TYPE + " text," + FIELD_AFFIARINFO_LAST_OPERATE_TIME
-			+ " text," + FIELD_AFFIARINFO_UPDATETIME + " text," + FIELD_AFFIARINFO_ATTACHMENT + " text)";
+	public static final String SQL_AFFAIRINFO_CREATE_TABLE = "create table " + TABLE_AFFIARINFO
+			+ " (" + FIELD_AFFIARINFO_ID + " integer primary key autoincrement, "
+			+ FIELD_AFFIARINFO_AFFAIR_ID + " text," + FIELD_AFFIARINFO_TYPE + " text,"
+			+ FIELD_AFFIARINFO_SENDERID + " text," + FIELD_AFFIARINFO_DES + " text,"
+			+ FIELD_AFFIARINFO_TOPIC + " text," + FIELD_AFFIARINFO_CREATETIME + " text,"
+			+ FIELD_AFFIARINFO_ENDTIME + " text," + FIELD_AFFIARINFO_COMPLETETIME + " text,"
+			+ FIELD_AFFIARINFO_READTIME + " text," + FIELD_AFFIARINFO_LAST_OPERATE_TYPE + " text,"
+			+ FIELD_AFFIARINFO_LAST_OPERATE_TIME + " text," + FIELD_AFFIARINFO_UPDATETIME + " text,"
+			+ FIELD_AFFIARINFO_ATTACHMENT + " text)";
 
 	// 表名 personOnDuty
 	public static final String TABLE_PERSON_ON_DUTY = "person_on_duty";
@@ -151,8 +332,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_ATTACHMENT_TYPE = "type";
 	public static final String FIELD_ATTACHMENT_URL = "url";
 	// 创建表的SQL
-	public static final String SQL_ATTACHMENT_CREATE_TABLE = "create table " + TABLE_ATTACHMENT + " ("
-			+ FIELD_ATTACHMENT_ID + " integer primary key autoincrement, "
+	public static final String SQL_ATTACHMENT_CREATE_TABLE = "create table " + TABLE_ATTACHMENT
+			+ " (" + FIELD_ATTACHMENT_ID + " integer primary key autoincrement, "
 			+ FIELD_ATTACHMENT_ATTACHMENT_ID + " text," + FIELD_ATTACHMENT_TYPE + " text,"
 			+ FIELD_ATTACHMENT_URL + " text)";
 
@@ -195,8 +376,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_CONFERENCE_ENDTIME = "end_time";
 	public static final String FIELD_CONFERENCE_REMARK = "remark";
 	// 创建表的SQL
-	public static final String SQL_CONFERENCE_CREATE_TABLE = "create table " + TABLE_CONFERENCE + " ("
-			+ FIELD_CONFERENCE_ID + " integer primary key autoincrement, "
+	public static final String SQL_CONFERENCE_CREATE_TABLE = "create table " + TABLE_CONFERENCE
+			+ " (" + FIELD_CONFERENCE_ID + " integer primary key autoincrement, "
 			+ FIELD_CONFERENCE_CONFERENCE_ID + " text," + FIELD_CONFERENCE_NAME + " text,"
 			+ FIELD_CONFERENCE_SPONSORID + " text," + FIELD_CONFERENCE_CONVENE_TIME + " text,"
 			+ FIELD_CONFERENCE_FROM + " text," + FIELD_CONFERENCE_START_TIME + " text,"
@@ -230,9 +411,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_GROUP_RIDS = "rids";
 	// 创建表的SQL
 	public static final String SQL_GROUP_CREATE_TABLE = "create table " + TABLE_GROUP + " ("
-			+ FIELD_GROUP_ID + " integer primary key autoincrement, " + FIELD_GROUP_GROUP_ID + " text,"
-			+ FIELD_GROUP_TYPE + " text," + FIELD_GROUP_NAME + " text," + FIELD_GROUP_CREATE_TIME
-			+ " text," + FIELD_GROUP_UPDATE_TIME + " text," + FIELD_GROUP_RIDS + " text)";
+			+ FIELD_GROUP_ID + " integer primary key autoincrement, " + FIELD_GROUP_GROUP_ID
+			+ " text," + FIELD_GROUP_TYPE + " text," + FIELD_GROUP_NAME + " text,"
+			+ FIELD_GROUP_CREATE_TIME + " text," + FIELD_GROUP_UPDATE_TIME + " text,"
+			+ FIELD_GROUP_RIDS + " text)";
 
 	// 表名 GPS
 	public static final String TABLE_GPS = "gps_table";
@@ -249,11 +431,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_GPS_SPEED = "speed";
 	public static final String FIELD_GPS_UPDATE_TIME = "update_time";
 	// 创建表的SQL
-	public static final String SQL_GPS_CREATE_TABLE = "create table " + TABLE_GPS + " (" + FIELD_GPS_ID
-			+ " integer primary key autoincrement, " + FIELD_GPS_GPS_ID + " text," + FIELD_GPS_PERSON_ID
-			+ " text," + FIELD_GPS_TIME + " text," + FIELD_GPS_LONG + " text," + FIELD_GPS_LAT
-			+ " text," + FIELD_GPS_TYPE + " text," + FIELD_GPS_ACCURACY + " text," + FIELD_GPS_HEIGHT
-			+ " text," + FIELD_GPS_SPEED + " text," + FIELD_GPS_UPDATE_TIME + " text)";
+	public static final String SQL_GPS_CREATE_TABLE = "create table " + TABLE_GPS + " ("
+			+ FIELD_GPS_ID + " integer primary key autoincrement, " + FIELD_GPS_GPS_ID + " text,"
+			+ FIELD_GPS_PERSON_ID + " text," + FIELD_GPS_TIME + " text," + FIELD_GPS_LONG + " text,"
+			+ FIELD_GPS_LAT + " text," + FIELD_GPS_TYPE + " text," + FIELD_GPS_ACCURACY + " text,"
+			+ FIELD_GPS_HEIGHT + " text," + FIELD_GPS_SPEED + " text," + FIELD_GPS_UPDATE_TIME
+			+ " text)";
 
 	// 单键处理
 	private volatile static DatabaseHelper _unique_instance = null;
@@ -286,40 +469,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		Log.v(LOG_TAG, "SQLite: onCreate");
 
-		// jerry create table 6.1
-		db.execSQL(SQL_ORG_PERSON_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table ORG_PERSON");
-		Log.v(LOG_TAG, SQL_ORG_PERSON_CREATE_TABLE);
-		db.execSQL(SQL_ORG_CODE_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table ORG_CODE");
-		Log.v(LOG_TAG, SQL_ORG_CODE_CREATE_TABLE);
-		db.execSQL(SQL_MY_INFO_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table MY_INFO");
-		Log.v(LOG_TAG, SQL_MY_INFO_CREATE_TABLE);
-		db.execSQL(SQL_AFFAIRINFO_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table AFFAIRINFO");
-		Log.v(LOG_TAG, SQL_AFFAIRINFO_CREATE_TABLE);
-		db.execSQL(SQL_POD_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table POD");
-		Log.v(LOG_TAG, SQL_POD_CREATE_TABLE);
-		db.execSQL(SQL_ATTACHMENT_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table ATTACHMENT");
-		Log.v(LOG_TAG, SQL_ATTACHMENT_CREATE_TABLE);
-		db.execSQL(SQL_MESSAGE_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table MESSAGE");
-		Log.v(LOG_TAG, SQL_MESSAGE_CREATE_TABLE);
-		db.execSQL(SQL_CONFERENCE_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table CONFERENCE");
-		Log.v(LOG_TAG, SQL_CONFERENCE_CREATE_TABLE);
-		db.execSQL(SQL_GROUP_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table GROUP");
-		Log.v(LOG_TAG, SQL_GROUP_CREATE_TABLE);
-		db.execSQL(SQL_GPS_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table GPS");
-		Log.v(LOG_TAG, SQL_GPS_CREATE_TABLE);
-		db.execSQL(SQL_CONFERENCE_PERSON_CREATE_TABLE);
-		Log.v(LOG_TAG, "SQLite: onCreate table SQL_CONFERENCE_PERSON_CREATE_TABLE");
-		Log.v(LOG_TAG, SQL_CONFERENCE_PERSON_CREATE_TABLE);
+		db.execSQL(SQL_ORGE_CREATE_TABLE);
+		db.execSQL(SQL_PERSON_CREATE_TABLE);
+		db.execSQL(SQL_ROLE_CREATE_TABLE);
+		db.execSQL(SQL_ROLE_PERSON_CREATE_TABLE);
+		db.execSQL(SQL_PERMISSION_CREATE_TABLE);
+		db.execSQL(SQL_LOG_CREATE_TABLE);
+		db.execSQL(SQL_DIC_CREATE_TABLE);
+		db.execSQL(SQL_DIC_DATA_CREATE_TABLE);
+		db.execSQL(SQL_TASK_CREATE_TABLE);
+		db.execSQL(SQL_TASK_STANDARD_CREATE_TABLE);
+		db.execSQL(SQL_TASK_EVALUATE_CREATE_TABLE);
+		db.execSQL(SQL_TASK_ATTACHMENT_CREATE_TABLE);
+		db.execSQL(SQL_TASK_INSTRUCTIONS_CREATE_TABLE);
+		db.execSQL(SQL_TASK_INSTRUCTIONS_RECEIVE_CREATE_TABLE);
+		db.execSQL(SQL_TASK_INS_ATT_CREATE_TABLE);
 	}
 
 	@Override
