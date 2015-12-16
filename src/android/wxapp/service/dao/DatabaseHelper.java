@@ -9,7 +9,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	// °æ±¾
-	public static final int VERSION = 2;
+	public static final int VERSION = 1;
 
 	private static final String LOG_TAG = "DatabaseHelper";
 
