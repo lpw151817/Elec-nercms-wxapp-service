@@ -20,4 +20,5 @@ public class LoginRequest extends BaseRequestModel {
 		super();
 	}
 
+	
 }
