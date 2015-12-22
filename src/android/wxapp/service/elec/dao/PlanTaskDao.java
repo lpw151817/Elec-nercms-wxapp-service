@@ -11,6 +11,116 @@ public class PlanTaskDao extends BaseDAO {
 		super(context);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            must
+	 * @param weather
+	 * @param name
+	 * @param power_cut_range
+	 * @param effect_eara
+	 * @param content
+	 * @param responsibility_user
+	 * @param plan_start_time
+	 * @param plan_end_time
+	 * @param start_time
+	 * @param end_time
+	 * @param category
+	 * @param is_publish
+	 * @param special
+	 * @param leader
+	 * @param measures
+	 * @param domain
+	 * @param is_power_cut
+	 * @param cut_type
+	 * @param implement_org
+	 * @param number
+	 * @param remark
+	 * @param plan_type
+	 * @param creator_id
+	 * @param creator_time
+	 * @param update_id
+	 * @param update_time
+	 * @param is_keep
+	 * @param status
+	 * @param examine_id
+	 * @param approve_id
+	 * @return
+	 */
+	public boolean updatePlanTask(String id, String weather, String name, String power_cut_range,
+			String effect_eara, String content, String responsibility_user, String plan_start_time,
+			String plan_end_time, String start_time, String end_time, String category,
+			String is_publish, String special, String leader, String measures, String domain,
+			String is_power_cut, String cut_type, String implement_org, String number,
+			String remark, String plan_type, String creator_id, String creator_time,
+			String update_id, String update_time, String is_keep, String status, String examine_id,
+			String approve_id) {
+		db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		if (weather != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_WEATHER, weather);
+		if (name != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_NAME, name);
+		if (power_cut_range != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE, power_cut_range);
+		if (effect_eara != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA, effect_eara);
+		if (content != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_CONTENT, content);
+		if (responsibility_user != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER, responsibility_user);
+		if (plan_start_time != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME, plan_start_time);
+		if (plan_end_time != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, plan_end_time);
+		if (start_time != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
+		if (end_time != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_END_TIME, end_time);
+		if (category != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_CATEGORY, category);
+		if (is_publish != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, is_publish);
+		if (special != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_SPECIAL, special);
+		if (leader != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, leader);
+		if (measures != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_MEASURES, measures);
+		if (domain != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_DOMAIN, domain);
+		if (is_power_cut != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT, is_power_cut);
+		if (cut_type != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_CUT_TYPE, cut_type);
+		if (implement_org != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_IMPLEMENT_ORG, implement_org);
+		if (number != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_NUMBER, number);
+		if (remark != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_REMARK, remark);
+		if (plan_type != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE, plan_type);
+		if (creator_id != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_CREATOR_ID, creator_id);
+		if (creator_time != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME, creator_time);
+		if (update_id != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_UPDATE_ID, update_id);
+		if (update_time != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_UPDATE_TIME, update_time);
+		if (is_keep != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_IS_KEEP, is_keep);
+		if (status != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_STATUS, status);
+		if (examine_id != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID, examine_id);
+		if (approve_id != null)
+			values.put(DatabaseHelper.FIELD_TASKINFO_APPROVE_ID, approve_id);
+		return db.update(DatabaseHelper.TB_TASK, values, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
+				new String[] { id }) > 0;
+	}
+
 	public boolean savePlanTask(String id, String weather, String name, String power_cut_range,
 			String effect_eara, String content, String responsibility_user, String plan_start_time,
 			String plan_end_time, String start_time, String end_time, String category,
