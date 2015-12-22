@@ -32,16 +32,15 @@ public class tb_task_info {
 	String status;
 	String examine_id;
 	String approve_id;
-	public tb_task_info(String id, String weather, String name,
-			String power_cut_range, String effect_eara, String content,
-			String responsibility_user, String plan_start_time,
-			String plan_end_time, String start_time, String end_time,
-			String category, String is_publish, String special, String leader,
-			String measures, String domain, String is_power_cut,
-			String cut_type, String implement_org, String number,
-			String remark, String plan_type, String creator_id,
-			String creator_time, String update_id, String update_time,
-			String is_keep, String status, String examine_id, String approve_id) {
+
+	public tb_task_info(String id, String weather, String name, String power_cut_range,
+			String effect_eara, String content, String responsibility_user, String plan_start_time,
+			String plan_end_time, String start_time, String end_time, String category,
+			String is_publish, String special, String leader, String measures, String domain,
+			String is_power_cut, String cut_type, String implement_org, String number,
+			String remark, String plan_type, String creator_id, String creator_time,
+			String update_id, String update_time, String is_keep, String status, String examine_id,
+			String approve_id) {
 		super();
 		this.id = id;
 		this.weather = weather;
@@ -75,7 +74,7 @@ public class tb_task_info {
 		this.examine_id = examine_id;
 		this.approve_id = approve_id;
 	}
-	
+
 	public tb_task_info() {
 		super();
 	}
@@ -327,6 +326,5 @@ public class tb_task_info {
 	public void setApprove_id(String approve_id) {
 		this.approve_id = approve_id;
 	}
-	
-	
+
 }
