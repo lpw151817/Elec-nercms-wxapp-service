@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// Êý¾Ý¿âÃû
 	public static final String DATABASE_NAME = "App.db";
 
-	public static final String TB_ORG = "org";
+	public static final String TB_ORG = "TB_SYS_ORG";
 	public static final String FIELD_ORG_ID = "id";
 	public static final String FIELD_ORG_ORG_CODE = "org_code";
 	public static final String FIELD_ORG_ORG_NAME = "org_name";
@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_ORG_ORG_NAME + " text," + FIELD_ORG_REMARK + " text," + FIELD_ORG_UPDATE_TIME
 			+ " text)";
 
-	public static final String TB_PERSON = "person";
+	public static final String TB_PERSON = "TB_SYS_Person";
 	public static final String FIELD_PERSON_ID = "id";
 	public static final String FIELD_PERSON_ALIAS = "alias";
 	public static final String FIELD_PERSON_ORG_CODE = "Org_code";
@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_PERSON_IMSI + " text," + FIELD_PERSON_FORCE_OFFLINE + " text,"
 			+ FIELD_PERSON_SEQUENCE + " text," + FIELD_PERSON_UPDATE_TIME + " text)";
 
-	public static final String TB_ROLE = "role";
+	public static final String TB_ROLE = "TB_SYS_Role";
 	public static final String FIELD_ROLE_ID = "id";
 	public static final String FIELD_ROLE_NAME = "role_name";
 	public static final String FIELD_ROLE_REMARK = "remark";
@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_ROLE_ID + " integer primary key autoincrement, " + FIELD_ROLE_NAME + " text,"
 			+ FIELD_ROLE_REMARK + " text," + FIELD_ROLE_UPDATE_TIME + " text)";
 
-	public static final String TB_ROLE_PERSON = "role_person";
+	public static final String TB_ROLE_PERSON = "TB_SYS_Role_person";
 	public static final String FIELD_ROLE_PERSON_ID = "id";
 	public static final String FIELD_ROLE_PERSON_PID = "person_id";
 	public static final String FIELD_ROLE_PERSON_RID = "role_id";
@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ " (" + FIELD_ROLE_PERSON_ID + " integer primary key autoincrement, "
 			+ FIELD_ROLE_PERSON_PID + " text," + FIELD_ROLE_PERSON_RID + " text)";
 
-	public static final String TB_PERMISSION = "permission";
+	public static final String TB_PERMISSION = "tb_sys_permission";
 	public static final String FIELD_PERMISSION_ID = "id";
 	public static final String FIELD_PERMISSION_MENU_CODE = "Menu_code";
 	public static final String FIELD_PERMISSION_CODE = "code";
@@ -73,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_PERMISSION_MENU_CODE + " text," + FIELD_PERMISSION_CODE + " text,"
 			+ FIELD_PERMISSION_NAME + " text," + FIELD_PERMISSION_ROLE_ID + " text)";
 
-	public static final String TB_LOG = "tb_log";
+	public static final String TB_LOG = "tb_sys_Log";
 	public static String FIELD_LOG_ID = "id";
 	public static String FIELD_LOG_USER_NAME = "User_name";
 	public static String FIELD_LOG_TYPE = "Type";
@@ -89,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_LOG_LONGITUDE + " text," + FIELD_LOG_LATITUDE + " text," + FIELD_LOG_CLIENT
 			+ " text," + FIELD_LOG_IP + " text)";
 
-	public static final String TB_DICTIONARY = "dictionary";
+	public static final String TB_DICTIONARY = "tb_sys_dictionary";
 	public static final String FIELD_DIC_ID = "id";
 	public static final String FIELD_DIC_CODE = "code";
 	public static final String FIELD_DIC_NAME = "name";
@@ -97,8 +97,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_DIC_ID + " integer primary key autoincrement, " + FIELD_DIC_CODE + " text,"
 			+ FIELD_DIC_NAME + " text)";
 
-	public static final String TB_DIC_DATA = "dic_data";
-	public static final String FIELD_DICDATA_ID = "Id";
+	public static final String TB_DIC_DATA = "tb_sys_dictionary_data";
+	public static final String FIELD_DICDATA_ID = "id";
 	public static final String FIELD_DICDATA_DATA_CODE = "data_code";
 	public static final String FIELD_DICDATA_DATA_VALUE = "data_value";
 	public static final String FIELD_DICDATA_DICTIONARY_CODE = "dictionary_code";
@@ -107,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ " text," + FIELD_DICDATA_DATA_VALUE + " text," + FIELD_DICDATA_DICTIONARY_CODE
 			+ " text)";
 
-	public static final String TB_TASK = "task_info";
+	public static final String TB_TASK = "tb_task_info";
 	public static final String FIELD_TASKINFO_ID = "id";
 	public static final String FIELD_TASKINFO_WEATHER = "weather";
 	public static final String FIELD_TASKINFO_NAME = "name";
@@ -157,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASKINFO_APPROVE_ID + " text," + FIELD_TASKINFO_UPDATE_ID + " text,"
 			+ FIELD_TASKINFO_UPDATE_TIME + " text)";
 
-	public static final String TB_TASK_STANDARD = "task_standard";
+	public static final String TB_TASK_STANDARD = "tb_task_standard";
 	public static final String FIELD_TASK_STANDARD_ID = "id";
 	public static final String FIELD_TASK_STANDARD_STANDARD = "standard";
 	public static final String FIELD_TASK_STANDARD_TOTAL_SCORE = "total_score";
@@ -167,7 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASK_STANDARD_STANDARD + " text," + FIELD_TASK_STANDARD_TOTAL_SCORE + " text,"
 			+ FIELD_TASK_STANDARD_CAREGORE + " text)";
 
-	public static final String TB_TASK_EVALUATE = "task_evaluate";
+	public static final String TB_TASK_EVALUATE = "tb_task_evaluate";
 	public static final String FIELD_TASK_EVALUATE_ID = "id";
 	public static final String FIELD_TASK_EVALUATE_TASK_ID = "task_id";
 	public static final String FIELD_TASK_EVALUATE_STANDARD_ID = "standard_id";
@@ -181,7 +181,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASK_EVALUATE_SCORE + " text," + FIELD_TASK_EVALUATE_EVALUATE + " text,"
 			+ FIELD_TASK_EVALUATE_USER_ID + " text," + FIELD_TASK_EVALUATE_TIME + " text)";
 
-	public static final String TB_TASK_ATTACHMENT = "task_attachment";
+	public static final String TB_TASK_ATTACHMENT = "tb_task_attachment";
 	public static final String FIELD_TASK_ATTCHMENT_ID = "id";
 	public static final String FIELD_TASK_ATTCHMENT_TASK_ID = "task_id";
 	public static final String FIELD_TASK_ATTCHMENT_HISTORYGPS = "historygps";
@@ -197,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASK_ATTCHMENT_TYPE + " text," + FIELD_TASK_ATTCHMENT_URL + " text,"
 			+ FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " text," + FIELD_TASK_ATTCHMENT_MD5 + " text)";
 
-	public static final String TB_TASK_INSTRUCTIONS = "task_instructions";
+	public static final String TB_TASK_INSTRUCTIONS = "tb_task_instructions";
 	public static final String FIELD_TASK_INSTRUCTIONS_ID = "id";
 	public static final String FIELD_TASK_INSTRUCTIONS_TASK_ID = "task_id";
 	public static final String FIELD_TASK_INSTRUCTIONS_CONTENT = "content";
@@ -209,7 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASK_INSTRUCTIONS_CONTENT + " text," + FIELD_TASK_INSTRUCTIONS_SEND_ID
 			+ " text," + FIELD_TASK_INSTRUCTIONS_SEND_TIME + " text)";
 
-	public static final String TB_TASK_INSTRUCTIONS_RECEIVE = "receive";
+	public static final String TB_TASK_INSTRUCTIONS_RECEIVE = "tb_task_instructions_receive";
 	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_ID = "id";
 	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_INSTRUCTIONS_ID = "instructions_id";
 	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID = "receive_id";
@@ -223,7 +223,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME + " text,"
 			+ FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ + " text)";
 
-	public static final String TB_TASK_INSTRUCTIONS_ATTACHMENT = "ins_att";
+	public static final String TB_TASK_INSTRUCTIONS_ATTACHMENT = "tb_task_instructions_attachment";
 	public static final String FIELD_TASK_INS_ATT_ID = "id";
 	public static final String FIELD_TASK_INS_ATT_INSTRUCTIONS_ID = "instructions_id";
 	public static final String FIELD_TASK_INS_ATT_TYPE = "type";

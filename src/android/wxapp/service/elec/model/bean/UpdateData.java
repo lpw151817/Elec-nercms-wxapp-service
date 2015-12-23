@@ -16,6 +16,22 @@ public class UpdateData {
 			super();
 		}
 
+		public String getTable() {
+			return table;
+		}
+
+		public void setTable(String table) {
+			this.table = table;
+		}
+
+		public List<Object> getData() {
+			return data;
+		}
+
+		public void setData(List<Object> data) {
+			this.data = data;
+		}
+
 
 
 		
