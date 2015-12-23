@@ -32,6 +32,11 @@ public class Contants {
 	public static final String METHOD_PERSON_GET_ORG_PERSON = "GetOrgCodePerson";
 	@Deprecated
 	public static final String METHOD_PERSON_CHANGEPWD = "ChangePwd";
+	
+	//ÍøÂçÇëÇó chengiang
+	public static final String UPDATE = "Update";
+	public static final String CREATEPLANTASK = "CreatePlanTask";
+	public static final String CREATETASK = "CreateTask";
 
 	// AffairÄ£¿é Jerry 5.23
 	@Deprecated

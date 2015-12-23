@@ -1,45 +1,36 @@
 package android.wxapp.service.elec.model.bean.table;
 
 public class TB_SYS_Role_person {
-	String id;
-	String role_name;
-	String remark;
-	String update_time;
-	public TB_SYS_Role_person(String id, String role_name, String remark,
-			String update_time) {
+	String person_id;
+	String Role_id;
+	
+	
+	
+	public TB_SYS_Role_person(String person_id, String role_id) {
 		super();
-		this.id = id;
-		this.role_name = role_name;
-		this.remark = remark;
-		this.update_time = update_time;
+		this.person_id = person_id;
+		Role_id = role_id;
 	}
+	
+	
 	public TB_SYS_Role_person() {
 		super();
 	}
-	public String getId() {
-		return id;
+
+
+	public String getPerson_id() {
+		return person_id;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setPerson_id(String person_id) {
+		this.person_id = person_id;
 	}
-	public String getRole_name() {
-		return role_name;
+	public String getRole_id() {
+		return Role_id;
 	}
-	public void setRole_name(String role_name) {
-		this.role_name = role_name;
+	public void setRole_id(String role_id) {
+		Role_id = role_id;
 	}
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-	public String getUpdate_time() {
-		return update_time;
-	}
-	public void setUpdate_time(String update_time) {
-		this.update_time = update_time;
-	}
+	
 	
 	
 }
