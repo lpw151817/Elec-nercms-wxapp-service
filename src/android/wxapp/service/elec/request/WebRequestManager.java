@@ -32,11 +32,17 @@ public class WebRequestManager {
 	private Context context;
 	private AppApplication application = null;
 	private RequestQueue queue = null;
+	private HttpRequest httpRequest;
 
 	public WebRequestManager(AppApplication application, Context context) {
 		this.context = context;
 		this.application = application;
 		this.queue = this.application.myQueue;
+		httpRequest = new HttpRequest();
+	}
+
+	public void login(String aliasName, String identifyCode, String imsi) {
+		queue.add(httpRequest.getLoginRequest(aliasName, identifyCode, imsi));
 	}
 
 }
