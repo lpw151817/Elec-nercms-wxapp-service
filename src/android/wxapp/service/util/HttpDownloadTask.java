@@ -186,6 +186,7 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 			MessageHandlerManager.getInstance().sendMessage(Constant.FILE_DOWNLOAD_SUCCESS, mediaName,
 					context.getClass().getSimpleName());
 			Toast.makeText(context, "обтьмЙЁи", Toast.LENGTH_SHORT).show();
+			
 		} else {
 			MessageHandlerManager.getInstance().sendMessage(Constant.FILE_DOWNLOAD_FAIL,
 					context.getClass().getName());

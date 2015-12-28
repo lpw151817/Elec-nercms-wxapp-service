@@ -121,6 +121,7 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>out upload");
+		pd.dismiss();
 		if (result.equals("success")) {
 			MessageHandlerManager.getInstance().sendMessage(Constant.FILE_UPLOAD_SUCCESS,
 					context.getClass().getSimpleName());
@@ -134,7 +135,7 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 				mytext.setText("¸½¼þÉÏ´«Ê§°Ü");
 			}
 		}
-		pd.dismiss();
+		
 	}
 
 	@Override
