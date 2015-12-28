@@ -5,11 +5,11 @@ import java.util.List;
 import android.wxapp.service.elec.model.bean.Attachments;
 import android.wxapp.service.elec.model.bean.Uid;
 
-public class CreateTaskRequest extends BaseRequestModel {
+public class CreateInsRequest extends BaseRequestModel {
 
 	List<Uid> uids;
 
-	
+	String tid;
 
 	String text;
 
@@ -17,15 +17,31 @@ public class CreateTaskRequest extends BaseRequestModel {
 
 	
 
-	public CreateTaskRequest(String uid, String ic, List<Uid> uids,
+
+	public CreateInsRequest(String uid, String ic, List<Uid> uids, String tid,
 			String text, List<Attachments> attachments) {
 		super(uid, ic);
 		this.uids = uids;
+		this.tid = tid;
 		this.text = text;
 		this.attachments = attachments;
 	}
+	
+	
 
-	public CreateTaskRequest() {
+	public String getTid() {
+		return tid;
+	}
+
+
+
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+
+
+
+	public CreateInsRequest() {
 		super();
 	}
 

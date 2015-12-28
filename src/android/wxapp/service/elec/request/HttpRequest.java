@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 import android.wxapp.service.elec.model.CreatePlanTaskRequest;
-import android.wxapp.service.elec.model.CreateTaskRequest;
+import android.wxapp.service.elec.model.CreateInsRequest;
 import android.wxapp.service.elec.model.LoginRequest;
 import android.wxapp.service.elec.model.UpdateRequest;
 import android.wxapp.service.elec.model.bean.Attachments;
@@ -33,7 +33,7 @@ public class HttpRequest extends BaseRequest {
 	 */
 	public JsonObjectRequest getLoginRequest(String aliasName, String identifyCode, String imsi) {
 
-		LoginRequest lr = new LoginRequest(aliasName, identifyCode, imsi);
+		LoginRequest lr = new LoginRequest(aliasName, identifyCode);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.LOGIN_METHOD
 				+ Contants.LOGIN_PARAM + super.gson.toJson(lr);
 		Log.e("URL", this.url);
@@ -146,11 +146,11 @@ public class HttpRequest extends BaseRequest {
 	/*
 	 * 创建新任务请求
 	 */
-	public JsonObjectRequest getCreateTaskRequest(String aliasName, String identifyCode,
-			List<Uid> uids, String text, List<Attachments> attachments) {
+	public JsonObjectRequest getCreateInsRequest(String aliasName, String identifyCode,
+			List<Uid> uids, String tid,String text, List<Attachments> attachments) {
 
-		CreateTaskRequest ctr = new CreateTaskRequest(aliasName, identifyCode, uids, text,
-				attachments);
+		CreateInsRequest ctr = new CreateInsRequest(aliasName, identifyCode, uids, tid,
+				text, attachments);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATETASKINS_METHOD
 				+ Contants.CREATETASKINS_PARAM + super.gson.toJson(ctr);
 		Log.e("URL", this.url);
