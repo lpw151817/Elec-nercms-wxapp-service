@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 import android.wxapp.service.elec.model.CreatePlanTaskRequest;
+import android.wxapp.service.elec.model.CreatePlanTaskResponse;
 import android.wxapp.service.elec.model.CreateInsRequest;
+import android.wxapp.service.elec.model.CreateInsResponse;
 import android.wxapp.service.elec.model.LoginRequest;
 import android.wxapp.service.elec.model.LoginResponse;
 import android.wxapp.service.elec.model.NormalServerResponse;
@@ -18,6 +20,7 @@ import android.wxapp.service.elec.model.UpdateResponse;
 import android.wxapp.service.elec.model.bean.Attachments;
 import android.wxapp.service.elec.model.bean.Leader;
 import android.wxapp.service.elec.model.bean.Uid;
+import android.wxapp.service.elec.dao.PlanTaskDao;
 import android.wxapp.service.elec.dao.UpdateDao;
 import android.wxapp.service.elec.model.bean.User;
 import android.wxapp.service.handler.MessageHandlerManager;
@@ -26,6 +29,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.reflect.TypeToken;
 
 public class HttpRequest extends BaseRequest {
 
@@ -139,19 +143,25 @@ public class HttpRequest extends BaseRequest {
 	 * 创建计划任务请求
 	 * 
 	 */
-	public JsonObjectRequest getCreatePlanTaskRequest(Context c, String weather, String name,
-			String power_cut_range, String effect_eara, String content,
-			ArrayList<User> responsibility_user, String plan_start_time, String plan_end_time,
-			String category, String is_publish, String special, ArrayList<Leader> leader,
-			String measures, String domain, String is_power_cut, String cut_type,
-			String implement_org, String number, String remark) {
+	public JsonObjectRequest getCreatePlanTaskRequest(final Context c, final String weather,
+			final String name, final String power_cut_range, final String effect_eara,
+			final String content, final String responsibility_user, final String plan_start_time,
+			final String plan_end_time, final String category, final boolean is_publish,
+			final String special, final String leader, final String measures, final String domain,
+			final boolean is_power_cut, final String cut_type, final String implement_org,
+			final String number, final String remark) {
 		// 如果为获取到用户的id，则直接返回
 		if (getUserId(c) == null || getUserIc(c) == null)
 			return null;
+
 		CreatePlanTaskRequest cptr = new CreatePlanTaskRequest(getUserId(c), getUserIc(c), weather,
-				name, power_cut_range, effect_eara, content, responsibility_user, plan_start_time,
-				plan_end_time, category, is_publish, special, leader, measures, domain,
-				is_power_cut, cut_type, implement_org, number, remark);
+				name, power_cut_range, effect_eara, content, (ArrayList<User>) gson
+						.fromJson(responsibility_user, new TypeToken<ArrayList<User>>() {
+						}.getType()),
+				plan_start_time, plan_end_time, category, is_publish + "", special,
+				(ArrayList<Leader>) gson.fromJson(leader, new TypeToken<ArrayList<Leader>>() {
+				}.getType()), measures, domain, is_power_cut + "", cut_type, implement_org, number,
+				remark);
 
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATEPLANTASK_METHOD
 				+ Contants.CREATEPLANTASK_PARAM + super.gson.toJson(cptr);
@@ -163,19 +173,40 @@ public class HttpRequest extends BaseRequest {
 				Log.e("Response", arg0.toString());
 				try {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
+						CreatePlanTaskResponse r = gson.fromJson(arg0.toString(),
+								CreatePlanTaskResponse.class);
 
+						// TODO 进行数据库操作
+						// new PlanTaskDao(c).savePlanTask(r.getTid(), weather,
+						// name, power_cut_range,
+						// effect_eara, content, responsibility_user,
+						// plan_start_time,
+						// plan_end_time, "", "", category, is_publish, special,
+						// leader,
+						// measures, domain, is_power_cut, cut_type,
+						// implement_org, number,
+						// remark, plan_type, getUserId(c), creator_time,
+						// update_id,
+						// update_time, is_keep, status, examine_id,
+						// approve_id);
 					} else {
-
+						MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_TASK_FAIL,
+								gson.fromJson(arg0.toString(), NormalServerResponse.class),
+								CreatePlanTaskResponse.class.getName());
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
+					MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_TASK_FAIL,
+							CreatePlanTaskResponse.class.getName());
 				}
 			}
 		}, new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError arg0) {
-
+				showError(arg0.toString());
+				MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_TASK_FAIL,
+						CreatePlanTaskResponse.class.getName());
 			}
 		});
 	}
@@ -200,19 +231,25 @@ public class HttpRequest extends BaseRequest {
 				Log.e("Response", arg0.toString());
 				try {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
-
+						// TODO 进行数据库操作
 					} else {
-
+						MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_INS_FAIL,
+								gson.fromJson(arg0.toString(), NormalServerResponse.class),
+								CreateInsResponse.class.getName());
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
+					MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_INS_FAIL,
+							CreateInsResponse.class.getName());
 				}
 			}
 		}, new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError arg0) {
-
+				showError(arg0.toString());
+				MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_INS_FAIL,
+						CreateInsResponse.class.getName());
 			}
 		});
 	}

@@ -7,7 +7,7 @@ import android.wxapp.service.elec.model.bean.table.tb_task_info;
 
 public class PlanTaskDao extends BaseDAO {
 
-	protected PlanTaskDao(Context context) {
+	public PlanTaskDao(Context context) {
 		super(context);
 	}
 
