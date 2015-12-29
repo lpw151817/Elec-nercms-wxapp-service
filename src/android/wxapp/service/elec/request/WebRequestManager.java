@@ -41,8 +41,12 @@ public class WebRequestManager {
 		httpRequest = new HttpRequest();
 	}
 
-	public void login(String aliasName, String identifyCode, String imsi) {
-		queue.add(httpRequest.getLoginRequest(aliasName, identifyCode, imsi));
+	public void login(String aliasName, String identifyCode) {
+		queue.add(httpRequest.getLoginRequest(aliasName, identifyCode));
+	}
+
+	public void loginUpdate(Context c) {
+		queue.add(httpRequest.getUpdateRequest(c));
 	}
 
 }

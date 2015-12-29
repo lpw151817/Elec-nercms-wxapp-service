@@ -26,7 +26,7 @@ import android.wxapp.service.elec.model.bean.table.tb_task_standard;
 
 public class UpdateDao extends BaseDAO {
 
-	protected UpdateDao(Context context) {
+	public UpdateDao(Context context) {
 		super(context);
 	}
 

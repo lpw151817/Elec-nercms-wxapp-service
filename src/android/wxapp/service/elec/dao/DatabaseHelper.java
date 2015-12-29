@@ -236,6 +236,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASK_INS_ATT_TYPE + " text," + FIELD_TASK_INS_ATT_URL + " text,"
 			+ FIELD_TASK_INS_ATT_UPDATE_TIME + " text," + FIELD_TASK_INS_ATT_MD5 + " text)";
 
+	public static final String TB_GPS_HISTORY = "tb_gps_history";
+	public static final String FIELD_GPS_HISTORY_ID = "id";
+	public static final String FIELD_GPS_HISTORY_PERSON_ID = "person_id";
+	public static final String FIELD_GPS_HISTORY_OLLECTIONTIME = "ollectionTIme";
+	public static final String FIELD_GPS_HISTORY_LONGITUDE = "longitude";
+	public static final String FIELD_GPS_HISTORY_LATITUDE = "latitude";
+	public static final String FIELD_GPS_HISTORY_GPS_TYPE = "gps_type";
+	public static final String FIELD_GPS_HISTORY_ACCURACY = "accuracy";
+	public static final String FIELD_GPS_HISTORY_HEIGHT = "height";
+	public static final String FIELD_GPS_HISTORY_SPEED = "speed";
+	public static final String FIELD_GPS_HISTORY_UPDATE_TIME = "update_time";
+	public static final String FIELD_GPS_HISTORY_COORDINATE = "coordinate";
+	public static final String FIELD_GPS_HISTORY_REMARK = "remark";
+	public static final String SQL_GPS_HISTORY_CREATE_TABLE = "create table " + TB_GPS_HISTORY
+			+ " (" + FIELD_GPS_HISTORY_ID + " integer primary key autoincrement, "
+			+ FIELD_GPS_HISTORY_PERSON_ID + " text," + FIELD_GPS_HISTORY_OLLECTIONTIME + " text,"
+			+ FIELD_GPS_HISTORY_LONGITUDE + " text," + FIELD_GPS_HISTORY_LATITUDE + " text,"
+			+ FIELD_GPS_HISTORY_GPS_TYPE + " text," + FIELD_GPS_HISTORY_ACCURACY + " text,"
+			+ FIELD_GPS_HISTORY_HEIGHT + " text," + FIELD_GPS_HISTORY_SPEED + " text,"
+			+ FIELD_GPS_HISTORY_UPDATE_TIME + " text," + FIELD_GPS_HISTORY_COORDINATE + " text,"
+			+ FIELD_GPS_HISTORY_REMARK + " text)";
+
 	// µ¥¼ü´¦Àí
 	private volatile static DatabaseHelper _unique_instance = null;
 
@@ -282,6 +304,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(SQL_TASK_INSTRUCTIONS_CREATE_TABLE);
 		db.execSQL(SQL_TASK_INSTRUCTIONS_RECEIVE_CREATE_TABLE);
 		db.execSQL(SQL_TASK_INS_ATT_CREATE_TABLE);
+		db.execSQL(SQL_GPS_HISTORY_CREATE_TABLE);
 	}
 
 	@Override

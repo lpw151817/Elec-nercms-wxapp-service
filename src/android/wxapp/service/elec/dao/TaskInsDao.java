@@ -10,6 +10,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract.Contacts.Data;
+import android.wxapp.service.elec.model.CreateInsRequest;
+import android.wxapp.service.elec.model.CreateInsResponse;
 import android.wxapp.service.elec.model.bean.Attachments;
 import android.wxapp.service.elec.model.bean.Uid;
 import android.wxapp.service.elec.model.bean.table.tb_task_instructions;
