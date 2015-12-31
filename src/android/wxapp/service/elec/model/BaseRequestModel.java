@@ -1,14 +1,14 @@
 package android.wxapp.service.elec.model;
 
 public class BaseRequestModel {
-	String uid, ic;
+	String un, ic;
 
 	public String getUid() {
-		return uid;
+		return un;
 	}
 
 	public void setUid(String uid) {
-		this.uid = uid;
+		this.un = uid;
 	}
 
 	public String getIc() {
@@ -21,7 +21,7 @@ public class BaseRequestModel {
 
 	public BaseRequestModel(String uid, String ic) {
 		super();
-		this.uid = uid;
+		this.un = uid;
 		this.ic = ic;
 	}
 

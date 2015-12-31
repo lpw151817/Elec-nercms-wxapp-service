@@ -25,6 +25,7 @@ import android.wxapp.service.elec.dao.UpdateDao;
 import android.wxapp.service.elec.model.bean.User;
 import android.wxapp.service.handler.MessageHandlerManager;
 
+import com.Generate_md5;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
@@ -46,7 +47,7 @@ public class HttpRequest extends BaseRequest {
 	 * @return
 	 */
 	public JsonObjectRequest getLoginRequest(String aliasName, String identifyCode) {
-		LoginRequest lr = new LoginRequest(aliasName, identifyCode);
+		LoginRequest lr = new LoginRequest(aliasName, Generate_md5.generate_md5(identifyCode));
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.LOGIN_METHOD
 				+ Contants.LOGIN_PARAM + super.gson.toJson(lr);
 		Log.e("URL", this.url);
@@ -57,8 +58,8 @@ public class HttpRequest extends BaseRequest {
 				Log.e("Response", arg0.toString());
 				try {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
-						MessageHandlerManager.getInstance().sendMessage(Constants.LOGIN_SUCCESS,
-								gson.fromJson(arg0.toString(), LoginResponse.class),
+						LoginResponse r = gson.fromJson(arg0.toString(), LoginResponse.class);
+						MessageHandlerManager.getInstance().sendMessage(Constants.LOGIN_SUCCESS, r,
 								LoginResponse.class.getName());
 					} else {
 						MessageHandlerManager.getInstance().sendMessage(Constants.LOGIN_FAIL,
