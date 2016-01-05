@@ -5,6 +5,11 @@ public class tb_sys_dictionary_data {
 	String data_code;
 	String data_value;
 	String dictionary_code;
+	@Override
+	public String toString() {
+		return "tb_sys_dictionary_data [id=" + id + ", data_code=" + data_code + ", data_value="
+				+ data_value + ", dictionary_code=" + dictionary_code + "]";
+	}
 	public tb_sys_dictionary_data(String id, String data_code,
 			String data_value, String dictionary_code) {
 		super();

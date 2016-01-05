@@ -117,15 +117,18 @@ public class HttpRequest extends BaseRequest {
 
 							@Override
 							public void run() {
-								if (new UpdateDao(c).saveUpdate(arg0.toString())) {
+								if (new UpdateDao(c).saveUpdate(arg0)) {
 									MessageHandlerManager.getInstance().sendMessage(
 											Constants.LOGIN_UPDATE_SUCCESS,
 											UpdateResponse.class.getName());
 									saveLastUpdateTime(c);
-								} else
+								} else {
+
 									MessageHandlerManager.getInstance().sendMessage(
 											Constants.LOGIN_UPDATE_SAVE_FAIL,
 											UpdateResponse.class.getName());
+
+								}
 							}
 						}).run();
 					} else {

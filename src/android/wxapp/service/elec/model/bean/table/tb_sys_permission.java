@@ -6,6 +6,11 @@ public class tb_sys_permission {
 	String code;
 	String name;
 	String Role_id;
+	@Override
+	public String toString() {
+		return "tb_sys_permission [id=" + id + ", Menu_code=" + Menu_code + ", code=" + code
+				+ ", name=" + name + ", Role_id=" + Role_id + "]";
+	}
 	public tb_sys_permission(String id, String menu_code, String code,
 			String name, String role_id) {
 		super();

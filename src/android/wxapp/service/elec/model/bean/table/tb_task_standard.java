@@ -4,6 +4,11 @@ public class tb_task_standard {
 	String id;
 	String standard;
 	String total_score;
+	@Override
+	public String toString() {
+		return "tb_task_standard [id=" + id + ", standard=" + standard + ", total_score="
+				+ total_score + ", category=" + category + "]";
+	}
 	String category;
 	public tb_task_standard(String id, String standard, String total_score,
 			String category) {

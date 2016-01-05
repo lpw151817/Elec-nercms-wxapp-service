@@ -6,6 +6,12 @@ public class tb_task_instructions_attachment {
 	String type;
 	String url;
 	String update_time;
+	@Override
+	public String toString() {
+		return "tb_task_instructions_attachment [id=" + id + ", instructions_id=" + instructions_id
+				+ ", type=" + type + ", url=" + url + ", update_time=" + update_time + ", md5="
+				+ md5 + "]";
+	}
 	String md5;
 	public tb_task_instructions_attachment(String id, String instructions_id,
 			String type, String url, String update_time, String md5) {

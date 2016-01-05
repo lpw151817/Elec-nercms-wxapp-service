@@ -6,6 +6,11 @@ public class tb_task_instructions {
 	String content;
 	String send_id;
 	String send_time;
+	@Override
+	public String toString() {
+		return "tb_task_instructions [id=" + id + ", task_id=" + task_id + ", content=" + content
+				+ ", send_id=" + send_id + ", send_time=" + send_time + "]";
+	}
 	public tb_task_instructions(String id, String task_id, String content,
 			String send_id, String send_time) {
 		super();

@@ -6,6 +6,12 @@ public class tb_task_evaluate {
 	String standard_id;
 	String score;
 	String evaluate;
+	@Override
+	public String toString() {
+		return "tb_task_evaluate [id=" + id + ", task_id=" + task_id + ", standard_id="
+				+ standard_id + ", score=" + score + ", evaluate=" + evaluate + ", user_id="
+				+ user_id + ", time=" + time + "]";
+	}
 	String user_id;
 	String time;
 	public tb_task_evaluate(String id, String task_id, String standard_id,

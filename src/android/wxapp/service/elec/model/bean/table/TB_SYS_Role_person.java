@@ -6,6 +6,12 @@ public class TB_SYS_Role_person {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "TB_SYS_Role_person [person_id=" + person_id + ", Role_id=" + Role_id + "]";
+	}
+
+
 	public TB_SYS_Role_person(String person_id, String role_id) {
 		super();
 		this.person_id = person_id;

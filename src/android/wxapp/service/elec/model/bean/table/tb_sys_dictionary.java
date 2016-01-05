@@ -4,6 +4,11 @@ public class tb_sys_dictionary {
 	String id;
 	String dictionary_code;
 	String dictionary_name;
+	@Override
+	public String toString() {
+		return "tb_sys_dictionary [id=" + id + ", dictionary_code=" + dictionary_code
+				+ ", dictionary_name=" + dictionary_name + "]";
+	}
 	public tb_sys_dictionary(String id, String dictionary_code,
 			String dictionary_name) {
 		super();

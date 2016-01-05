@@ -10,6 +10,12 @@ public class tb_sys_Log {
 	String latitude;
 	String client;
 	String ip;
+	@Override
+	public String toString() {
+		return "tb_sys_Log [id=" + id + ", User_name=" + User_name + ", Type=" + Type + ", content="
+				+ content + ", time=" + time + ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", client=" + client + ", ip=" + ip + "]";
+	}
 	public tb_sys_Log(String id, String user_name, String type, String content,
 			String time, String longitude, String latitude, String client,
 			String ip) {

@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TB_ORG = "TB_SYS_ORG";
 	public static final String FIELD_ORG_ID = "id";
 	public static final String FIELD_ORG_ORG_CODE = "org_code";
-	public static final String FIELD_ORG_ORG_NAME = "org_name";
+	public static final String FIELD_ORG_ORG_NAME = "description";
 	public static final String FIELD_ORG_REMARK = "remark";
 	public static final String FIELD_ORG_UPDATE_TIME = "update_time";
 	public static final String SQL_ORGE_CREATE_TABLE = "create table " + TB_ORG + " ("

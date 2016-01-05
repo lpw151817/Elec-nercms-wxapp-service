@@ -14,6 +14,11 @@ public class tb_task_info {
 	String end_time;
 	String category;
 	String is_publish;
+	@Override
+	public String toString() {
+		return "tb_task_info [id=" + id + "]";
+	}
+
 	String special;
 	String leader;
 	String measures;

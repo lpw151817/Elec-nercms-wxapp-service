@@ -7,6 +7,12 @@ public class tb_task_attachment {
 	String standard;
 	String type;
 	String url;
+	@Override
+	public String toString() {
+		return "tb_task_attachment [id=" + id + ", task_id=" + task_id + ", historygps="
+				+ historygps + ", standard=" + standard + ", type=" + type + ", url=" + url
+				+ ", upload_time=" + upload_time + ", md5=" + md5 + "]";
+	}
 	String upload_time;
 	String md5;
 	public tb_task_attachment(String id, String task_id, String historygps,

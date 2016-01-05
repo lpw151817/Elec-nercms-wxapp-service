@@ -5,6 +5,13 @@ public class tb_task_instructions_receive {
 	String instrucions_id;
 	String receive_id;
 	String receive_time;
+	@Override
+	public String toString() {
+		return "tb_task_instructions_receive [id=" + id + ", instrucions_id=" + instrucions_id
+				+ ", receive_id=" + receive_id + ", receive_time=" + receive_time + ", is_read="
+				+ is_read + "]";
+	}
+
 	String is_read;
 
 	public tb_task_instructions_receive(String id, String instrucions_id, String receive_id,
