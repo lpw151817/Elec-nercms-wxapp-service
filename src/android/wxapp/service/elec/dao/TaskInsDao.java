@@ -20,7 +20,7 @@ import android.wxapp.service.elec.model.bean.table.tb_task_instructions_receive;
 
 public class TaskInsDao extends BaseDAO {
 
-	protected TaskInsDao(Context context) {
+	public TaskInsDao(Context context) {
 		super(context);
 	}
 
@@ -63,6 +63,24 @@ public class TaskInsDao extends BaseDAO {
 
 		return saveAtt && saveUid && saveIns(taskInsId, planTaskId, text, sendid, time);
 
+	}
+
+	public boolean saveIns(CreateInsResponse r) {
+		for (tb_task_instructions_attachment att : r.getAttachments()) {
+			if (saveInsAtt(att.getId(), att.getInstructions_id(), att.getType(), att.getUrl(),
+					att.getUpdate_time(), att.getMd5()))
+				continue;
+			else
+				return false;
+		}
+		for (tb_task_instructions_receive receiver : r.getReceivers()) {
+			if (saveReceiver(receiver.getId(), receiver.getInstrucions_id(),
+					receiver.getReceive_id(), receiver.getReceive_time(), receiver.getIs_read())) {
+				continue;
+			} else
+				return false;
+		}
+		return saveIns(r.getId(), r.getTask_id(), r.getContent(), r.getSend_id(), r.getSend_time());
 	}
 
 	/**
@@ -167,5 +185,17 @@ public class TaskInsDao extends BaseDAO {
 		}
 		c.close();
 		return result;
+	}
+
+	public boolean saveReceiver(String id, String instrucions_id, String receive_id,
+			String receive_time, String is_read) {
+		db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_ID, id);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_INSTRUCTIONS_ID, instrucions_id);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ, is_read);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID, receive_id);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME, receive_time);
+		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null, values) > 0;
 	}
 }

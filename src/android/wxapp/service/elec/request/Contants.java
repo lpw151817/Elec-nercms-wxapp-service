@@ -24,8 +24,10 @@ public class Contants {
 	public static final String UPDATE_PARAM = "updateParameter=";
 	public static final String CREATEPLANTASK_METHOD = "mcreateplantask.do?";
 	public static final String CREATEPLANTASK_PARAM = "planTaskParameter=";
-	public static final String CREATETASKINS_METHOD = "";
-	public static final String CREATETASKINS_PARAM = "";
+	public static final String CREATETASKINS_METHOD = "mcreateins.do?";
+	public static final String CREATETASKINS_PARAM = "insParameter=";
+	public static final String UPLOAD_TASK_ATTACHMENT_METHOD = "";
+	public static final String UPLOAD_TASK_ATTACHMENT_PARAM = "";
 
 	// 服务器是否返回成功标志
 	public static final String RESULT_SUCCESS = "0";

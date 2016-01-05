@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Message;
 import android.util.Log;
 import android.wxapp.service.elec.model.CreatePlanTaskRequest;
 import android.wxapp.service.elec.model.CreatePlanTaskResponse;
@@ -17,13 +18,20 @@ import android.wxapp.service.elec.model.LoginResponse;
 import android.wxapp.service.elec.model.NormalServerResponse;
 import android.wxapp.service.elec.model.UpdateRequest;
 import android.wxapp.service.elec.model.UpdateResponse;
+import android.wxapp.service.elec.model.UploadTaskAttachmentRequest;
+import android.wxapp.service.elec.model.UploadTaskAttachmentResponse;
+import android.wxapp.service.elec.model.bean.Attachment_Ids;
 import android.wxapp.service.elec.model.bean.Attachments;
 import android.wxapp.service.elec.model.bean.Leader;
+import android.wxapp.service.elec.model.bean.TaskAttachment;
 import android.wxapp.service.elec.model.bean.Uid;
+import android.wxapp.service.elec.dao.GpsDao;
 import android.wxapp.service.elec.dao.PlanTaskDao;
+import android.wxapp.service.elec.dao.TaskInsDao;
 import android.wxapp.service.elec.dao.UpdateDao;
 import android.wxapp.service.elec.model.bean.User;
 import android.wxapp.service.handler.MessageHandlerManager;
+import android.wxapp.service.util.MySharedPreference;
 
 import com.Generate_md5;
 import com.android.volley.Response.ErrorListener;
@@ -109,11 +117,12 @@ public class HttpRequest extends BaseRequest {
 
 							@Override
 							public void run() {
-								if (new UpdateDao(c).saveUpdate(arg0.toString()))
+								if (new UpdateDao(c).saveUpdate(arg0.toString())) {
 									MessageHandlerManager.getInstance().sendMessage(
 											Constants.LOGIN_UPDATE_SUCCESS,
 											UpdateResponse.class.getName());
-								else
+									saveLastUpdateTime(c);
+								} else
 									MessageHandlerManager.getInstance().sendMessage(
 											Constants.LOGIN_UPDATE_SAVE_FAIL,
 											UpdateResponse.class.getName());
@@ -177,19 +186,22 @@ public class HttpRequest extends BaseRequest {
 						CreatePlanTaskResponse r = gson.fromJson(arg0.toString(),
 								CreatePlanTaskResponse.class);
 
-						// TODO 进行数据库操作
-						// new PlanTaskDao(c).savePlanTask(r.getTid(), weather,
-						// name, power_cut_range,
-						// effect_eara, content, responsibility_user,
-						// plan_start_time,
-						// plan_end_time, "", "", category, is_publish, special,
-						// leader,
-						// measures, domain, is_power_cut, cut_type,
-						// implement_org, number,
-						// remark, plan_type, getUserId(c), creator_time,
-						// update_id,
-						// update_time, is_keep, status, examine_id,
-						// approve_id);
+						if (new PlanTaskDao(c).savePlanTask(r.getTid(), weather, name,
+								power_cut_range, effect_eara, content, responsibility_user,
+								plan_start_time, plan_end_time, "", "", category, is_publish + "",
+								special, leader, measures, domain, is_power_cut + "", cut_type,
+								implement_org, number, remark, "", getUserId(c), "", "", "", "", "",
+								"", "")) {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.CREATE_TASK_SUCCESS, r,
+									CreatePlanTaskResponse.class.getName());
+							saveLastUpdateTime(c);
+						} else {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.CREATE_TASK_SAVE_FAIL, r,
+									CreatePlanTaskResponse.class.getName());
+						}
+
 					} else {
 						MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_TASK_FAIL,
 								gson.fromJson(arg0.toString(), NormalServerResponse.class),
@@ -212,11 +224,8 @@ public class HttpRequest extends BaseRequest {
 		});
 	}
 
-	/*
-	 * 创建新任务请求
-	 */
-	public JsonObjectRequest getCreateInsRequest(Context c, List<Uid> uids, String tid, String text,
-			List<Attachments> attachments) {
+	public JsonObjectRequest getCreateInsRequest(final Context c, List<Uid> uids, String tid,
+			String text, List<Attachments> attachments) {
 		// 如果为获取到用户的id，则直接返回
 		if (getUserId(c) == null || getUserIc(c) == null)
 			return null;
@@ -232,7 +241,18 @@ public class HttpRequest extends BaseRequest {
 				Log.e("Response", arg0.toString());
 				try {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
-						// TODO 进行数据库操作
+						CreateInsResponse r = gson.fromJson(arg0.toString(),
+								CreateInsResponse.class);
+						// 进行数据库操作
+						if (new TaskInsDao(c).saveIns(r)) {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.CREATE_INS_SUCCESS, r,
+									CreateInsResponse.class.getName());
+							saveLastUpdateTime(c);
+						} else
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.CREATE_INS_SAVE_FAIL,
+									CreateInsResponse.class.getName());
 					} else {
 						MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_INS_FAIL,
 								gson.fromJson(arg0.toString(), NormalServerResponse.class),
@@ -251,6 +271,60 @@ public class HttpRequest extends BaseRequest {
 				showError(arg0.toString());
 				MessageHandlerManager.getInstance().sendMessage(Constants.CREATE_INS_FAIL,
 						CreateInsResponse.class.getName());
+			}
+		});
+	}
+
+	public JsonObjectRequest uploadTaskAttachment(final Context c, String tid, String type,
+			final List<TaskAttachment> attachment) {
+		// 如果为获取到用户的id，则直接返回
+		if (getUserId(c) == null || getUserIc(c) == null)
+			return null;
+		UploadTaskAttachmentRequest ctr = new UploadTaskAttachmentRequest(getUserId(c),
+				getUserIc(c), tid, type, attachment);
+		this.url = Contants.SERVER_URL + Contants.MODEL_NAME
+				+ Contants.UPLOAD_TASK_ATTACHMENT_METHOD + Contants.UPLOAD_TASK_ATTACHMENT_PARAM
+				+ super.gson.toJson(ctr);
+		Log.e("URL", this.url);
+		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+				Log.e("Response", arg0.toString());
+				try {
+					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
+						final UploadTaskAttachmentResponse r = gson.fromJson(arg0.toString(),
+								UploadTaskAttachmentResponse.class);
+						// 进行数据库操作
+						if (new PlanTaskDao(c).savePlanTaskAtt(r)) {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.UPLOAD_TASK_ATT_SUCCESS, r,
+									UploadTaskAttachmentResponse.class.getName());
+							saveLastUpdateTime(c);
+						} else {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.UPLOAD_TASK_ATT_SAVE_FAIL,
+									UploadTaskAttachmentResponse.class.getName());
+						}
+					} else {
+						MessageHandlerManager.getInstance().sendMessage(
+								Constants.UPLOAD_TASK_ATT_FAIL,
+								gson.fromJson(arg0.toString(), NormalServerResponse.class),
+								UploadTaskAttachmentResponse.class.getName());
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					MessageHandlerManager.getInstance().sendMessage(Constants.UPLOAD_TASK_ATT_FAIL,
+							UploadTaskAttachmentResponse.class.getName());
+				}
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				showError(arg0.toString());
+				MessageHandlerManager.getInstance().sendMessage(Constants.UPLOAD_TASK_ATT_FAIL,
+						UploadTaskAttachmentResponse.class.getName());
 			}
 		});
 	}

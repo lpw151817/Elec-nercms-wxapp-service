@@ -17,4 +17,8 @@ public class Constants {
 	public static final int CREATE_INS_SUCCESS = 108;
 	public static final int CREATE_INS_FAIL = 109;
 	public static final int CREATE_INS_SAVE_FAIL = 110;
+
+	public static final int UPLOAD_TASK_ATT_SUCCESS = 111;
+	public static final int UPLOAD_TASK_ATT_FAIL = 112;
+	public static final int UPLOAD_TASK_ATT_SAVE_FAIL = 113;
 }

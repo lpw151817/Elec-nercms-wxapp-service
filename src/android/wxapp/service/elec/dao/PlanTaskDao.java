@@ -1,8 +1,12 @@
 package android.wxapp.service.elec.dao;
 
+import android.R.array;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.wxapp.service.elec.model.UploadTaskAttachmentResponse;
+import android.wxapp.service.elec.model.bean.table.tb_gps_history;
+import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
 import android.wxapp.service.elec.model.bean.table.tb_task_info;
 
 public class PlanTaskDao extends BaseDAO {
@@ -168,6 +172,7 @@ public class PlanTaskDao extends BaseDAO {
 	}
 
 	public tb_task_info getPlanTask(String id) {
+
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_TASK, null, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
 				new String[] { id }, null, null, null);
@@ -207,5 +212,64 @@ public class PlanTaskDao extends BaseDAO {
 		}
 		c.close();
 		return info;
+	}
+
+	public boolean savePlanTaskAtt(String id, String task_id, String historygps, String standard,
+			String type, String url, String upload_time, String md5) {
+		db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_ID, id);
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5, md5);
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_HISTORYGPS, historygps);
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_STANDARD, standard);
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID, task_id);
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_TYPE, type);
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME, upload_time);
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_URL, url);
+		return db.insert(DatabaseHelper.TB_TASK_ATTACHMENT, null, values) > 0;
+	}
+
+	public tb_task_attachment getPlanTaskAtt(String tid) {
+		db = dbHelper.getReadableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID, tid);
+		Cursor c = db.query(DatabaseHelper.TB_TASK_ATTACHMENT, null,
+				DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = ?", new String[] { tid }, null,
+				null, null);
+		tb_task_attachment result = null;
+		if (c.moveToFirst()) {
+			result = new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_HISTORYGPS),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_STANDARD),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TYPE),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_URL),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5));
+		}
+		c.close();
+		return result;
+	}
+
+	public boolean savePlanTaskAtt(UploadTaskAttachmentResponse r) {
+		for (tb_task_attachment att : r.getAttachments()) {
+			if (savePlanTaskAtt(att.getId(), att.getTask_id(), att.getHistorygps(),
+					att.getStandard(), att.getType(), att.getUrl(), att.getUpload_time(),
+					att.getMd5())) {
+				continue;
+			} else
+				return false;
+		}
+		GpsDao dao = new GpsDao(c);
+		for (tb_gps_history gps : r.getGpss()) {
+			if (dao.saveHistory(gps.getId(), gps.getPerson_id(), gps.getOllectionTime(),
+					gps.getLongitude(), gps.getLatitude(), gps.getGps_type(), gps.getAccuracy(),
+					gps.getHeight(), gps.getSpeed(), gps.getUpdate_time(), gps.getCoordinate(),
+					gps.getRemark()))
+				continue;
+			else
+				return false;
+		}
+		return true;
 	}
 }

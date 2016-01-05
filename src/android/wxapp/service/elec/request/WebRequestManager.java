@@ -6,7 +6,10 @@ import java.util.List;
 import android.content.Context;
 import android.provider.MediaStore.Video;
 import android.wxapp.service.AppApplication;
+import android.wxapp.service.elec.model.bean.Attachments;
 import android.wxapp.service.elec.model.bean.Leader;
+import android.wxapp.service.elec.model.bean.TaskAttachment;
+import android.wxapp.service.elec.model.bean.Uid;
 import android.wxapp.service.elec.model.bean.User;
 import android.wxapp.service.jerry.model.affair.CreateTaskRequestAttachment;
 import android.wxapp.service.jerry.model.affair.CreateTaskRequestIds;
@@ -62,4 +65,13 @@ public class WebRequestManager {
 				implement_org, number, remark));
 	}
 
+	public void createInsRequest(Context c, List<Uid> uids, String tid, String text,
+			List<Attachments> attachments) {
+		queue.add(httpRequest.getCreateInsRequest(c, uids, tid, text, attachments));
+	}
+
+	public void uploadTaskAttachment(Context c, String tid, String type,
+			final List<TaskAttachment> attachment) {
+		queue.add(httpRequest.uploadTaskAttachment(c, tid, type, attachment));
+	}
 }
