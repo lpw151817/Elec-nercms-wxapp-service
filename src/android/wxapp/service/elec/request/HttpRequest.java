@@ -1,5 +1,6 @@
 package android.wxapp.service.elec.request;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.reflect.TypeToken;
+import com.imooc.treeview.utils.Node;
 
 public class HttpRequest extends BaseRequest {
 
@@ -158,23 +160,31 @@ public class HttpRequest extends BaseRequest {
 	 */
 	public JsonObjectRequest getCreatePlanTaskRequest(final Context c, final String weather,
 			final String name, final String power_cut_range, final String effect_eara,
-			final String content, final String responsibility_user, final String plan_start_time,
-			final String plan_end_time, final String category, final boolean is_publish,
-			final String special, final String leader, final String measures, final String domain,
-			final boolean is_power_cut, final String cut_type, final String implement_org,
-			final String number, final String remark) {
+			final String content, final List<Node> responsibility_user,
+			final String plan_start_time, final String plan_end_time, final String category,
+			final boolean is_publish, final String special, final List<Node> leader,
+			final String measures, final String domain, final boolean is_power_cut,
+			final String cut_type, final Node implement_org, final String number,
+			final String remark) {
 		// 如果为获取到用户的id，则直接返回
 		if (getUserId(c) == null || getUserIc(c) == null)
 			return null;
+		List<User> gzfzr = new ArrayList<User>();
+		for (Node node : responsibility_user) {
+			User item = new User(node.getId().substring(1));
+			gzfzr.add(item);
+		}
+
+		List<Leader> ysgdwld = new ArrayList<Leader>();
+		for (Node node : leader) {
+			Leader item = new Leader(node.getId().substring(1));
+			ysgdwld.add(item);
+		}
 
 		CreatePlanTaskRequest cptr = new CreatePlanTaskRequest(getUserId(c), getUserIc(c), weather,
-				name, power_cut_range, effect_eara, content, (ArrayList<User>) gson
-						.fromJson(responsibility_user, new TypeToken<ArrayList<User>>() {
-						}.getType()),
-				plan_start_time, plan_end_time, category, is_publish + "", special,
-				(ArrayList<Leader>) gson.fromJson(leader, new TypeToken<ArrayList<Leader>>() {
-				}.getType()), measures, domain, is_power_cut + "", cut_type, implement_org, number,
-				remark);
+				name, power_cut_range, effect_eara, content, gzfzr, plan_start_time, plan_end_time,
+				category, is_publish + "", special, ysgdwld, measures, domain, is_power_cut + "",
+				cut_type, implement_org.getId().substring(1), number, remark);
 
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATEPLANTASK_METHOD
 				+ Contants.CREATEPLANTASK_PARAM + super.gson.toJson(cptr);
@@ -193,8 +203,8 @@ public class HttpRequest extends BaseRequest {
 								power_cut_range, effect_eara, content, responsibility_user,
 								plan_start_time, plan_end_time, "", "", category, is_publish + "",
 								special, leader, measures, domain, is_power_cut + "", cut_type,
-								implement_org, number, remark, "", getUserId(c), "", "", "", "", "",
-								"", "")) {
+								implement_org.getId().substring(1), number, remark, "",
+								getUserId(c), "", "", "", "", "", "", "")) {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.CREATE_TASK_SUCCESS, r,
 									CreatePlanTaskResponse.class.getName());

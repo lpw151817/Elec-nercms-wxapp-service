@@ -25,6 +25,7 @@ import android.wxapp.service.model.MessageModel;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.imooc.treeview.utils.Node;
 
 /**
  * Õ¯¬Á«Î«Ûπ‹¿Ì∆˜
@@ -55,10 +56,10 @@ public class WebRequestManager {
 	}
 
 	public void createPlanTask(Context c, String weather, String name, String power_cut_range,
-			String effect_eara, String content, String responsibility_user, String plan_start_time,
-			String plan_end_time, String category, boolean is_publish, String special,
-			String leader, String measures, String domain, boolean is_power_cut, String cut_type,
-			String implement_org, String number, String remark) {
+			String effect_eara, String content, List<Node> responsibility_user,
+			String plan_start_time, String plan_end_time, String category, boolean is_publish,
+			String special, List<Node> leader, String measures, String domain, boolean is_power_cut,
+			String cut_type, Node implement_org, String number, String remark) {
 		queue.add(httpRequest.getCreatePlanTaskRequest(c, weather, name, power_cut_range,
 				effect_eara, content, responsibility_user, plan_start_time, plan_end_time, category,
 				is_publish, special, leader, measures, domain, is_power_cut, cut_type,
@@ -71,7 +72,7 @@ public class WebRequestManager {
 	}
 
 	public void uploadTaskAttachment(Context c, String tid, String type,
-			final List<TaskAttachment> attachment) {
+			List<TaskAttachment> attachment) {
 		queue.add(httpRequest.uploadTaskAttachment(c, tid, type, attachment));
 	}
 }

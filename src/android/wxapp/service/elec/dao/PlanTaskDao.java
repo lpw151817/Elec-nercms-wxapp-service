@@ -3,6 +3,8 @@ package android.wxapp.service.elec.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.imooc.treeview.utils.Node;
+
 import android.R.array;
 import android.content.ContentValues;
 import android.content.Context;
@@ -138,11 +140,11 @@ public class PlanTaskDao extends BaseDAO {
 	}
 
 	public boolean savePlanTask(String id, String weather, String name, String power_cut_range,
-			String effect_eara, String content, String responsibility_user, String plan_start_time,
-			String plan_end_time, String start_time, String end_time, String category,
-			String is_publish, String special, String leader, String measures, String domain,
-			String is_power_cut, String cut_type, String implement_org, String number,
-			String remark, String plan_type, String creator_id, String creator_time,
+			String effect_eara, String content, List<Node> responsibility_user,
+			String plan_start_time, String plan_end_time, String start_time, String end_time,
+			String category, String is_publish, String special, List<Node> leader, String measures,
+			String domain, String is_power_cut, String cut_type, String implement_org,
+			String number, String remark, String plan_type, String creator_id, String creator_time,
 			String update_id, String update_time, String is_keep, String status, String examine_id,
 			String approve_id) {
 		db = dbHelper.getWritableDatabase();
@@ -154,7 +156,9 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE, power_cut_range);
 		values.put(DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA, effect_eara);
 		values.put(DatabaseHelper.FIELD_TASKINFO_CONTENT, content);
-		values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER, responsibility_user);
+		// 暂时只存第一个
+		values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER,
+				responsibility_user.get(0).getId().substring(1));
 		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME, plan_start_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, plan_end_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
@@ -162,7 +166,8 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_CATEGORY, category);
 		values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, is_publish);
 		values.put(DatabaseHelper.FIELD_TASKINFO_SPECIAL, special);
-		values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, leader);
+		// 暂时只存第一个
+		values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, leader.get(0).getId().substring(1));
 		values.put(DatabaseHelper.FIELD_TASKINFO_MEASURES, measures);
 		values.put(DatabaseHelper.FIELD_TASKINFO_DOMAIN, domain);
 		values.put(DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT, is_power_cut);

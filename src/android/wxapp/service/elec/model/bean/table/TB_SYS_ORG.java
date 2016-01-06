@@ -3,21 +3,21 @@ package android.wxapp.service.elec.model.bean.table;
 public class TB_SYS_ORG {
 	String id;
 	String org_code;
-	String description;
+	String org_name;
 	String remark;
 	String update_time;
 
 	@Override
 	public String toString() {
-		return "TB_SYS_ORG [id=" + id + ", description=" + description + "]";
+		return "TB_SYS_ORG [id=" + id + ", description=" + org_name + "]";
 	}
 
-	public TB_SYS_ORG(String id, String org_code, String description, String remark,
+	public TB_SYS_ORG(String id, String org_code, String org_name, String remark,
 			String update_time) {
 		super();
 		this.id = id;
 		this.org_code = org_code;
-		this.description = description;
+		this.org_name = org_name;
 		this.remark = remark;
 		this.update_time = update_time;
 	}
@@ -42,12 +42,12 @@ public class TB_SYS_ORG {
 		this.org_code = org_code;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getOrg_name() {
+		return org_name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setOrg_name(String org_name) {
+		this.org_name = org_name;
 	}
 
 	public String getRemark() {

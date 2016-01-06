@@ -16,17 +16,13 @@ public class CreatePlanTaskRequest extends BaseRequestModel {
 
 	List<User> responsibility_user;
 
-
-
 	String plan_start_time;
 	String plan_end_time;
 	String category;
 	String is_publish;
 	String special;
 
-	ArrayList<Leader> leader;
-
-
+	List<Leader> leader;
 
 	String measures;
 	String domain;
@@ -36,13 +32,12 @@ public class CreatePlanTaskRequest extends BaseRequestModel {
 	String number;
 	String remark;
 
-	public CreatePlanTaskRequest(String uid, String ic, String weather,
-			String name, String power_cut_range, String effect_eara,
-			String content, ArrayList<User> responsibility_user,
-			String plan_start_time, String plan_end_time, String category,
-			String is_publish, String special, ArrayList<Leader> leader,
-			String measures, String domain, String is_power_cut,
-			String cut_type, String implement_org, String number, String remark) {
+	public CreatePlanTaskRequest(String uid, String ic, String weather, String name,
+			String power_cut_range, String effect_eara, String content,
+			List<User> responsibility_user, String plan_start_time, String plan_end_time,
+			String category, String is_publish, String special, List<Leader> leader,
+			String measures, String domain, String is_power_cut, String cut_type,
+			String implement_org, String number, String remark) {
 		super(uid, ic);
 		this.weather = weather;
 		this.name = name;
@@ -157,7 +152,7 @@ public class CreatePlanTaskRequest extends BaseRequestModel {
 		this.special = special;
 	}
 
-	public ArrayList<Leader> getLeader() {
+	public List<Leader> getLeader() {
 		return leader;
 	}
 
@@ -220,7 +215,5 @@ public class CreatePlanTaskRequest extends BaseRequestModel {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	
 
 }

@@ -3,7 +3,7 @@ package android.wxapp.service.elec.model.bean.table;
 public class TB_SYS_Person {
 	String id;
 	String alias;
-	String orgcode;
+	String org_code;
 	String name;
 	String identify_code;
 	String remark;
@@ -14,15 +14,16 @@ public class TB_SYS_Person {
 
 	@Override
 	public String toString() {
-		return "TB_SYS_Person [id=" + id + ", Org_code=" + orgcode + ", name=" + name + "]";
+		return "TB_SYS_Person [id=" + id + ", Org_code=" + org_code + ", name=" + name + "]";
 	}
 
-	public TB_SYS_Person(String id, String alias, String orgcode, String name, String identify_code,
-			String remark, String imsi, String force_offline, String sequence, String update_time) {
+	public TB_SYS_Person(String id, String alias, String org_code, String name,
+			String identify_code, String remark, String imsi, String force_offline, String sequence,
+			String update_time) {
 		super();
 		this.id = id;
 		this.alias = alias;
-		this.orgcode = orgcode;
+		this.org_code = org_code;
 		this.name = name;
 		this.identify_code = identify_code;
 		this.remark = remark;
@@ -32,12 +33,12 @@ public class TB_SYS_Person {
 		this.update_time = update_time;
 	}
 
-	public String getOrgcode() {
-		return orgcode;
+	public String getOrg_code() {
+		return org_code;
 	}
 
-	public void setOrgcode(String orgcode) {
-		this.orgcode = orgcode;
+	public void setOrg_code(String org_code) {
+		this.org_code = org_code;
 	}
 
 	public TB_SYS_Person() {
