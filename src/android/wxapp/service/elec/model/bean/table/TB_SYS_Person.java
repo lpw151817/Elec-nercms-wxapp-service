@@ -3,7 +3,7 @@ package android.wxapp.service.elec.model.bean.table;
 public class TB_SYS_Person {
 	String id;
 	String alias;
-	String Org_code;
+	String orgcode;
 	String name;
 	String identify_code;
 	String remark;
@@ -14,16 +14,15 @@ public class TB_SYS_Person {
 
 	@Override
 	public String toString() {
-		return "TB_SYS_Person [id=" + id + ", Org_code=" + Org_code + ", name=" + name + "]";
+		return "TB_SYS_Person [id=" + id + ", Org_code=" + orgcode + ", name=" + name + "]";
 	}
 
-	public TB_SYS_Person(String id, String alias, String Org_code, String name,
-			String identify_code, String remark, String imsi, String force_offline, String sequence,
-			String update_time) {
+	public TB_SYS_Person(String id, String alias, String orgcode, String name, String identify_code,
+			String remark, String imsi, String force_offline, String sequence, String update_time) {
 		super();
 		this.id = id;
 		this.alias = alias;
-		this.Org_code = Org_code;
+		this.orgcode = orgcode;
 		this.name = name;
 		this.identify_code = identify_code;
 		this.remark = remark;
@@ -31,6 +30,14 @@ public class TB_SYS_Person {
 		this.force_offline = force_offline;
 		this.sequence = sequence;
 		this.update_time = update_time;
+	}
+
+	public String getOrgcode() {
+		return orgcode;
+	}
+
+	public void setOrgcode(String orgcode) {
+		this.orgcode = orgcode;
 	}
 
 	public TB_SYS_Person() {
@@ -51,14 +58,6 @@ public class TB_SYS_Person {
 
 	public void setAlias(String alias) {
 		this.alias = alias;
-	}
-
-	public String getOrg_cod() {
-		return Org_code;
-	}
-
-	public void setOrg_cod(String Org_code) {
-		this.Org_code = Org_code;
 	}
 
 	public String getName() {

@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TB_PERSON = "TB_SYS_Person";
 	public static final String FIELD_PERSON_ID = "id";
 	public static final String FIELD_PERSON_ALIAS = "alias";
-	public static final String FIELD_PERSON_ORG_CODE = "Org_code";
+	public static final String FIELD_PERSON_ORG_CODE = "orgcode";
 	public static final String FIELD_PERSON_NAME = "name";
 	public static final String FIELD_PERSON_IDENTIFY_CODE = "identify_code";
 	public static final String FIELD_PERSON_REMARK = "remark";

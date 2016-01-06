@@ -1,15 +1,27 @@
 package android.wxapp.service.elec.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.R.array;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.ContactsContract.Contacts.Data;
 import android.wxapp.service.elec.model.UploadTaskAttachmentResponse;
 import android.wxapp.service.elec.model.bean.table.tb_gps_history;
 import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
 import android.wxapp.service.elec.model.bean.table.tb_task_info;
 
 public class PlanTaskDao extends BaseDAO {
+
+	public String taskLeibieInt2String(int i) {
+		return "category" + i;
+	}
+
+	public int taskLeibieString2Int(String s) {
+		return Integer.parseInt(s.substring(s.length() - 1));
+	}
 
 	public PlanTaskDao(Context context) {
 		super(context);
@@ -169,6 +181,64 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_APPROVE_ID, approve_id);
 
 		return db.insert(DatabaseHelper.TB_TASK, null, values) > 0;
+	}
+
+	/**
+	 * 
+	 * @param renwuleibie
+	 * @param planType
+	 *            1,月计划；2,周计划;3.日计划
+	 * @return
+	 */
+	public List<tb_task_info> getAllPlanTask(int renwuleibie, int planType) {
+		db = dbHelper.getReadableDatabase();
+		StringBuilder sql = new StringBuilder();
+		sql.append("select * from " + DatabaseHelper.TB_TASK);
+		if (renwuleibie > 0) {
+			sql.append(" where " + DatabaseHelper.FIELD_TASKINFO_CATEGORY + " = '"
+					+ taskLeibieInt2String(renwuleibie) + "'");
+		}
+		sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE + " = " + planType);
+		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME + " desc");
+
+		Cursor c = db.rawQuery(sql.toString(), null);
+		List<tb_task_info> result = new ArrayList<tb_task_info>();
+		while (c.moveToFirst()) {
+			tb_task_info info = new tb_task_info(getData(c, DatabaseHelper.FIELD_TASKINFO_ID),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_WEATHER),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_NAME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_CONTENT),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_START_TIME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_END_TIME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_CATEGORY),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_SPECIAL),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_LEADER),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_MEASURES),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_DOMAIN),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_CUT_TYPE),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_IMPLEMENT_ORG),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_NUMBER),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_REMARK),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_CREATOR_ID),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_UPDATE_ID),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_UPDATE_TIME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_KEEP),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_STATUS),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_APPROVE_ID));
+			result.add(info);
+		}
+		c.close();
+		return result;
 	}
 
 	public tb_task_info getPlanTask(String id) {
