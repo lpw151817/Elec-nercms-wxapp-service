@@ -29,6 +29,12 @@ public class PlanTaskDao extends BaseDAO {
 		super(context);
 	}
 
+	public boolean deleteTask(String tid) {
+		db = dbHelper.getWritableDatabase();
+		return db.delete(DatabaseHelper.TB_TASK, DatabaseHelper.FIELD_TASKINFO_ID,
+				new String[] { tid }) > 0;
+	}
+
 	/**
 	 * 
 	 * @param id
