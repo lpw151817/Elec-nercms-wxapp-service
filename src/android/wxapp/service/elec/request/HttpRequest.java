@@ -237,12 +237,16 @@ public class HttpRequest extends BaseRequest {
 		});
 	}
 
-	public JsonObjectRequest getCreateInsRequest(final Context c, List<Uid> uids, String tid,
+	public JsonObjectRequest getCreateInsRequest(final Context c, List<Node> uids, String tid,
 			String text, List<Attachments> attachments) {
 		// 如果为获取到用户的id，则直接返回
 		if (getUserId(c) == null || getUserIc(c) == null)
 			return null;
-		CreateInsRequest ctr = new CreateInsRequest(getUserId(c), getUserIc(c), uids, tid, text,
+		List<Uid> uidsList = new ArrayList<Uid>();
+		for (Node uid : uids) {
+			uidsList.add(new Uid(uid.getId().substring(1)));
+		}
+		CreateInsRequest ctr = new CreateInsRequest(getUserId(c), getUserIc(c), uidsList, tid, text,
 				attachments);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATETASKINS_METHOD
 				+ Contants.CREATETASKINS_PARAM + super.gson.toJson(ctr);

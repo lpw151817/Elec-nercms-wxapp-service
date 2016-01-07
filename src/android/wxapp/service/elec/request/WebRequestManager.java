@@ -66,7 +66,7 @@ public class WebRequestManager {
 				implement_org, number, remark));
 	}
 
-	public void createInsRequest(Context c, List<Uid> uids, String tid, String text,
+	public void createInsRequest(Context c, List<Node> uids, String tid, String text,
 			List<Attachments> attachments) {
 		queue.add(httpRequest.getCreateInsRequest(c, uids, tid, text, attachments));
 	}
