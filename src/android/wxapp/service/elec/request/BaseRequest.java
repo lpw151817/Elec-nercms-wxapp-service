@@ -40,6 +40,10 @@ public class BaseRequest {
 				System.currentTimeMillis() + "");
 	}
 
+	protected void saveLastUpdateTime(Context c, String time) {
+		MySharedPreference.save(c, MySharedPreference.LAST_UPDATE_ORGCODE_TIMESTAMP, time);
+	}
+
 	protected String getUserIc(Context context) {
 		return Generate_md5
 				.generate_md5(MySharedPreference.get(context, MySharedPreference.USER_IC, null));

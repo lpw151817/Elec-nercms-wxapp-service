@@ -18,7 +18,7 @@ import android.wxapp.service.elec.model.bean.table.tb_task_info;
 public class PlanTaskDao extends BaseDAO {
 
 	public String taskLeibieInt2String(int i) {
-		return "category" + i;
+		return "category0" + i;
 	}
 
 	public int taskLeibieString2Int(String s) {
@@ -173,7 +173,10 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, is_publish);
 		values.put(DatabaseHelper.FIELD_TASKINFO_SPECIAL, special);
 		// 暂时只存第一个
-		values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, leader.get(0).getId().substring(1));
+		if (leader != null && leader.size() > 0)
+			values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, leader.get(0).getId().substring(1));
+		else
+			values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, "");
 		values.put(DatabaseHelper.FIELD_TASKINFO_MEASURES, measures);
 		values.put(DatabaseHelper.FIELD_TASKINFO_DOMAIN, domain);
 		values.put(DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT, is_power_cut);
@@ -214,7 +217,7 @@ public class PlanTaskDao extends BaseDAO {
 
 		Cursor c = db.rawQuery(sql.toString(), null);
 		List<tb_task_info> result = new ArrayList<tb_task_info>();
-		while (c.moveToFirst()) {
+		while (c.moveToNext()) {
 			tb_task_info info = new tb_task_info(getData(c, DatabaseHelper.FIELD_TASKINFO_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_WEATHER),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_NAME),
