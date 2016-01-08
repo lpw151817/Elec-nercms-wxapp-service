@@ -2,23 +2,24 @@ package android.wxapp.service.elec.model.bean.table;
 
 public class tb_task_instructions_receive {
 	String id;
-	String instrucions_id;
+	String instructions_id;
 	String receive_id;
 	String receive_time;
+
 	@Override
 	public String toString() {
-		return "tb_task_instructions_receive [id=" + id + ", instrucions_id=" + instrucions_id
+		return "tb_task_instructions_receive [id=" + id + ", instrucions_id=" + instructions_id
 				+ ", receive_id=" + receive_id + ", receive_time=" + receive_time + ", is_read="
 				+ is_read + "]";
 	}
 
 	String is_read;
 
-	public tb_task_instructions_receive(String id, String instrucions_id, String receive_id,
+	public tb_task_instructions_receive(String id, String instructions_id, String receive_id,
 			String receive_time, String is_read) {
 		super();
 		this.id = id;
-		this.instrucions_id = instrucions_id;
+		this.instructions_id = instructions_id;
 		this.receive_id = receive_id;
 		this.receive_time = receive_time;
 		this.is_read = is_read;
@@ -36,12 +37,12 @@ public class tb_task_instructions_receive {
 		this.id = id;
 	}
 
-	public String getInstrucions_id() {
-		return instrucions_id;
+	public String getInstructions_id() {
+		return instructions_id;
 	}
 
-	public void setInstrucions_id(String instrucions_id) {
-		this.instrucions_id = instrucions_id;
+	public void setInstructions_id(String instructions_id) {
+		this.instructions_id = instructions_id;
 	}
 
 	public String getReceive_id() {

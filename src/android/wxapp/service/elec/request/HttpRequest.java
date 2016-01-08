@@ -204,7 +204,8 @@ public class HttpRequest extends BaseRequest {
 								plan_start_time, plan_end_time, "", "", category, is_publish + "",
 								special, leader, measures, domain, is_power_cut + "", cut_type,
 								implement_org.getId().substring(1), number, remark, "",
-								getUserId(c), "", "", "", "", "", "", "")) {
+								getUserId(c), System.currentTimeMillis() + "", "", "", "", "", "",
+								"")) {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.CREATE_TASK_SUCCESS, r,
 									CreatePlanTaskResponse.class.getName());

@@ -74,7 +74,7 @@ public class TaskInsDao extends BaseDAO {
 				return false;
 		}
 		for (tb_task_instructions_receive receiver : r.getReceivers()) {
-			if (saveReceiver(receiver.getId(), receiver.getInstrucions_id(),
+			if (saveReceiver(receiver.getId(), receiver.getInstructions_id(),
 					receiver.getReceive_id(), receiver.getReceive_time(), receiver.getIs_read())) {
 				continue;
 			} else

@@ -14,6 +14,7 @@ import android.wxapp.service.elec.model.UploadTaskAttachmentResponse;
 import android.wxapp.service.elec.model.bean.table.tb_gps_history;
 import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
 import android.wxapp.service.elec.model.bean.table.tb_task_info;
+import android.wxapp.service.util.Utils;
 
 public class PlanTaskDao extends BaseDAO {
 
@@ -31,7 +32,7 @@ public class PlanTaskDao extends BaseDAO {
 
 	public boolean deleteTask(String tid) {
 		db = dbHelper.getWritableDatabase();
-		return db.delete(DatabaseHelper.TB_TASK, DatabaseHelper.FIELD_TASKINFO_ID,
+		return db.delete(DatabaseHelper.TB_TASK, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
 				new String[] { tid }) > 0;
 	}
 
@@ -162,16 +163,24 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE, power_cut_range);
 		values.put(DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA, effect_eara);
 		values.put(DatabaseHelper.FIELD_TASKINFO_CONTENT, content);
+		OrgDao orgDao = new OrgDao(c);
 		// 暂时只存第一个
 		values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER,
-				responsibility_user.get(0).getId().substring(1));
-		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME, plan_start_time);
-		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, plan_end_time);
+				orgDao.getPerson(responsibility_user.get(0).getId().substring(1)).getName());
+		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME,
+				Utils.formatDateMs(plan_start_time));
+		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, Utils.formatDateMs(plan_end_time));
 		values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_END_TIME, end_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_CATEGORY, category);
-		values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, is_publish);
-		values.put(DatabaseHelper.FIELD_TASKINFO_SPECIAL, special);
+		if (is_publish.equals("false"))
+			values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, "0");
+		else
+			values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, "1");
+		if (special.toLowerCase().equals("t"))
+			values.put(DatabaseHelper.FIELD_TASKINFO_SPECIAL, "0");
+		else
+			values.put(DatabaseHelper.FIELD_TASKINFO_SPECIAL, "1");
 		// 暂时只存第一个
 		if (leader != null && leader.size() > 0)
 			values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, leader.get(0).getId().substring(1));
@@ -179,14 +188,17 @@ public class PlanTaskDao extends BaseDAO {
 			values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, "");
 		values.put(DatabaseHelper.FIELD_TASKINFO_MEASURES, measures);
 		values.put(DatabaseHelper.FIELD_TASKINFO_DOMAIN, domain);
-		values.put(DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT, is_power_cut);
+		if (is_power_cut.equals("false"))
+			values.put(DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT, "0");
+		else
+			values.put(DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT, "1");
 		values.put(DatabaseHelper.FIELD_TASKINFO_CUT_TYPE, cut_type);
 		values.put(DatabaseHelper.FIELD_TASKINFO_IMPLEMENT_ORG, implement_org);
 		values.put(DatabaseHelper.FIELD_TASKINFO_NUMBER, number);
 		values.put(DatabaseHelper.FIELD_TASKINFO_REMARK, remark);
-		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE, plan_type);
+		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE, "3");
 		values.put(DatabaseHelper.FIELD_TASKINFO_CREATOR_ID, creator_id);
-		values.put(DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME, creator_time);
+		values.put(DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME, Utils.formatDateMs(creator_time));
 		values.put(DatabaseHelper.FIELD_TASKINFO_UPDATE_ID, update_id);
 		values.put(DatabaseHelper.FIELD_TASKINFO_UPDATE_TIME, update_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_IS_KEEP, is_keep);
