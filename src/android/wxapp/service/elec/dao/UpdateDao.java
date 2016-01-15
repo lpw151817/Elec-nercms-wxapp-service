@@ -232,19 +232,15 @@ public class UpdateDao extends BaseDAO {
 	public boolean saveOrg(Object bean) {
 		if (!(bean instanceof TB_SYS_ORG))
 			return false;
-		// db = dbHelper.getWritableDatabase();
-		// ContentValues values = new ContentValues();
-		// values.put(DatabaseHelper.FIELD_ORG_ID, ((TB_SYS_ORG) bean).getId());
-		// values.put(DatabaseHelper.FIELD_ORG_ORG_CODE, ((TB_SYS_ORG)
-		// bean).getOrg_code());
-		// values.put(DatabaseHelper.FIELD_ORG_ORG_NAME, ((TB_SYS_ORG)
-		// bean).getOrg_name());
-		// values.put(DatabaseHelper.FIELD_ORG_REMARK, ((TB_SYS_ORG)
-		// bean).getRemark());
-		// values.put(DatabaseHelper.FIELD_ORG_UPDATE_TIME, ((TB_SYS_ORG)
-		// bean).getUpdate_time());
-		// return db.insert(DatabaseHelper.TB_ORG, null, values) > 0;
 		return saveBean(DatabaseHelper.TB_ORG, bean);
+	}
+
+	public boolean deleteOrg(Object bean) {
+		if (!(bean instanceof TB_SYS_ORG))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((TB_SYS_ORG) bean).getId());
+		}
 	}
 
 	public boolean saveOrgPerson(Object bean) {
@@ -253,10 +249,26 @@ public class UpdateDao extends BaseDAO {
 		return saveBean(DatabaseHelper.TB_PERSON, bean);
 	}
 
+	public boolean deleteOrgPerson(Object bean) {
+		if (!(bean instanceof TB_SYS_Person))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((TB_SYS_Person) bean).getId());
+		}
+	}
+
 	public boolean saveRole(Object bean) {
 		if (!(bean instanceof TB_SYS_Role))
 			return false;
 		return saveBean(DatabaseHelper.TB_ROLE, bean);
+	}
+
+	public boolean deleteRole(Object bean) {
+		if (!(bean instanceof TB_SYS_Role))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((TB_SYS_Role) bean).getId());
+		}
 	}
 
 	public boolean saveRolePerson(Object bean) {
@@ -265,10 +277,27 @@ public class UpdateDao extends BaseDAO {
 		return saveBean(DatabaseHelper.TB_ROLE_PERSON, bean);
 	}
 
+	public boolean deleteRolePerson(Object bean) {
+		if (!(bean instanceof TB_SYS_Role_person))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(),
+					((TB_SYS_Role_person) bean).getPerson_id());
+		}
+	}
+
 	public boolean savePerssion(Object bean) {
 		if (!(bean instanceof tb_sys_permission))
 			return false;
 		return saveBean(DatabaseHelper.TB_PERMISSION, bean);
+	}
+
+	public boolean deletePerssion(Object bean) {
+		if (!(bean instanceof tb_sys_permission))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((tb_sys_permission) bean).getId());
+		}
 	}
 
 	public boolean saveLog(Object bean) {
@@ -277,10 +306,26 @@ public class UpdateDao extends BaseDAO {
 		return saveBean(DatabaseHelper.TB_LOG, bean);
 	}
 
+	public boolean deleteLog(Object bean) {
+		if (!(bean instanceof tb_sys_Log))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((tb_sys_Log) bean).getId());
+		}
+	}
+
 	public boolean saveDic(Object bean) {
 		if (!(bean instanceof tb_sys_dictionary))
 			return false;
 		return saveBean(DatabaseHelper.TB_DICTIONARY, bean);
+	}
+
+	public boolean deleteDic(Object bean) {
+		if (!(bean instanceof tb_sys_dictionary))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((tb_sys_dictionary) bean).getId());
+		}
 	}
 
 	public boolean saveDicData(Object bean) {
@@ -289,10 +334,27 @@ public class UpdateDao extends BaseDAO {
 		return saveBean(DatabaseHelper.TB_DIC_DATA, bean);
 	}
 
+	public boolean deleteDicData(Object bean) {
+		if (!(bean instanceof tb_sys_dictionary_data))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(),
+					((tb_sys_dictionary_data) bean).getId());
+		}
+	}
+
 	public boolean saveTask(Object bean) {
 		if (!(bean instanceof tb_task_info))
 			return false;
 		return saveBean(DatabaseHelper.TB_TASK, bean);
+	}
+
+	public boolean deleteTask(Object bean) {
+		if (!(bean instanceof tb_task_info))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((tb_task_info) bean).getId());
+		}
 	}
 
 	public boolean saveStandard(Object bean) {
@@ -301,10 +363,26 @@ public class UpdateDao extends BaseDAO {
 		return saveBean(DatabaseHelper.TB_TASK_STANDARD, bean);
 	}
 
+	public boolean deleteStandard(Object bean) {
+		if (!(bean instanceof tb_task_standard))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((tb_task_standard) bean).getId());
+		}
+	}
+
 	public boolean saveEvaluate(Object bean) {
 		if (!(bean instanceof tb_task_evaluate))
 			return false;
 		return saveBean(DatabaseHelper.TB_TASK_EVALUATE, bean);
+	}
+
+	public boolean deleteEvaluate(Object bean) {
+		if (!(bean instanceof tb_task_evaluate))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((tb_task_evaluate) bean).getId());
+		}
 	}
 
 	public boolean saveAtt(Object bean) {
@@ -313,10 +391,27 @@ public class UpdateDao extends BaseDAO {
 		return saveBean(DatabaseHelper.TB_TASK_ATTACHMENT, bean);
 	}
 
+	public boolean deleteAtt(Object bean) {
+		if (!(bean instanceof tb_task_attachment))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((tb_task_attachment) bean).getId());
+		}
+	}
+
 	public boolean saveIns(Object bean) {
 		if (!(bean instanceof tb_task_instructions))
 			return false;
 		return saveBean(DatabaseHelper.TB_TASK_INSTRUCTIONS, bean);
+	}
+
+	public boolean deleteIns(Object bean) {
+		if (!(bean instanceof tb_task_instructions))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(),
+					((tb_task_instructions) bean).getId());
+		}
 	}
 
 	public boolean saveInsRec(Object bean) {
@@ -325,16 +420,42 @@ public class UpdateDao extends BaseDAO {
 		return saveBean(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, bean);
 	}
 
+	public boolean deleteInsRec(Object bean) {
+		if (!(bean instanceof tb_task_instructions_receive))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(),
+					((tb_task_instructions_receive) bean).getId());
+		}
+	}
+
 	public boolean saveInsAtt(Object bean) {
 		if (!(bean instanceof tb_task_instructions_attachment))
 			return false;
 		return saveBean(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, bean);
 	}
 
+	public boolean deleteInsAtt(Object bean) {
+		if (!(bean instanceof tb_task_instructions_attachment))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(),
+					((tb_task_instructions_attachment) bean).getId());
+		}
+	}
+
 	public boolean saveGpsHistory(Object bean) {
 		if (!(bean instanceof tb_gps_history))
 			return false;
 		return saveBean(DatabaseHelper.TB_GPS_HISTORY, bean);
+	}
+
+	public boolean deleteGpsHistory(Object bean) {
+		if (!(bean instanceof tb_gps_history))
+			return false;
+		else {
+			return deleteBean(bean.getClass().getSimpleName(), ((tb_gps_history) bean).getId());
+		}
 	}
 
 	private boolean saveBean(Object bean) {
@@ -361,9 +482,45 @@ public class UpdateDao extends BaseDAO {
 			return db.insert(tableName, null, values) > 0;
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			return false;
+			// 如果报错了就删除对应项再添加进来
+			if (bean instanceof TB_SYS_ORG) {
+				deleteOrg(bean);
+			} else if (bean instanceof TB_SYS_Person) {
+				deleteOrgPerson(bean);
+			} else if (bean instanceof TB_SYS_Role) {
+				deleteRole(bean);
+			} else if (bean instanceof TB_SYS_Role_person) {
+				deleteRolePerson(bean);
+			} else if (bean instanceof tb_sys_permission) {
+				deletePerssion(bean);
+			} else if (bean instanceof tb_sys_dictionary) {
+				deleteDic(bean);
+			} else if (bean instanceof tb_sys_dictionary_data) {
+				deleteDicData(bean);
+			} else if (bean instanceof tb_task_info) {
+				deleteTask(bean);
+			} else if (bean instanceof tb_task_standard) {
+				deleteStandard(bean);
+			} else if (bean instanceof tb_task_evaluate) {
+				deleteEvaluate(bean);
+			} else if (bean instanceof tb_task_attachment) {
+				deleteAtt(bean);
+			} else if (bean instanceof tb_task_instructions) {
+				deleteIns(bean);
+			} else if (bean instanceof tb_task_instructions_receive) {
+				deleteInsRec(bean);
+			} else if (bean instanceof tb_task_instructions_attachment) {
+				deleteInsAtt(bean);
+			} else if (bean instanceof tb_gps_history) {
+				deleteGpsHistory(bean);
+			}
+			return saveOrg(bean);
 		}
+	}
 
+	private boolean deleteBean(String tableName, String id) {
+		db = dbHelper.getWritableDatabase();
+		return db.delete(tableName, "id = ?", new String[] { id }) > 0;
 	}
 
 	/**

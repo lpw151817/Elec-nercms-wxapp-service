@@ -10,18 +10,18 @@ import java.io.File;
  */
 public class Contants {
 
-	// public static final String HFS_SERVER = "120.26.78.7";
-	// public static final String HFS_PORT = "8012";
-	private static final String HFS_SERVER = "192.168.101.244";
-	private static final String HFS_PORT = "9898";
+	public static final String HFS_SERVER = "120.26.78.7";
+	public static final String HFS_PORT = "8012";
+	// private static final String HFS_SERVER = "192.168.101.244";
+	// private static final String HFS_PORT = "9898";
 	public static final String HFS_URL = "http://" + HFS_SERVER + ":" + HFS_PORT
 			+ "/ScheduleFileServer";
 
 	// TIP：所有的url结尾均带/
-	// public static final String SERVER = "121.40.145.178";
-	// public static final String PORT = "8080";
-	public static final String SERVER = "192.168.101.244";
-	public static final String PORT = "9003";
+	public static final String SERVER = "121.40.145.178";
+	public static final String PORT = "8080";
+	// public static final String SERVER = "192.168.101.244";
+	// public static final String PORT = "9003";
 
 	public static final String SERVER_URL = "http://" + SERVER + ":" + PORT + File.separator;
 
