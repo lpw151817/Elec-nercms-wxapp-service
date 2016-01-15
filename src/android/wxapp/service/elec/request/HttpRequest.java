@@ -34,7 +34,6 @@ import android.wxapp.service.elec.model.bean.User;
 import android.wxapp.service.handler.MessageHandlerManager;
 import android.wxapp.service.util.MySharedPreference;
 
-import com.Generate_md5;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
@@ -57,9 +56,9 @@ public class HttpRequest extends BaseRequest {
 	 * @return
 	 */
 	public JsonObjectRequest getLoginRequest(String aliasName, String identifyCode) {
-		LoginRequest lr = new LoginRequest(aliasName, Generate_md5.generate_md5(identifyCode));
+		LoginRequest lr = new LoginRequest(aliasName, identifyCode);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.LOGIN_METHOD
-				+ Contants.LOGIN_PARAM + super.gson.toJson(lr);
+				+ Contants.LOGIN_PARAM + parase2Json(lr);
 		Log.e("URL", this.url);
 		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
 
@@ -105,7 +104,7 @@ public class HttpRequest extends BaseRequest {
 			return null;
 		UpdateRequest ur = new UpdateRequest(getUserId(c), getUserIc(c), getLastUpdateTime(c));
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.UPDATE_METHOD
-				+ Contants.UPDATE_PARAM + super.gson.toJson(ur);
+				+ Contants.UPDATE_PARAM + parase2Json(ur);
 		Log.e("URL", this.url);
 		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
 
@@ -187,7 +186,7 @@ public class HttpRequest extends BaseRequest {
 				cut_type, implement_org.getId().substring(1), number, remark);
 
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATEPLANTASK_METHOD
-				+ Contants.CREATEPLANTASK_PARAM + super.gson.toJson(cptr);
+				+ Contants.CREATEPLANTASK_PARAM + parase2Json(cptr);
 		Log.e("URL", this.url);
 		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
 
@@ -250,7 +249,7 @@ public class HttpRequest extends BaseRequest {
 		CreateInsRequest ctr = new CreateInsRequest(getUserId(c), getUserIc(c), uidsList, tid, text,
 				attachments);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATETASKINS_METHOD
-				+ Contants.CREATETASKINS_PARAM + super.gson.toJson(ctr);
+				+ Contants.CREATETASKINS_PARAM + parase2Json(ctr);
 		Log.e("URL", this.url);
 		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
 
@@ -302,7 +301,7 @@ public class HttpRequest extends BaseRequest {
 				getUserIc(c), tid, type, attachment);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME
 				+ Contants.UPLOAD_TASK_ATTACHMENT_METHOD + Contants.UPLOAD_TASK_ATTACHMENT_PARAM
-				+ super.gson.toJson(ctr);
+				+ parase2Json(ctr);
 		Log.e("URL", this.url);
 		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
 

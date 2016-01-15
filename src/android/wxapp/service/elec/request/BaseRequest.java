@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.wxapp.service.util.MySharedPreference;
 
-import com.Generate_md5;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -45,8 +44,11 @@ public class BaseRequest {
 	}
 
 	protected String getUserIc(Context context) {
-		return Generate_md5
-				.generate_md5(MySharedPreference.get(context, MySharedPreference.USER_IC, null));
+		// return Generate_md5
+		// .generate_md5(MySharedPreference.get(context,
+		// MySharedPreference.USER_IC,
+		// null));
+		return MySharedPreference.get(context, MySharedPreference.USER_IC, null);
 	}
 
 	protected String getUserName(Context c) {
