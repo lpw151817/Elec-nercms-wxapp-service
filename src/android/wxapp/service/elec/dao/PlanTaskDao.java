@@ -36,6 +36,17 @@ public class PlanTaskDao extends BaseDAO {
 				new String[] { tid }) > 0;
 	}
 
+	public boolean changeTaskTime(boolean isStart, String tid, String time) {
+		db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		if (isStart)
+			values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, time);
+		else
+			values.put(DatabaseHelper.FIELD_TASKINFO_END_TIME, time);
+		return db.update(DatabaseHelper.TB_TASK, values, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
+				new String[] { tid }) > 0;
+	}
+
 	/**
 	 * 
 	 * @param id

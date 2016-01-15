@@ -38,6 +38,12 @@ public class Contants {
 	public static final String CREATETASKINS_PARAM = "insParameter=";
 	public static final String UPLOAD_TASK_ATTACHMENT_METHOD = "mupload.do?";
 	public static final String UPLOAD_TASK_ATTACHMENT_PARAM = "uploadParameter=";
+	public static final String START_TASK_METHOD = "mtaskstart.do?";
+	public static final String START_TASK_PARAM = "taskParameter=";
+	public static final String END_TASK_METHOD = "mtaskend.do?";
+	public static final String END_TASK_PARAM = "taskParameter=";
+	public static final String DELETE_TASK_METHOD = "mtaskdel.do?";
+	public static final String DELETE_TASK_PARAM = "taskParameter=";
 
 	// 服务器是否返回成功标志
 	public static final String RESULT_SUCCESS = "0";

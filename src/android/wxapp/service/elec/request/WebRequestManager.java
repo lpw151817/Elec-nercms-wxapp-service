@@ -75,4 +75,16 @@ public class WebRequestManager {
 			List<TaskAttachment> attachment) {
 		queue.add(httpRequest.uploadTaskAttachment(c, tid, type, attachment));
 	}
+
+	public void startTask(Context c, String tid, String time) {
+		queue.add(httpRequest.startTaskTime(c, tid, time));
+	}
+
+	public void endTask(Context c, String tid, String time) {
+		queue.add(httpRequest.endTaskTime(c, tid, time));
+	}
+
+	public void deleteTask(Context c, String tid) {
+		queue.add(httpRequest.deleteTask(c, tid));
+	}
 }

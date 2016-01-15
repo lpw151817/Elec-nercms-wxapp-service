@@ -12,11 +12,15 @@ import android.os.Message;
 import android.util.Log;
 import android.wxapp.service.elec.model.CreatePlanTaskRequest;
 import android.wxapp.service.elec.model.CreatePlanTaskResponse;
+import android.wxapp.service.elec.model.DeleteTaskRequest;
+import android.wxapp.service.elec.model.DeleteTaskResponse;
 import android.wxapp.service.elec.model.CreateInsRequest;
 import android.wxapp.service.elec.model.CreateInsResponse;
 import android.wxapp.service.elec.model.LoginRequest;
 import android.wxapp.service.elec.model.LoginResponse;
 import android.wxapp.service.elec.model.NormalServerResponse;
+import android.wxapp.service.elec.model.StartTaskRequest;
+import android.wxapp.service.elec.model.StartTaskResponse;
 import android.wxapp.service.elec.model.UpdateRequest;
 import android.wxapp.service.elec.model.UpdateResponse;
 import android.wxapp.service.elec.model.UploadTaskAttachmentRequest;
@@ -32,6 +36,8 @@ import android.wxapp.service.elec.dao.TaskInsDao;
 import android.wxapp.service.elec.dao.UpdateDao;
 import android.wxapp.service.elec.model.bean.User;
 import android.wxapp.service.handler.MessageHandlerManager;
+import android.wxapp.service.jerry.model.affair.EndTaskRequest;
+import android.wxapp.service.jerry.model.affair.EndTaskResponse;
 import android.wxapp.service.util.MySharedPreference;
 
 import com.android.volley.Response.ErrorListener;
@@ -342,6 +348,154 @@ public class HttpRequest extends BaseRequest {
 				showError(arg0.toString());
 				MessageHandlerManager.getInstance().sendMessage(Constants.UPLOAD_TASK_ATT_FAIL,
 						UploadTaskAttachmentResponse.class.getName());
+			}
+		});
+	}
+
+	public JsonObjectRequest startTaskTime(final Context c, final String tid, final String time) {
+		// 如果为获取到用户的id，则直接返回
+		if (getUserId(c) == null || getUserIc(c) == null)
+			return null;
+		StartTaskRequest ctr = new StartTaskRequest(getUserId(c), getUserIc(c), tid, time);
+		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.START_TASK_METHOD
+				+ Contants.START_TASK_PARAM + parase2Json(ctr);
+		Log.e("URL", this.url);
+		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+				Log.e("Response", arg0.toString());
+				try {
+					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
+						final StartTaskResponse r = gson.fromJson(arg0.toString(),
+								StartTaskResponse.class);
+						// 操作数据库
+						if (new PlanTaskDao(c).changeTaskTime(true, tid, time)) {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.START_TASK_SUCCESS, r,
+									StartTaskResponse.class.getName());
+							saveLastUpdateTime(c);
+						} else {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.START_TASK_SAVE_FAIL,
+									StartTaskResponse.class.getName());
+						}
+					} else {
+						MessageHandlerManager.getInstance().sendMessage(Constants.START_TASK_FAIL,
+								gson.fromJson(arg0.toString(), NormalServerResponse.class),
+								StartTaskResponse.class.getName());
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					MessageHandlerManager.getInstance().sendMessage(Constants.START_TASK_FAIL,
+							StartTaskResponse.class.getName());
+				}
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				showError(arg0.toString());
+				MessageHandlerManager.getInstance().sendMessage(Constants.START_TASK_FAIL,
+						StartTaskResponse.class.getName());
+			}
+		});
+	}
+
+	public JsonObjectRequest endTaskTime(final Context c, final String tid, final String time) {
+		// 如果为获取到用户的id，则直接返回
+		if (getUserId(c) == null || getUserIc(c) == null)
+			return null;
+		EndTaskRequest ctr = new EndTaskRequest(getUserId(c), getUserIc(c), tid, time);
+		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.END_TASK_METHOD
+				+ Contants.END_TASK_PARAM + parase2Json(ctr);
+		Log.e("URL", this.url);
+		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+				Log.e("Response", arg0.toString());
+				try {
+					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
+						final EndTaskResponse r = gson.fromJson(arg0.toString(),
+								EndTaskResponse.class);
+						// 操作数据库
+						if (new PlanTaskDao(c).changeTaskTime(false, tid, time)) {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.END_TASK_SUCCESS, r, EndTaskResponse.class.getName());
+							saveLastUpdateTime(c);
+						} else {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.END_TASK_SAVE_FAIL, EndTaskResponse.class.getName());
+						}
+					} else {
+						MessageHandlerManager.getInstance().sendMessage(Constants.END_TASK_FAIL,
+								gson.fromJson(arg0.toString(), NormalServerResponse.class),
+								EndTaskResponse.class.getName());
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					MessageHandlerManager.getInstance().sendMessage(Constants.END_TASK_FAIL,
+							EndTaskResponse.class.getName());
+				}
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				showError(arg0.toString());
+				MessageHandlerManager.getInstance().sendMessage(Constants.END_TASK_FAIL,
+						EndTaskResponse.class.getName());
+			}
+		});
+	}
+
+	public JsonObjectRequest deleteTask(final Context c, final String tid) {
+		// 如果为获取到用户的id，则直接返回
+		if (getUserId(c) == null || getUserIc(c) == null)
+			return null;
+		DeleteTaskRequest ctr = new DeleteTaskRequest(getUserId(c), getUserIc(c), tid);
+		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.DELETE_TASK_METHOD
+				+ Contants.DELETE_TASK_PARAM + parase2Json(ctr);
+		Log.e("URL", this.url);
+		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+				Log.e("Response", arg0.toString());
+				try {
+					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
+						final DeleteTaskResponse r = gson.fromJson(arg0.toString(),
+								DeleteTaskResponse.class);
+						// 操作数据库
+						if (new PlanTaskDao(c).deleteTask(tid)) {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.DELETE_TASK_SUCCESS, r,
+									DeleteTaskResponse.class.getName());
+							saveLastUpdateTime(c);
+						} else {
+							MessageHandlerManager.getInstance().sendMessage(
+									Constants.DELETE_TASK_SAVE_FAIL,
+									DeleteTaskResponse.class.getName());
+						}
+					} else {
+						MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
+								gson.fromJson(arg0.toString(), NormalServerResponse.class),
+								DeleteTaskResponse.class.getName());
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
+							DeleteTaskResponse.class.getName());
+				}
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				showError(arg0.toString());
+				MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
+						DeleteTaskResponse.class.getName());
 			}
 		});
 	}
