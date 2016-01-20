@@ -131,6 +131,23 @@ public class TaskInsDao extends BaseDAO {
 		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null, values) > 0;
 	}
 
+	public List<tb_task_instructions> getAllIns() {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS, null, null, null, null, null,
+				null);
+		List<tb_task_instructions> result = new ArrayList<tb_task_instructions>();
+		while (c.moveToNext()) {
+			result.add(
+					new tb_task_instructions(getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID),
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID),
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT),
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID),
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME)));
+		}
+		c.close();
+		return result;
+	}
+
 	public tb_task_instructions getTaskIns(String planTaskId) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS, null,
