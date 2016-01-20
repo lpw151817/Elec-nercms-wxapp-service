@@ -36,8 +36,6 @@ import android.wxapp.service.elec.dao.TaskInsDao;
 import android.wxapp.service.elec.dao.UpdateDao;
 import android.wxapp.service.elec.model.bean.User;
 import android.wxapp.service.handler.MessageHandlerManager;
-import android.wxapp.service.jerry.model.affair.EndTaskRequest;
-import android.wxapp.service.jerry.model.affair.EndTaskResponse;
 import android.wxapp.service.util.MySharedPreference;
 
 import com.android.volley.Response.ErrorListener;
@@ -406,7 +404,7 @@ public class HttpRequest extends BaseRequest {
 		// 如果为获取到用户的id，则直接返回
 		if (getUserId(c) == null || getUserIc(c) == null)
 			return null;
-		EndTaskRequest ctr = new EndTaskRequest(getUserId(c), getUserIc(c), tid, time);
+		StartTaskRequest ctr = new StartTaskRequest(getUserId(c), getUserIc(c), tid, time);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.END_TASK_METHOD
 				+ Contants.END_TASK_PARAM + parase2Json(ctr);
 		Log.e("URL", this.url);
@@ -417,26 +415,28 @@ public class HttpRequest extends BaseRequest {
 				Log.e("Response", arg0.toString());
 				try {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
-						final EndTaskResponse r = gson.fromJson(arg0.toString(),
-								EndTaskResponse.class);
+						final StartTaskResponse r = gson.fromJson(arg0.toString(),
+								StartTaskResponse.class);
 						// 操作数据库
 						if (new PlanTaskDao(c).changeTaskTime(false, tid, time)) {
 							MessageHandlerManager.getInstance().sendMessage(
-									Constants.END_TASK_SUCCESS, r, EndTaskResponse.class.getName());
+									Constants.END_TASK_SUCCESS, r,
+									StartTaskResponse.class.getName());
 							saveLastUpdateTime(c);
 						} else {
 							MessageHandlerManager.getInstance().sendMessage(
-									Constants.END_TASK_SAVE_FAIL, EndTaskResponse.class.getName());
+									Constants.END_TASK_SAVE_FAIL,
+									StartTaskResponse.class.getName());
 						}
 					} else {
 						MessageHandlerManager.getInstance().sendMessage(Constants.END_TASK_FAIL,
 								gson.fromJson(arg0.toString(), NormalServerResponse.class),
-								EndTaskResponse.class.getName());
+								StartTaskResponse.class.getName());
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 					MessageHandlerManager.getInstance().sendMessage(Constants.END_TASK_FAIL,
-							EndTaskResponse.class.getName());
+							StartTaskResponse.class.getName());
 				}
 			}
 		}, new ErrorListener() {
@@ -445,7 +445,7 @@ public class HttpRequest extends BaseRequest {
 			public void onErrorResponse(VolleyError arg0) {
 				showError(arg0.toString());
 				MessageHandlerManager.getInstance().sendMessage(Constants.END_TASK_FAIL,
-						EndTaskResponse.class.getName());
+						StartTaskResponse.class.getName());
 			}
 		});
 	}

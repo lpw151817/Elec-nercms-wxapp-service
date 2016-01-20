@@ -57,7 +57,7 @@ public class OrgDao extends BaseDAO {
 		return r;
 	}
 
-	private List<Org> getAllPersons() {
+	public List<Org> getAllPersons() {
 		db = dbHelper.getReadableDatabase();
 		// SELECT * from OrgNode WHERE org_code LIKE '_';
 		Cursor c = db.rawQuery("SELECT * from " + DatabaseHelper.TB_PERSON, null);

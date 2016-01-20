@@ -178,9 +178,8 @@ public class PlanTaskDao extends BaseDAO {
 		// 暂时只存第一个
 		values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER,
 				orgDao.getPerson(responsibility_user.get(0).getId().substring(1)).getName());
-		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME,
-				Utils.formatDateMs(plan_start_time));
-		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, Utils.formatDateMs(plan_end_time));
+		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME, (plan_start_time));
+		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, (plan_end_time));
 		values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_END_TIME, end_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_CATEGORY, category);
@@ -209,7 +208,7 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_REMARK, remark);
 		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE, "3");
 		values.put(DatabaseHelper.FIELD_TASKINFO_CREATOR_ID, creator_id);
-		values.put(DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME, Utils.formatDateMs(creator_time));
+		values.put(DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME, (creator_time));
 		values.put(DatabaseHelper.FIELD_TASKINFO_UPDATE_ID, update_id);
 		values.put(DatabaseHelper.FIELD_TASKINFO_UPDATE_TIME, update_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_IS_KEEP, is_keep);

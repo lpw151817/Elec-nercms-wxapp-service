@@ -1,10 +1,12 @@
 package android.wxapp.service.elec.dao;
 
+import java.io.Serializable;
+
 import com.imooc.treeview.utils.annotation.TreeNodeId;
 import com.imooc.treeview.utils.annotation.TreeNodeLabel;
 import com.imooc.treeview.utils.annotation.TreeNodePid;
 
-public class Org {
+public class Org implements Serializable {
 	@TreeNodeId
 	String id;
 	@TreeNodePid

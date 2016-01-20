@@ -11,7 +11,7 @@ import java.io.File;
 public class Contants {
 
 	public static final String HFS_SERVER = "120.26.78.7";
-	public static final String HFS_PORT = "8012";
+	public static final String HFS_PORT = "3000";
 	// private static final String HFS_SERVER = "192.168.101.244";
 	// private static final String HFS_PORT = "9898";
 	public static final String HFS_URL = "http://" + HFS_SERVER + ":" + HFS_PORT
