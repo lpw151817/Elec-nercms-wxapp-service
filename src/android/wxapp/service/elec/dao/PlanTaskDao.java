@@ -335,23 +335,23 @@ public class PlanTaskDao extends BaseDAO {
 		return db.insert(DatabaseHelper.TB_TASK_ATTACHMENT, null, values) > 0;
 	}
 
-	public tb_task_attachment getPlanTaskAtt(String tid) {
+	public List<tb_task_attachment> getPlanTaskAtt(String tid) {
 		db = dbHelper.getReadableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID, tid);
 		Cursor c = db.query(DatabaseHelper.TB_TASK_ATTACHMENT, null,
 				DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = ?", new String[] { tid }, null,
 				null, null);
-		tb_task_attachment result = null;
-		if (c.moveToFirst()) {
-			result = new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
+		List<tb_task_attachment> result = new ArrayList<tb_task_attachment>();
+		while (c.moveToNext()) {
+			result.add(new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_HISTORYGPS),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_STANDARD),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TYPE),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_URL),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
-					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5));
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5)));
 		}
 		c.close();
 		return result;
