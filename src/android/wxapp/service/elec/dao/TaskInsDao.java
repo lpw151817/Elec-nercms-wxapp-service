@@ -148,11 +148,11 @@ public class TaskInsDao extends BaseDAO {
 		return result;
 	}
 
-	public tb_task_instructions getTaskIns(String planTaskId) {
+	public tb_task_instructions getTaskIns(String taskInsId) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS, null,
-				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID + " = ?",
-				new String[] { planTaskId }, null, null, null);
+				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID + " = ?", new String[] { taskInsId },
+				null, null, null);
 		tb_task_instructions result = null;
 		if (c.moveToFirst()) {
 			result = new tb_task_instructions(getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID),
