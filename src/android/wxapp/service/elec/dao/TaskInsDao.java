@@ -66,6 +66,10 @@ public class TaskInsDao extends BaseDAO {
 	}
 
 	public boolean saveIns(CreateInsResponse r) {
+		if (r.getAttachments() == null){
+			return false;
+		}
+		
 		for (tb_task_instructions_attachment att : r.getAttachments()) {
 			if (saveInsAtt(att.getId(), att.getInstructions_id(), att.getType(), att.getUrl(),
 					att.getUpdate_time(), att.getMd5()))
