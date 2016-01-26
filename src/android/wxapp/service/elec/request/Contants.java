@@ -23,6 +23,9 @@ public class Contants {
 	// public static final String SERVER = "192.168.101.244";
 	// public static final String PORT = "9003";
 
+	public static final String MQTT_SERVER = SERVER;
+	public static final String MQTT_PORT = "1883";
+
 	public static final String SERVER_URL = "http://" + SERVER + ":" + PORT + File.separator;
 
 	// Ä£¿éÃû³Æ
