@@ -10,6 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract.Contacts.Data;
+import android.text.TextUtils;
 import android.wxapp.service.elec.model.UploadTaskAttachmentResponse;
 import android.wxapp.service.elec.model.bean.table.tb_gps_history;
 import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
@@ -220,20 +221,37 @@ public class PlanTaskDao extends BaseDAO {
 	}
 
 	/**
+	 * 查询下的所有任务
 	 * 
 	 * @param renwuleibie
 	 * @param planType
-	 *            1,月计划；2,周计划;3.日计划
+	 * @param uid
+	 *            查询所有，传入null
 	 * @return
 	 */
-	public List<tb_task_info> getAllPlanTask(int renwuleibie, int planType) {
+	public List<tb_task_info> getPlanTasks(int renwuleibie, int planType, String uid) {
 		db = dbHelper.getReadableDatabase();
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from " + DatabaseHelper.TB_TASK);
-		if (renwuleibie > 0) {
-			sql.append(" where " + DatabaseHelper.FIELD_TASKINFO_CATEGORY + " = '"
-					+ taskLeibieInt2String(renwuleibie) + "'");
+		if (renwuleibie > 0 || !TextUtils.isEmpty(uid)) {
+			sql.append(" where ");
+			if (renwuleibie > 0) {
+				sql.append(DatabaseHelper.FIELD_TASKINFO_CATEGORY + " = '"
+						+ taskLeibieInt2String(renwuleibie) + "'");
+				if (!TextUtils.isEmpty(uid)) {
+					String name = new OrgDao(c).getPerson(uid).getName();
+					sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER + " = '"
+							+ name + "'");
+				}
+			} else {
+				if (!TextUtils.isEmpty(uid)) {
+					String name = new OrgDao(c).getPerson(uid).getName();
+					sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER + " = '"
+							+ name + "'");
+				}
+			}
 		}
+
 		sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE + " = " + planType);
 		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME + " desc");
 
