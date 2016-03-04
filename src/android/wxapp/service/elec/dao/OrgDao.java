@@ -22,6 +22,8 @@ public class OrgDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_PERSON_ALIAS),
 					getData(c, DatabaseHelper.FIELD_PERSON_ORG_CODE),
 					getData(c, DatabaseHelper.FIELD_PERSON_NAME),
+					getData(c, DatabaseHelper.FIELD_PERSON_CONTACT),
+					getData(c, DatabaseHelper.FIELD_PERSON_TYPE),
 					getData(c, DatabaseHelper.FIELD_PERSON_IDENTIFY_CODE),
 					getData(c, DatabaseHelper.FIELD_PERSON_REMARK),
 					getData(c, DatabaseHelper.FIELD_PERSON_IMSI),

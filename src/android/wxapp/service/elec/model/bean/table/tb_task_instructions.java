@@ -6,20 +6,36 @@ public class tb_task_instructions {
 	String content;
 	String send_id;
 	String send_time;
+	String type;//ĞÂÔö
 	@Override
 	public String toString() {
 		return "tb_task_instructions [id=" + id + ", task_id=" + task_id + ", content=" + content
 				+ ", send_id=" + send_id + ", send_time=" + send_time + "]";
 	}
+	
+	
 	public tb_task_instructions(String id, String task_id, String content,
-			String send_id, String send_time) {
+			String send_id, String send_time, String type) {
 		super();
 		this.id = id;
 		this.task_id = task_id;
 		this.content = content;
 		this.send_id = send_id;
 		this.send_time = send_time;
+		this.type = type;
 	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
 	public tb_task_instructions() {
 		super();
 		// TODO Auto-generated constructor stub

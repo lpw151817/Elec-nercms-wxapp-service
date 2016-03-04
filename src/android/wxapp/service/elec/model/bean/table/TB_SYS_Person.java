@@ -5,6 +5,8 @@ public class TB_SYS_Person {
 	String alias;
 	String org_code;
 	String name;
+	String contact;
+	String type;
 	String identify_code;
 	String remark;
 	String imsi;
@@ -17,14 +19,18 @@ public class TB_SYS_Person {
 		return "TB_SYS_Person [id=" + id + ", Org_code=" + org_code + ", name=" + name + "]";
 	}
 
+
 	public TB_SYS_Person(String id, String alias, String org_code, String name,
-			String identify_code, String remark, String imsi, String force_offline, String sequence,
+			String contact, String type, String identify_code, String remark,
+			String imsi, String force_offline, String sequence,
 			String update_time) {
 		super();
 		this.id = id;
 		this.alias = alias;
 		this.org_code = org_code;
 		this.name = name;
+		this.contact = contact;
+		this.type = type;
 		this.identify_code = identify_code;
 		this.remark = remark;
 		this.imsi = imsi;
@@ -32,6 +38,27 @@ public class TB_SYS_Person {
 		this.sequence = sequence;
 		this.update_time = update_time;
 	}
+
+
+	public String getContact() {
+		return contact;
+	}
+
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 
 	public String getOrg_code() {
 		return org_code;

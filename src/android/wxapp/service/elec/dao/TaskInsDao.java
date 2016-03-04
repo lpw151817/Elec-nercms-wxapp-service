@@ -146,7 +146,9 @@ public class TaskInsDao extends BaseDAO {
 							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID),
 							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT),
 							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID),
-							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME)));
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME),
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE)
+							));
 		}
 		c.close();
 		return result;
@@ -163,7 +165,9 @@ public class TaskInsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT),
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID),
-					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME));
+					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME),
+					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE)
+					);
 		}
 		c.close();
 		return result;

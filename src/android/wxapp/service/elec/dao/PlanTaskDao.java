@@ -48,11 +48,6 @@ public class PlanTaskDao extends BaseDAO {
 				new String[] { tid }) > 0;
 	}
 
-	// TODO 计算对应任务下的任务个数，用于在主页上显示
-	public int getTaskCount(int type) {
-		return 0;
-	}
-
 	/**
 	 * 
 	 * @param id
@@ -266,6 +261,7 @@ public class PlanTaskDao extends BaseDAO {
 			tb_task_info info = new tb_task_info(getData(c, DatabaseHelper.FIELD_TASKINFO_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_WEATHER),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_NAME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_TASK_CODE),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_CONTENT),
@@ -293,7 +289,9 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_KEEP),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_STATUS),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_APPROVE_ID));
+					getData(c, DatabaseHelper.FIELD_TASKINFO_APPROVE_ID),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_HISTORY_ID)
+					);
 			result.add(info);
 		}
 		c.close();
@@ -310,6 +308,7 @@ public class PlanTaskDao extends BaseDAO {
 			info = new tb_task_info(getData(c, DatabaseHelper.FIELD_TASKINFO_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_WEATHER),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_NAME),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_TASK_CODE),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_CONTENT),
@@ -337,7 +336,8 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_KEEP),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_STATUS),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_APPROVE_ID));
+					getData(c, DatabaseHelper.FIELD_TASKINFO_APPROVE_ID),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_HISTORY_ID));
 		}
 		c.close();
 		return info;

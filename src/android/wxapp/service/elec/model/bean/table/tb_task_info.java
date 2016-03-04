@@ -4,6 +4,7 @@ public class tb_task_info {
 	String id;
 	String weather;
 	String name;
+	String task_code;//新增
 	String power_cut_range;
 	String effect_eara;
 	String content;
@@ -14,6 +15,7 @@ public class tb_task_info {
 	String end_time;
 	String category;
 	String is_publish;
+	
 	@Override
 	public String toString() {
 		return "tb_task_info [id=" + id + "]";
@@ -37,19 +39,25 @@ public class tb_task_info {
 	String status;
 	String examine_id;
 	String approve_id;
+	String history_id;
 
-	public tb_task_info(String id, String weather, String name, String power_cut_range,
-			String effect_eara, String content, String responsibility_user, String plan_start_time,
-			String plan_end_time, String start_time, String end_time, String category,
-			String is_publish, String special, String leader, String measures, String domain,
-			String is_power_cut, String cut_type, String implement_org, String number,
-			String remark, String plan_type, String creator_id, String creator_time,
-			String update_id, String update_time, String is_keep, String status, String examine_id,
-			String approve_id) {
+
+	public tb_task_info(String id, String weather, String name,
+			String task_code, String power_cut_range, String effect_eara,
+			String content, String responsibility_user, String plan_start_time,
+			String plan_end_time, String start_time, String end_time,
+			String category, String is_publish, String special, String leader,
+			String measures, String domain, String is_power_cut,
+			String cut_type, String implement_org, String number,
+			String remark, String plan_type, String creator_id,
+			String creator_time, String update_id, String update_time,
+			String is_keep, String status, String examine_id,
+			String approve_id, String history_id) {
 		super();
 		this.id = id;
 		this.weather = weather;
 		this.name = name;
+		this.task_code = task_code;
 		this.power_cut_range = power_cut_range;
 		this.effect_eara = effect_eara;
 		this.content = content;
@@ -78,6 +86,23 @@ public class tb_task_info {
 		this.status = status;
 		this.examine_id = examine_id;
 		this.approve_id = approve_id;
+		this.history_id = history_id;//新增
+	}
+
+	public String getTask_code() {
+		return task_code;
+	}
+
+	public void setTask_code(String task_code) {
+		this.task_code = task_code;
+	}
+
+	public String getHistory_id() {
+		return history_id;
+	}
+
+	public void setHistory_id(String history_id) {
+		this.history_id = history_id;
 	}
 
 	public tb_task_info() {
