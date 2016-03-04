@@ -48,6 +48,11 @@ public class PlanTaskDao extends BaseDAO {
 				new String[] { tid }) > 0;
 	}
 
+	// TODO 计算对应任务下的任务个数，用于在主页上显示
+	public int getTaskCount(int type) {
+		return 0;
+	}
+
 	/**
 	 * 
 	 * @param id
