@@ -224,12 +224,17 @@ public class PlanTaskDao extends BaseDAO {
 	 * 查询下的所有任务
 	 * 
 	 * @param renwuleibie
+	 *            1作业现场 2操作现场 3故障抢修现场
 	 * @param planType
+	 *            1,月计划；2,周计划;3.日计划。 默认传3
 	 * @param uid
 	 *            查询所有，传入null
+	 * @param status
+	 *            0,新的任务；1,执行中；2,延误；3,完成；4,取消任务。 null则不查询此字段
 	 * @return
 	 */
-	public List<tb_task_info> getPlanTasks(int renwuleibie, int planType, String uid) {
+	public List<tb_task_info> getPlanTasks(int renwuleibie, int planType, String uid,
+			String status) {
 		db = dbHelper.getReadableDatabase();
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from " + DatabaseHelper.TB_TASK);
@@ -253,6 +258,8 @@ public class PlanTaskDao extends BaseDAO {
 		}
 
 		sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE + " = " + planType);
+		if (!TextUtils.isEmpty(status))
+			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS + " = " + status);
 		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME + " desc");
 
 		Cursor c = db.rawQuery(sql.toString(), null);
@@ -290,8 +297,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASKINFO_STATUS),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_APPROVE_ID),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_HISTORY_ID)
-					);
+					getData(c, DatabaseHelper.FIELD_TASKINFO_HISTORY_ID));
 			result.add(info);
 		}
 		c.close();
