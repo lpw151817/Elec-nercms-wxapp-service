@@ -1,9 +1,12 @@
 package android.wxapp.service.elec.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
+import com.imooc.treeview.utils.Node;
 
 import android.R.layout;
 import android.content.ContentValues;
@@ -14,9 +17,12 @@ import android.wxapp.service.elec.model.CreateInsRequest;
 import android.wxapp.service.elec.model.CreateInsResponse;
 import android.wxapp.service.elec.model.bean.Attachments;
 import android.wxapp.service.elec.model.bean.Uid;
+import android.wxapp.service.elec.model.bean.table.TB_SYS_Person;
+import android.wxapp.service.elec.model.bean.table.tb_task_info;
 import android.wxapp.service.elec.model.bean.table.tb_task_instructions;
 import android.wxapp.service.elec.model.bean.table.tb_task_instructions_attachment;
 import android.wxapp.service.elec.model.bean.table.tb_task_instructions_receive;
+import android.wxapp.service.util.Utils;
 
 public class TaskInsDao extends BaseDAO {
 
@@ -24,22 +30,8 @@ public class TaskInsDao extends BaseDAO {
 		super(context);
 	}
 
-	/**
-	 * 保存任务指令（包括附件）
-	 * 
-	 * @param planTaskId
-	 *            任务id
-	 * @param taskInsId
-	 *            指令id
-	 * @param uids_s
-	 * @param text
-	 * @param atts_s
-	 * @param sendid
-	 * @param time
-	 * @return
-	 */
 	public boolean saveTaskIns(String planTaskId, String taskInsId, String uids_s, String text,
-			String atts_s, String sendid, String time) {
+			String atts_s, String sendid, String time, String type) {
 		List<Uid> uids_o = gson.fromJson(uids_s, new TypeToken<List<Uid>>() {
 		}.getType());
 		boolean saveUid = true;
@@ -61,30 +53,33 @@ public class TaskInsDao extends BaseDAO {
 			}
 		}
 
-		return saveAtt && saveUid && saveIns(taskInsId, planTaskId, text, sendid, time);
+		return saveAtt && saveUid && saveIns(taskInsId, planTaskId, text, sendid, time, type);
 
 	}
 
 	public boolean saveIns(CreateInsResponse r) {
-		if (r.getAttachments() == null){
-			return false;
+		if (r.getAttachments() != null) {
+			for (tb_task_instructions_attachment att : r.getAttachments()) {
+				if (saveInsAtt(att.getId(), att.getInstructions_id(), att.getType(), att.getUrl(),
+						att.getUpdate_time(), att.getMd5()))
+					continue;
+				else
+					return false;
+			}
+
 		}
-		
-		for (tb_task_instructions_attachment att : r.getAttachments()) {
-			if (saveInsAtt(att.getId(), att.getInstructions_id(), att.getType(), att.getUrl(),
-					att.getUpdate_time(), att.getMd5()))
-				continue;
-			else
-				return false;
+		if (r.getReceivers() != null) {
+			for (tb_task_instructions_receive receiver : r.getReceivers()) {
+				if (saveReceiver(receiver.getId(), receiver.getInstructions_id(),
+						receiver.getReceive_id(), receiver.getReceive_time(),
+						receiver.getIs_read())) {
+					continue;
+				} else
+					return false;
+			}
 		}
-		for (tb_task_instructions_receive receiver : r.getReceivers()) {
-			if (saveReceiver(receiver.getId(), receiver.getInstructions_id(),
-					receiver.getReceive_id(), receiver.getReceive_time(), receiver.getIs_read())) {
-				continue;
-			} else
-				return false;
-		}
-		return saveIns(r.getId(), r.getTask_id(), r.getContent(), r.getSend_id(), r.getSend_time());
+		return saveIns(r.getId(), r.getTask_id(), r.getContent(), r.getSend_id(), r.getSend_time(),
+				r.getType());
 	}
 
 	/**
@@ -95,17 +90,22 @@ public class TaskInsDao extends BaseDAO {
 	 * @param content
 	 * @param send_id
 	 * @param sendtime
+	 * @param type
+	 *            0,临时指令；1,通知消息
 	 * @return
 	 */
 	public boolean saveIns(String id, String planTaskId, String content, String send_id,
-			String sendtime) {
+			String sendtime, String type) {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID, id);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID, planTaskId);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT, content);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID, send_id);
+		if (Utils.dateIsFormat(sendtime))
+			sendtime = Utils.parseDateInFormat(sendtime);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME, sendtime);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE, type);
 		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS, null, values) > 0;
 	}
 
@@ -147,17 +147,22 @@ public class TaskInsDao extends BaseDAO {
 							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT),
 							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID),
 							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME),
-							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE)
-							));
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE)));
 		}
 		c.close();
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param taskInsId
+	 * 
+	 * @return
+	 */
 	public tb_task_instructions getTaskIns(String taskInsId) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS, null,
-				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID + " = ?", new String[] { taskInsId },
+				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID + " = ? ", new String[] { taskInsId },
 				null, null, null);
 		tb_task_instructions result = null;
 		if (c.moveToFirst()) {
@@ -166,8 +171,7 @@ public class TaskInsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT),
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME),
-					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE)
-					);
+					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE));
 		}
 		c.close();
 		return result;
@@ -222,5 +226,40 @@ public class TaskInsDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID, receive_id);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME, receive_time);
 		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null, values) > 0;
+	}
+
+	public List<tb_task_instructions> getMsg(String tid) {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS, null,
+				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID + " = ? and "
+						+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE + " = ?",
+				new String[] { tid, "1" }, null, null,
+				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME);
+		List<tb_task_instructions> result = new ArrayList<tb_task_instructions>();
+		while (c.moveToNext()) {
+			result.add(
+					new tb_task_instructions(getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID),
+							tid, getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT),
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID),
+							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME), "1"));
+		}
+		c.close();
+		return result;
+	}
+
+	public List<Node> getMsgReceivers(String tid) {
+		List<Node> result = new ArrayList<Node>();
+		tb_task_info taskInfo = new PlanTaskDao(c).getPlanTask(tid);
+		result.add(new Node(taskInfo.getResponsibility_user(), "", ""));
+		List<TB_SYS_Person> ps = new OrgDao(c).getPersons("1");
+		for (TB_SYS_Person tb_SYS_Person : ps) {
+			result.add(new Node(tb_SYS_Person.getId(), "", ""));
+		}
+		return result;
+	}
+
+	// TODO
+	public boolean saveMsg(String tid) {
+		return false;
 	}
 }

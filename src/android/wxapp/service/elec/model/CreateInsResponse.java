@@ -8,6 +8,7 @@ import android.wxapp.service.elec.model.bean.table.tb_task_instructions_receive;
 
 public class CreateInsResponse extends BaseResponseModel {
 	String id, task_id, content, send_id, send_time;
+	String type;
 	List<tb_task_instructions_receive> receivers;
 	List<tb_task_instructions_attachment> attachments;
 
@@ -59,6 +60,14 @@ public class CreateInsResponse extends BaseResponseModel {
 		this.receivers = receivers;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public List<tb_task_instructions_attachment> getAttachments() {
 		return attachments;
 	}
@@ -68,7 +77,7 @@ public class CreateInsResponse extends BaseResponseModel {
 	}
 
 	public CreateInsResponse(String s, String id, String task_id, String content, String send_id,
-			String send_time, List<tb_task_instructions_receive> receivers,
+			String send_time, String type, List<tb_task_instructions_receive> receivers,
 			List<tb_task_instructions_attachment> attachments) {
 		super(s);
 		this.id = id;
@@ -76,6 +85,7 @@ public class CreateInsResponse extends BaseResponseModel {
 		this.content = content;
 		this.send_id = send_id;
 		this.send_time = send_time;
+		this.type = type;
 		this.receivers = receivers;
 		this.attachments = attachments;
 	}

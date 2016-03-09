@@ -24,4 +24,16 @@ public class Utils {
 			return "";
 		}
 	}
+
+	public static boolean dateIsFormat(String s) {
+		try {
+			Long l = Long.parseLong(s);
+			if (l != null && l > 0)
+				return false;
+			else
+				return true;
+		} catch (Exception e) {
+			return true;
+		}
+	}
 }

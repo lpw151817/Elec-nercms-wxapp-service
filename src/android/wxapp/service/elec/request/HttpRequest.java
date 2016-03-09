@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.raw;
 import android.content.Context;
 import android.os.Message;
 import android.util.Log;
@@ -242,16 +243,19 @@ public class HttpRequest extends BaseRequest {
 	}
 
 	public JsonObjectRequest getCreateInsRequest(final Context c, List<Node> uids, String tid,
-			String text, List<Attachments> attachments) {
+			String text, List<Attachments> attachments, String type) {
 		// 如果为获取到用户的id，则直接返回
 		if (getUserId(c) == null || getUserIc(c) == null)
 			return null;
 		List<Uid> uidsList = new ArrayList<Uid>();
 		for (Node uid : uids) {
-			uidsList.add(new Uid(uid.getId().substring(1)));
+			if (type.equals("0"))
+				uidsList.add(new Uid(uid.getId().substring(1)));
+			else
+				uidsList.add(new Uid(uid.getId()));
 		}
 		CreateInsRequest ctr = new CreateInsRequest(getUserId(c), getUserIc(c), uidsList, tid, text,
-				attachments);
+				attachments, type);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATETASKINS_METHOD
 				+ Contants.CREATETASKINS_PARAM + parase2Json(ctr);
 		Log.e("URL", this.url);

@@ -13,6 +13,35 @@ public class OrgDao extends BaseDAO {
 		super(context);
 	}
 
+	/**
+	 * 
+	 * @param type
+	 *            0,现场负责人员；1,检查人员
+	 * @return
+	 */
+	public List<TB_SYS_Person> getPersons(String type) {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.query(DatabaseHelper.TB_PERSON, null,
+				DatabaseHelper.FIELD_PERSON_TYPE + " = ?", new String[] { type }, null, null, null);
+		List<TB_SYS_Person> result = new ArrayList<TB_SYS_Person>();
+		while (c.moveToNext()) {
+			result.add(new TB_SYS_Person(getData(c, DatabaseHelper.FIELD_PERSON_ID),
+					getData(c, DatabaseHelper.FIELD_PERSON_ALIAS),
+					getData(c, DatabaseHelper.FIELD_PERSON_ORG_CODE),
+					getData(c, DatabaseHelper.FIELD_PERSON_NAME),
+					getData(c, DatabaseHelper.FIELD_PERSON_CONTACT),
+					getData(c, DatabaseHelper.FIELD_PERSON_TYPE),
+					getData(c, DatabaseHelper.FIELD_PERSON_IDENTIFY_CODE),
+					getData(c, DatabaseHelper.FIELD_PERSON_REMARK),
+					getData(c, DatabaseHelper.FIELD_PERSON_IMSI),
+					getData(c, DatabaseHelper.FIELD_PERSON_FORCE_OFFLINE),
+					getData(c, DatabaseHelper.FIELD_PERSON_SEQUENCE),
+					getData(c, DatabaseHelper.FIELD_PERSON_UPDATE_TIME)));
+		}
+		c.close();
+		return result;
+	}
+
 	public TB_SYS_Person getPerson(String pid) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_PERSON, null, DatabaseHelper.FIELD_PERSON_ID + " = ?",

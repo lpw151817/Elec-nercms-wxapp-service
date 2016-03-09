@@ -43,10 +43,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String SQL_PERSON_CREATE_TABLE = "create table " + TB_PERSON + " ("
 			+ FIELD_PERSON_ID + " integer primary key autoincrement, " + FIELD_PERSON_ALIAS
 			+ " text," + FIELD_PERSON_ORG_CODE + " text," + FIELD_PERSON_NAME + " text,"
-			+ FIELD_PERSON_CONTACT + " text," + FIELD_PERSON_TYPE + " text,"+ FIELD_PERSON_IDENTIFY_CODE + " text,"
-			+ FIELD_PERSON_REMARK + " text," + FIELD_PERSON_IMSI + " text,"
-			+ FIELD_PERSON_FORCE_OFFLINE + " text," + FIELD_PERSON_SEQUENCE + " text,"
-			+ FIELD_PERSON_UPDATE_TIME + " text)";
+			+ FIELD_PERSON_CONTACT + " text," + FIELD_PERSON_TYPE + " text,"
+			+ FIELD_PERSON_IDENTIFY_CODE + " text," + FIELD_PERSON_REMARK + " text,"
+			+ FIELD_PERSON_IMSI + " text," + FIELD_PERSON_FORCE_OFFLINE + " text,"
+			+ FIELD_PERSON_SEQUENCE + " text," + FIELD_PERSON_UPDATE_TIME + " text)";
 
 	public static final String TB_ROLE = "TB_SYS_Role";
 	public static final String FIELD_ROLE_ID = "id";
@@ -147,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASKINFO_UPDATE_ID = "update_id";
 	public static final String FIELD_TASKINFO_UPDATE_TIME = "update_time";
 	public static final String FIELD_TASKINFO_HISTORY_ID = "history_id";
-	
+
 	public static final String SQL_TASK_CREATE_TABLE = "create table " + TB_TASK + " ("
 			+ FIELD_TASKINFO_ID + " integer primary key autoincrement, " + FIELD_TASKINFO_WEATHER
 			+ " text," + FIELD_TASKINFO_NAME + " text," + FIELD_TASKINFO_POWER_CUT_RANGE + " text,"
@@ -165,8 +165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ " text," + FIELD_TASKINFO_CREATOR_TIME + " text," + FIELD_TASKINFO_IS_KEEP + " text,"
 			+ FIELD_TASKINFO_LEADER_ID + " text," + FIELD_TASKINFO_STATUS + " text,"
 			+ FIELD_TASKINFO_EXAMINE_ID + " text," + FIELD_TASKINFO_IMPLEMENT_ORG_ID + " text,"
-			+ FIELD_TASKINFO_APPROVE_ID + " text," + FIELD_TASKINFO_UPDATE_ID + " text,"+ FIELD_TASKINFO_HISTORY_ID + " text,"
-			+ FIELD_TASKINFO_UPDATE_TIME + " text)";
+			+ FIELD_TASKINFO_APPROVE_ID + " text," + FIELD_TASKINFO_UPDATE_ID + " text,"
+			+ FIELD_TASKINFO_HISTORY_ID + " text," + FIELD_TASKINFO_UPDATE_TIME + " text)";
 
 	public static final String TB_TASK_STANDARD = "tb_task_standard";
 	public static final String FIELD_TASK_STANDARD_ID = "id";
@@ -219,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ TB_TASK_INSTRUCTIONS + " (" + FIELD_TASK_INSTRUCTIONS_ID
 			+ " integer primary key autoincrement, " + FIELD_TASK_INSTRUCTIONS_TASK_ID + " text,"
 			+ FIELD_TASK_INSTRUCTIONS_CONTENT + " text," + FIELD_TASK_INSTRUCTIONS_SEND_ID
-			+ FIELD_TASK_INSTRUCTIONS_TYPE + " text," + " text," + FIELD_TASK_INSTRUCTIONS_SEND_TIME
+			+ " text," + FIELD_TASK_INSTRUCTIONS_TYPE + " text," + FIELD_TASK_INSTRUCTIONS_SEND_TIME
 			+ " text)";
 
 	public static final String TB_TASK_INSTRUCTIONS_RECEIVE = "tb_task_instructions_receive";

@@ -15,31 +15,25 @@ public class CreateInsRequest extends BaseRequestModel {
 
 	List<Attachments> attachments;
 
-	
+	String type;
 
-
-	public CreateInsRequest(String uid, String ic, List<Uid> uids, String tid,
-			String text, List<Attachments> attachments) {
+	public CreateInsRequest(String uid, String ic, List<Uid> uids, String tid, String text,
+			List<Attachments> attachments, String type) {
 		super(uid, ic);
 		this.uids = uids;
 		this.tid = tid;
 		this.text = text;
 		this.attachments = attachments;
+		this.type = type;
 	}
-	
-	
 
 	public String getTid() {
 		return tid;
 	}
 
-
-
 	public void setTid(String tid) {
 		this.tid = tid;
 	}
-
-
 
 	public CreateInsRequest() {
 		super();
@@ -69,5 +63,4 @@ public class CreateInsRequest extends BaseRequestModel {
 		this.attachments = attachments;
 	}
 
-	
 }

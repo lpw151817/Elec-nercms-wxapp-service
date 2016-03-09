@@ -66,9 +66,18 @@ public class WebRequestManager {
 				implement_org, number, remark));
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @param uids
+	 * @param tid
+	 * @param text
+	 * @param attachments
+	 * @param type 0,临时指令；1,通知消息
+	 */
 	public void createInsRequest(Context c, List<Node> uids, String tid, String text,
-			List<Attachments> attachments) {
-		queue.add(httpRequest.getCreateInsRequest(c, uids, tid, text, attachments));
+			List<Attachments> attachments, String type) {
+		queue.add(httpRequest.getCreateInsRequest(c, uids, tid, text, attachments, type));
 	}
 
 	public void uploadTaskAttachment(Context c, String tid, String type,
