@@ -244,15 +244,13 @@ public class PlanTaskDao extends BaseDAO {
 				sql.append(DatabaseHelper.FIELD_TASKINFO_CATEGORY + " = '"
 						+ taskLeibieInt2String(renwuleibie) + "'");
 				if (!TextUtils.isEmpty(uid)) {
-					String name = new OrgDao(c).getPerson(uid).getName();
 					sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER + " = '"
-							+ name + "'");
+							+ uid + "'");
 				}
 			} else {
 				if (!TextUtils.isEmpty(uid)) {
-					String name = new OrgDao(c).getPerson(uid).getName();
 					sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER + " = '"
-							+ name + "'");
+							+ uid + "'");
 				}
 			}
 		}
