@@ -119,7 +119,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASKINFO_EFFECT_EARA = "effect_eara";
 	public static final String FIELD_TASKINFO_CONTENT = "content";
 	public static final String FIELD_TASKINFO_RESPONSIBILITY_USER = "responsibility_user";
-	public static final String FIELD_TASKINFO_RESPONSIBILITY_USER_ID = "responsibility_user_id";// 新增
 	public static final String FIELD_TASKINFO_PLAN_START_TIME = "plan_start_time";
 	public static final String FIELD_TASKINFO_PLAN_END_TIME = "plan_end_time";
 	public static final String FIELD_TASKINFO_START_TIME = "start_time";
@@ -128,13 +127,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASKINFO_IS_PUBLISH = "is_publish";
 	public static final String FIELD_TASKINFO_SPECIAL = "special";
 	public static final String FIELD_TASKINFO_LEADER = "leader";
-	public static final String FIELD_TASKINFO_LEADER_ID = "leader_id";// 新增
 	public static final String FIELD_TASKINFO_MEASURES = "measures";
 	public static final String FIELD_TASKINFO_DOMAIN = "domain";
 	public static final String FIELD_TASKINFO_IS_POWER_CUT = "is_power_cut";
 	public static final String FIELD_TASKINFO_CUT_TYPE = "cut_type";
 	public static final String FIELD_TASKINFO_IMPLEMENT_ORG = "implement_org";
-	public static final String FIELD_TASKINFO_IMPLEMENT_ORG_ID = "implement_org_id";// 新增
 	public static final String FIELD_TASKINFO_NUMBER = "number";
 	public static final String FIELD_TASKINFO_REMARK = "remark";
 	public static final String FIELD_TASKINFO_PLAN_TYPE = "plan_type";
@@ -161,12 +158,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASKINFO_CUT_TYPE + " text," + FIELD_TASKINFO_IMPLEMENT_ORG + " text,"
 			+ FIELD_TASKINFO_NUMBER + " text," + FIELD_TASKINFO_REMARK + " text,"
 			+ FIELD_TASKINFO_TASK_CODE + " text," + FIELD_TASKINFO_PLAN_TYPE + " text,"
-			+ FIELD_TASKINFO_CREATOR_ID + " text," + FIELD_TASKINFO_RESPONSIBILITY_USER_ID
-			+ " text," + FIELD_TASKINFO_CREATOR_TIME + " text," + FIELD_TASKINFO_IS_KEEP + " text,"
-			+ FIELD_TASKINFO_LEADER_ID + " text," + FIELD_TASKINFO_STATUS + " text,"
-			+ FIELD_TASKINFO_EXAMINE_ID + " text," + FIELD_TASKINFO_IMPLEMENT_ORG_ID + " text,"
-			+ FIELD_TASKINFO_APPROVE_ID + " text," + FIELD_TASKINFO_UPDATE_ID + " text,"
-			+ FIELD_TASKINFO_HISTORY_ID + " text," + FIELD_TASKINFO_UPDATE_TIME + " text)";
+			+ FIELD_TASKINFO_CREATOR_ID + " text," + FIELD_TASKINFO_CREATOR_TIME + " text,"
+			+ FIELD_TASKINFO_IS_KEEP + " text," + FIELD_TASKINFO_STATUS + " text,"
+			+ FIELD_TASKINFO_EXAMINE_ID + " text," + FIELD_TASKINFO_APPROVE_ID + " text,"
+			+ FIELD_TASKINFO_UPDATE_ID + " text," + FIELD_TASKINFO_HISTORY_ID + " text,"
+			+ FIELD_TASKINFO_UPDATE_TIME + " text)";
 
 	public static final String TB_TASK_STANDARD = "tb_task_standard";
 	public static final String FIELD_TASK_STANDARD_ID = "id";

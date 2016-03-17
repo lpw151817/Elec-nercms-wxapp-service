@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract.Contacts.Data;
 import android.text.TextUtils;
+import android.util.Log;
 import android.wxapp.service.elec.model.UploadTaskAttachmentResponse;
 import android.wxapp.service.elec.model.bean.table.tb_gps_history;
 import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
@@ -40,10 +41,11 @@ public class PlanTaskDao extends BaseDAO {
 	public boolean changeTaskTime(boolean isStart, String tid, String time) {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		if (isStart)
+		if (isStart) {
 			values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, time);
-		else
+		} else {
 			values.put(DatabaseHelper.FIELD_TASKINFO_END_TIME, time);
+		}
 		return db.update(DatabaseHelper.TB_TASK, values, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
 				new String[] { tid }) > 0;
 	}
@@ -257,10 +259,44 @@ public class PlanTaskDao extends BaseDAO {
 		}
 
 		sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE + " = " + planType);
-		if (!TextUtils.isEmpty(status))
-			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS + " = " + status);
+		if (!TextUtils.isEmpty(status)) {
+			// 新任务
+			if (status.equals("0")) {
+				// sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS + "
+				// = " + status);
+				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is null");
+			}
+			// 执行中
+			else if (status.equals("1")) {
+				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null and "
+						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null and "
+						+ DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " < "
+						+ System.currentTimeMillis() + " and "
+						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " > "
+						+ System.currentTimeMillis());
+			}
+			// 延误的
+			else if (status.equals("2")) {
+				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null and "
+						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null and "
+						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " < "
+						+ System.currentTimeMillis());
+			}
+			// 完成
+			else if (status.equals("3")) {
+				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null and "
+						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is not null");
+
+			}
+			// 取消
+			else if (status.equals("4")) {
+				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS + " = 4");
+			}
+		}
+
 		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME + " desc");
 
+		Log.e(getClass().getSimpleName() + ">>>>>>>", sql.toString());
 		Cursor c = db.rawQuery(sql.toString(), null);
 		List<tb_task_info> result = new ArrayList<tb_task_info>();
 		while (c.moveToNext()) {
