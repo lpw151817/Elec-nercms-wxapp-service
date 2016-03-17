@@ -63,6 +63,27 @@ public class OrgDao extends BaseDAO {
 			return null;
 	}
 
+	public Org getOrg(String orgcode) {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.query(DatabaseHelper.TB_ORG, null, DatabaseHelper.FIELD_ORG_ORG_CODE + " = ?",
+				new String[] { orgcode }, null, null, null);
+		try {
+			if (c.moveToFirst()) {
+				String name = getData(c, DatabaseHelper.FIELD_ORG_ORG_NAME);
+				String org_code = getData(c, DatabaseHelper.FIELD_ORG_ORG_CODE);
+				if (org_code.length() == 1)
+					return new Org("o" + org_code, 0 + "", name);
+				else
+					return new Org("o" + org_code,
+							"o" + org_code.substring(0, org_code.length() - 1), name);
+			}
+			return null;
+		} finally {
+			c.close();
+		}
+
+	}
+
 	// /////////////////以下用于组织结构树使用//////////////////////////
 	public List<Org> getOrg2() {
 		List<Org> result = new ArrayList<Org>();
