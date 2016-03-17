@@ -178,7 +178,7 @@ public class PlanTaskDao extends BaseDAO {
 		OrgDao orgDao = new OrgDao(c);
 		// 暂时只存第一个
 		values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER,
-				orgDao.getPerson(responsibility_user.get(0).getId().substring(1)).getName());
+				responsibility_user.get(0).getId().substring(1));
 		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME, (plan_start_time));
 		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, (plan_end_time));
 		values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
@@ -215,6 +215,7 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_IS_KEEP, is_keep);
 		values.put(DatabaseHelper.FIELD_TASKINFO_STATUS, status);
 		values.put(DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID, examine_id);
+		values.put(DatabaseHelper.FIELD_TASKINFO_STATUS, "0");
 		values.put(DatabaseHelper.FIELD_TASKINFO_APPROVE_ID, approve_id);
 
 		return db.insert(DatabaseHelper.TB_TASK, null, values) > 0;

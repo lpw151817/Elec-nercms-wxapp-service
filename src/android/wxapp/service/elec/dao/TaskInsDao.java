@@ -135,22 +135,40 @@ public class TaskInsDao extends BaseDAO {
 		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null, values) > 0;
 	}
 
-	public List<tb_task_instructions> getAllIns() {
+	/**
+	 * 
+	 * @param uid
+	 * @param isRead
+	 *            £¨0-Î´¶Á£»1-ÒÑ¶Á£©
+	 * @return
+	 */
+	public List<tb_task_instructions_receive> getAllIns(String uid, String isRead) {
 		db = dbHelper.getReadableDatabase();
-		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS, null, null, null, null, null,
-				null);
-		List<tb_task_instructions> result = new ArrayList<tb_task_instructions>();
+		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null,
+				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID + " = ? and "
+						+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ + " = ?",
+				new String[] { uid, isRead }, null, null, null);
+		List<tb_task_instructions_receive> result = new ArrayList<tb_task_instructions_receive>();
 		while (c.moveToNext()) {
-			result.add(
-					new tb_task_instructions(getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID),
-							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID),
-							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT),
-							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID),
-							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME),
-							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE)));
+			result.add(new tb_task_instructions_receive(
+					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_INSTRUCTIONS_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME),
+					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ)));
 		}
 		c.close();
 		return result;
+	}
+
+	public boolean changeInsReadStatue(String uid, String insId, String isRead) {
+		db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ, isRead);
+		return db.update(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, values,
+				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID + " = ? and "
+						+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ + " = ?",
+				new String[] { uid, isRead }) > 0;
 	}
 
 	/**
@@ -162,8 +180,10 @@ public class TaskInsDao extends BaseDAO {
 	public tb_task_instructions getTaskIns(String taskInsId) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS, null,
-				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID + " = ? ", new String[] { taskInsId },
-				null, null, null);
+				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID + " = ? and "
+						+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE + " = ?",
+				new String[] { taskInsId, "0" }, null, null,
+				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME);
 		tb_task_instructions result = null;
 		if (c.moveToFirst()) {
 			result = new tb_task_instructions(getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID),
