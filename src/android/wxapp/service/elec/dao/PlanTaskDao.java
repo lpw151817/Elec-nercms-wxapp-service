@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract.Contacts.Data;
 import android.text.TextUtils;
 import android.util.Log;
+import android.wxapp.service.elec.model.StartTaskRequest;
 import android.wxapp.service.elec.model.UploadTaskAttachmentResponse;
 import android.wxapp.service.elec.model.bean.table.tb_gps_history;
 import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
@@ -183,8 +184,10 @@ public class PlanTaskDao extends BaseDAO {
 				responsibility_user.get(0).getId().substring(1));
 		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME, (plan_start_time));
 		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, (plan_end_time));
-		values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
-		values.put(DatabaseHelper.FIELD_TASKINFO_END_TIME, end_time);
+		if (!TextUtils.isEmpty(start_time))
+			values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
+		if (!TextUtils.isEmpty(end_time))
+			values.put(DatabaseHelper.FIELD_TASKINFO_END_TIME, end_time);
 		values.put(DatabaseHelper.FIELD_TASKINFO_CATEGORY, category);
 		if (is_publish.equals("false"))
 			values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, "0");
@@ -264,12 +267,15 @@ public class PlanTaskDao extends BaseDAO {
 			if (status.equals("0")) {
 				// sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS + "
 				// = " + status);
-				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is null");
+				sql.append(" and (" /*+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " = \'\' or "*/
+						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is null)");
 			}
 			// 执行中
 			else if (status.equals("1")) {
-				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null and "
-						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null and "
+				sql.append(" and (" /*+DatabaseHelper.FIELD_TASKINFO_START_TIME + " != \'\' or "*/
+						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null ) and ("
+						/*+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " = \'\' or "*/
+						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null ) and "
 						+ DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " < "
 						+ System.currentTimeMillis() + " and "
 						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " > "
@@ -277,16 +283,19 @@ public class PlanTaskDao extends BaseDAO {
 			}
 			// 延误的
 			else if (status.equals("2")) {
-				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null and "
-						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null and "
+				sql.append(" and (" /*+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " != \'\' or "*/
+						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null) and ("
+						/*+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " = \'\' or "*/
+						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null) and "
 						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " < "
 						+ System.currentTimeMillis());
 			}
 			// 完成
 			else if (status.equals("3")) {
-				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null and "
-						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is not null");
-
+				sql.append(" and (" /*+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " != \'\' or "*/
+						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null) and ("
+						/*+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " = \'\' or "*/
+						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is not null)");
 			}
 			// 取消
 			else if (status.equals("4")) {
