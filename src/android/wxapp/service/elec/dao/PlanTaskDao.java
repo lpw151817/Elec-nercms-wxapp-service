@@ -268,11 +268,13 @@ public class PlanTaskDao extends BaseDAO {
 				// sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS + "
 				// = " + status);
 				sql.append(" and (" /*+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " = \'\' or "*/
-						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is null) and "+
-						 DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " < "
-							+ System.currentTimeMillis() + " and "
-							+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " > "
-							+ System.currentTimeMillis());
+						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is null) "
+//								+ "and "+
+//						 DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " < "
+//							+ System.currentTimeMillis() + " and "
+//							+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " > "
+//							+ System.currentTimeMillis()
+						);
 						
 			}
 			// Ö´ÐÐÖÐ
