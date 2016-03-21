@@ -32,6 +32,7 @@ import android.wxapp.service.elec.model.bean.Leader;
 import android.wxapp.service.elec.model.bean.TaskAttachment;
 import android.wxapp.service.elec.model.bean.Uid;
 import android.wxapp.service.elec.dao.GpsDao;
+import android.wxapp.service.elec.dao.OrgDao;
 import android.wxapp.service.elec.dao.PlanTaskDao;
 import android.wxapp.service.elec.dao.TaskInsDao;
 import android.wxapp.service.elec.dao.UpdateDao;
@@ -184,11 +185,12 @@ public class HttpRequest extends BaseRequest {
 			Leader item = new Leader(node.getId().substring(1));
 			ysgdwld.add(item);
 		}
-
+		final String implement_org_Id = new OrgDao(c)
+				.getIdFromOc(implement_org.getId().substring(1));
 		CreatePlanTaskRequest cptr = new CreatePlanTaskRequest(getUserId(c), getUserIc(c), weather,
 				name, power_cut_range, effect_eara, content, gzfzr, plan_start_time, plan_end_time,
 				category, is_publish + "", special, ysgdwld, measures, domain, is_power_cut + "",
-				cut_type, implement_org.getId().substring(1), number, remark);
+				cut_type, implement_org_Id, number, remark);
 
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATEPLANTASK_METHOD
 				+ Contants.CREATEPLANTASK_PARAM + parase2Json(cptr);
@@ -202,14 +204,12 @@ public class HttpRequest extends BaseRequest {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
 						CreatePlanTaskResponse r = gson.fromJson(arg0.toString(),
 								CreatePlanTaskResponse.class);
-
 						if (new PlanTaskDao(c).savePlanTask(r.getTid(), weather, name,
 								power_cut_range, effect_eara, content, responsibility_user,
 								plan_start_time, plan_end_time, "", "", category, is_publish + "",
 								special, leader, measures, domain, is_power_cut + "", cut_type,
-								implement_org.getId().substring(1), number, remark, "",
-								getUserId(c), System.currentTimeMillis() + "", "", "", "", "", "",
-								"")) {
+								implement_org_Id, number, remark, "", getUserId(c),
+								System.currentTimeMillis() + "", "", "", "", "", "", "")) {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.CREATE_TASK_SUCCESS, r,
 									CreatePlanTaskResponse.class.getName());

@@ -13,6 +13,18 @@ public class OrgDao extends BaseDAO {
 		super(context);
 	}
 
+	public String getIdFromOc(String oc) {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.query(DatabaseHelper.TB_ORG, null, DatabaseHelper.FIELD_ORG_ORG_CODE + " = ?",
+				new String[] { oc }, null, null, null);
+		String result = null;
+		if (c.moveToFirst()) {
+			result = getData(c, DatabaseHelper.FIELD_ORG_ID);
+		}
+		c.close();
+		return result;
+	}
+
 	/**
 	 * 
 	 * @param type
@@ -63,10 +75,10 @@ public class OrgDao extends BaseDAO {
 			return null;
 	}
 
-	public Org getOrg(String orgcode) {
+	public Org getOrg(String id) {
 		db = dbHelper.getReadableDatabase();
-		Cursor c = db.query(DatabaseHelper.TB_ORG, null, DatabaseHelper.FIELD_ORG_ORG_CODE + " = ?",
-				new String[] { orgcode }, null, null, null);
+		Cursor c = db.query(DatabaseHelper.TB_ORG, null, DatabaseHelper.FIELD_ORG_ID + " = ?",
+				new String[] { id }, null, null, null);
 		try {
 			if (c.moveToFirst()) {
 				String name = getData(c, DatabaseHelper.FIELD_ORG_ORG_NAME);
