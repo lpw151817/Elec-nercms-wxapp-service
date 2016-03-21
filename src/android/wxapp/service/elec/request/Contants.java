@@ -18,15 +18,15 @@ public class Contants {
 			+ "/ScheduleFileServer";
 
 	// TIP：所有的url结尾均带/
-//	 public static final String SERVER = "121.40.145.178";
-//	 public static final String PORT = "8080";
+	public static final String SERVER = "121.40.145.178";
+	public static final String PORT = "8080";
 	// public static final String SERVER = "192.168.101.244";
 	// public static final String PORT = "9003";
-	public static final String SERVER = "192.168.101.122";
-	public static final String PORT = "8080";
+	// public static final String SERVER = "192.168.101.122";
+	// public static final String PORT = "8080";
 
-//	public static final String MQTT_SERVER = SERVER;
-//	public static final String MQTT_PORT = "1883";
+	// public static final String MQTT_SERVER = SERVER;
+	// public static final String MQTT_PORT = "1883";
 	public static final String MQTT_SERVER = "120.26.78.7";
 	public static final String MQTT_PORT = "1883";
 

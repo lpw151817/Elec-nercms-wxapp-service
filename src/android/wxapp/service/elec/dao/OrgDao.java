@@ -1,7 +1,9 @@
 package android.wxapp.service.elec.dao;
 
+import java.security.interfaces.RSAKey;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -22,6 +24,14 @@ public class OrgDao extends BaseDAO {
 			result = getData(c, DatabaseHelper.FIELD_ORG_ID);
 		}
 		c.close();
+		return result;
+	}
+
+	public List<Org> convert(List<TB_SYS_Person> data) {
+		List<Org> result = new ArrayList<Org>();
+		for (TB_SYS_Person tb_SYS_Person : data) {
+			result.add(new Org("p" + tb_SYS_Person.getId(), "", tb_SYS_Person.getName()));
+		}
 		return result;
 	}
 
