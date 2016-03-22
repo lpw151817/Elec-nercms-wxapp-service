@@ -31,7 +31,7 @@ public class TaskInsDao extends BaseDAO {
 	}
 
 	public String getTaskId(String taskInsId) {
-		return getTaskIns(taskInsId).getTask_id();
+		return getTaskIns(taskInsId, "1").getTask_id();
 	}
 
 	public boolean saveTaskIns(String planTaskId, String taskInsId, String uids_s, String text,
@@ -179,7 +179,7 @@ public class TaskInsDao extends BaseDAO {
 		List<tb_task_instructions> reslut = new ArrayList<tb_task_instructions>();
 		for (tb_task_instructions_receive tb_task_instructions_receive : data) {
 			tb_task_instructions temp = getTaskIns(
-					tb_task_instructions_receive.getInstructions_id());
+					tb_task_instructions_receive.getInstructions_id(), "0");
 			if (temp != null)
 				reslut.add(temp);
 			else
@@ -191,15 +191,16 @@ public class TaskInsDao extends BaseDAO {
 	/**
 	 * 
 	 * @param taskInsId
-	 * 
+	 * @param type
+	 *            0:通知 1：消息
 	 * @return
 	 */
-	public tb_task_instructions getTaskIns(String taskInsId) {
+	public tb_task_instructions getTaskIns(String taskInsId, String type) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS, null,
 				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID + " = ? and "
 						+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE + " = ?",
-				new String[] { taskInsId, "0" }, null, null,
+				new String[] { taskInsId, type }, null, null,
 				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME);
 		tb_task_instructions result = null;
 		if (c.moveToFirst()) {
