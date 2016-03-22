@@ -16,6 +16,7 @@ import android.wxapp.service.jerry.model.affair.CreateTaskRequestIds;
 import android.wxapp.service.jerry.model.conference.ConferenceUpdateQueryResponseRids;
 import android.wxapp.service.jerry.model.feedback.TaskFeedbackRequestIds;
 import android.wxapp.service.jerry.model.group.GroupUpdateQueryRequestIds;
+import android.wxapp.service.jerry.model.mqtt.MqttResponse;
 import android.wxapp.service.jerry.model.person.GetPersonInfoRequest;
 import android.wxapp.service.model.AffairModel;
 import android.wxapp.service.model.CustomerContactModel;
@@ -73,7 +74,8 @@ public class WebRequestManager {
 	 * @param tid
 	 * @param text
 	 * @param attachments
-	 * @param type 0,临时指令；1,通知消息
+	 * @param type
+	 *            0,临时指令；1,通知消息
 	 */
 	public void createInsRequest(Context c, List<Node> uids, String tid, String text,
 			List<Attachments> attachments, String type) {
@@ -95,5 +97,9 @@ public class WebRequestManager {
 
 	public void deleteTask(Context c, String tid) {
 		queue.add(httpRequest.deleteTask(c, tid));
+	}
+
+	public void mqttUpdate(Context c, MqttResponse response) {
+		queue.add(httpRequest.mqttUpdateRequest(c, response));
 	}
 }

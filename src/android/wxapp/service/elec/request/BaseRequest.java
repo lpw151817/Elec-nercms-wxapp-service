@@ -35,8 +35,7 @@ public class BaseRequest {
 	}
 
 	protected void saveLastUpdateTime(Context c) {
-		MySharedPreference.save(c, MySharedPreference.LAST_UPDATE_ORGCODE_TIMESTAMP,
-				System.currentTimeMillis() + "");
+		saveLastUpdateTime(c, (System.currentTimeMillis() + 1000) + "");
 	}
 
 	protected void saveLastUpdateTime(Context c, String time) {

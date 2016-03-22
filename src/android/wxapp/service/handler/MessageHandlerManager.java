@@ -47,6 +47,10 @@ public class MessageHandlerManager {
 		Log.i("handler register", "what:" + what + "\t className:" + className);
 	}
 
+	public boolean hasRegister(Handler h, int what, String className) {
+		return messageHandlerList.exist(h, what, className);
+	}
+
 	// 注销已what为消息标识的Registrant对象
 	public void unregister(int what) {
 		messageHandlerList.remove(what);
