@@ -1,5 +1,6 @@
 package android.wxapp.service.elec.request;
 
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import android.content.Context;
@@ -15,7 +16,9 @@ public class BaseRequest {
 	protected String url;
 
 	protected String parase2Json(Object o) {
-		return URLEncoder.encode(gson.toJson(o));
+		String encode = URLEncoder.encode(gson.toJson(o));
+		Log.e("BaseRequest", (URLDecoder.decode(encode).equals(gson.toJson(o))) + "");
+		return encode;
 	}
 
 	public void showError(String s) {
