@@ -92,6 +92,12 @@ public class AppApplication extends Application {
 		return getInstance();
 	}
 
+	@Override
+	public void onTerminate() {
+		// TODO Auto-generated method stub
+		super.onTerminate();
+	}
+
 	// 2014-6-24
 	public class CrashReportSender implements ReportSender {
 		private static final String TAG = "CrashReportSender";

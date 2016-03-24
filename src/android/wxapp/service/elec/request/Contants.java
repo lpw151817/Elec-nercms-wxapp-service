@@ -9,26 +9,25 @@ import java.io.File;
  *
  */
 public class Contants {
+	// TIP：所有的url结尾均带/
+	// public static final String SERVER = "121.40.145.178";
+	// public static final String PORT = "8080";
+	public static final String SERVER = "58.50.28.139";
+	public static final String PORT = "8080";
 
-	public static final String HFS_SERVER = "120.26.78.7";
-	public static final String HFS_PORT = "3000";
-	// private static final String HFS_SERVER = "192.168.101.244";
-	// private static final String HFS_PORT = "9898";
+	public static final String HFS_SERVER = SERVER;
+	public static final String HFS_PORT = "9898";
 	public static final String HFS_URL = "http://" + HFS_SERVER + ":" + HFS_PORT
 			+ "/ScheduleFileServer";
 
-	// TIP：所有的url结尾均带/
-	public static final String SERVER = "121.40.145.178";
-	public static final String PORT = "8080";
-	// public static final String SERVER = "192.168.101.244";
-	// public static final String PORT = "9003";
-	// public static final String SERVER = "192.168.101.122";
-	// public static final String PORT = "8080";
-
-	// public static final String MQTT_SERVER = SERVER;
-	// public static final String MQTT_PORT = "1883";
-	public static final String MQTT_SERVER = "120.26.78.7";
+	public static final String MQTT_SERVER = SERVER;
 	public static final String MQTT_PORT = "1883";
+	// public static final String MQTT_SERVER = "120.26.78.7";
+	// public static final String MQTT_PORT = "1883";
+
+	public static final String SCHEDULE_SERVER_WAN = SERVER;
+	public static final String SCHEDULE_SERVER_LAN = "192.168.0.208";
+	public static final int SCHEDULE_PORT = 5060;
 
 	public static final String SERVER_URL = "http://" + SERVER + ":" + PORT + File.separator;
 
