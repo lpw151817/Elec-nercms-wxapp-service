@@ -48,7 +48,7 @@ public class MessageHandlerManager {
 	}
 
 	public boolean hasRegister(Handler h, int what, String className) {
-		return messageHandlerList.exist(h, what, className);
+		return messageHandlerList.exist(h, what, className) > -1;
 	}
 
 	// 注销已what为消息标识的Registrant对象

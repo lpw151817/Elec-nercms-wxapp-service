@@ -13,6 +13,10 @@ public class MessageHandler {
 		this.what = what;
 		this.className = name;
 	}
+	
+	public Handler getHandler() {
+		return handler;
+	}
 
 	@Override
 	protected void finalize() {

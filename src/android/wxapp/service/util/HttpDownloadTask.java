@@ -65,7 +65,7 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 
 		// _download_receiver = new DownloadCompleteReceiver();
 
-		Toast.makeText(context, "准备下载", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(context, "准备下载", Toast.LENGTH_SHORT).show();
 	}
 
 	private void delete_old_file(String filepath, String filename) {
@@ -185,7 +185,7 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 			// 2014-5-28 通知相应的页面刷新显示
 			MessageHandlerManager.getInstance().sendMessage(Constant.FILE_DOWNLOAD_SUCCESS, mediaName,
 					context.getClass().getSimpleName());
-			Toast.makeText(context, "下载完成", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(context, "下载完成", Toast.LENGTH_SHORT).show();
 			
 		} else {
 			MessageHandlerManager.getInstance().sendMessage(Constant.FILE_DOWNLOAD_FAIL,

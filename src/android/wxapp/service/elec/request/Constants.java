@@ -1,5 +1,7 @@
 package android.wxapp.service.elec.request;
 
+import android.wxapp.service.AppApplication;
+
 public class Constants {
 	// «Î«Û≥…π¶
 	public static final int LOGIN_SUCCESS = 100;
@@ -33,7 +35,7 @@ public class Constants {
 	public static final int DELETE_TASK_SUCCESS = 120;
 	public static final int DELETE_TASK_FAIL = 121;
 	public static final int DELETE_TASK_SAVE_FAIL = 122;
-	
-	public static final int MQTT_UPDATE_SUCCESS=123;
-	public static final int MQTT_UPDATE_FAIL=124;
+
+	public static final int MQTT_UPDATE_SUCCESS = 123;
+	public static final int MQTT_UPDATE_FAIL = 124;
 }

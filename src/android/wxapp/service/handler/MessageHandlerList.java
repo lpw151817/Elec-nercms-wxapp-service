@@ -2,6 +2,7 @@ package android.wxapp.service.handler;
 
 import java.util.ArrayList;
 import android.os.Handler;
+import android.util.Log;
 
 public class MessageHandlerList {
 	private ArrayList<MessageHandler> messageHandlerList = new ArrayList<MessageHandler>();
@@ -11,12 +12,12 @@ public class MessageHandlerList {
 	}
 
 	/** 对应MessageHandler是否已添加 */
-	protected synchronized boolean exist(Handler handler, int what, String name) {
+	protected synchronized int exist(Handler handler, int what, String name) {
 		for (int i = 0; i < messageHandlerList.size(); i++) {
 			if (messageHandlerList.get(i).valueEqual(handler, what, name))
-				return true;
+				return i;
 		}
-		return false;
+		return -1;
 	}
 
 	/** 对应MessageHandler是否已添加 */
@@ -30,9 +31,10 @@ public class MessageHandlerList {
 
 	/** 添加新成员 */
 	public synchronized void add(Handler handler, int what, String className) {
-		if (!exist(handler, what, className))
-			messageHandlerList
-					.add(new MessageHandler(handler, what, className));
+		int i = exist(handler, what, className);
+		if (i > -1)
+			messageHandlerList.remove(i);
+		messageHandlerList.add(new MessageHandler(handler, what, className));
 	}
 
 	/** 根据what删除成员 */
@@ -62,14 +64,15 @@ public class MessageHandlerList {
 	}
 
 	/** 根据类名className和消息标志what，通知相应的类处理消息，若className为空，则只匹配what */
-	public synchronized void sendMessage(int what, int arg1, int arg2,
-			Object obj, String className) {
+	public synchronized void sendMessage(int what, int arg1, int arg2, Object obj,
+			String className) {
 		for (int i = 0; i < messageHandlerList.size(); i++) {
 			MessageHandler messageHandler = messageHandlerList.get(i);
 			if (messageHandler.getMessageWhat() == what
 					&& ((className.equals("") || className == null) ? true
 							: messageHandler.getClassName().equals(className))) {
 				messageHandler.sendMessage(arg1, arg2, obj);
+				Log.v("Demo", "send message:" + messageHandler.getHandler().toString());
 			}
 		}
 	}
