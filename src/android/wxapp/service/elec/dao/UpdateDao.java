@@ -616,6 +616,24 @@ public class UpdateDao extends BaseDAO {
 			} else if (bean instanceof tb_task_instructions) {
 				if (containsIns(bean))
 					deleteIns(bean);
+			} else if (bean instanceof TB_SYS_Role) {
+				if (containsRole(bean))
+					deleteRole(bean);
+			} else if (bean instanceof TB_SYS_Person) {
+				if (containsOrgPerson(bean))
+					deleteOrgPerson(bean);
+			} else if (bean instanceof TB_SYS_ORG) {
+				if (containsOrg(bean))
+					deleteOrg(bean);
+			} else if (bean instanceof tb_gps_history) {
+				if (containsGpsHistory(bean))
+					deleteGpsHistory(bean);
+			} else if (bean instanceof tb_task_attachment) {
+				if (containsAtt(bean))
+					deleteAtt(bean);
+			} else if (bean instanceof tb_task_instructions_attachment) {
+				if (containsInsAtt(bean))
+					deleteInsAtt(bean);
 			}
 
 			db = dbHelper.getWritableDatabase();
