@@ -265,44 +265,28 @@ public class PlanTaskDao extends BaseDAO {
 		if (!TextUtils.isEmpty(status)) {
 			// 新任务
 			if (status.equals("0")) {
-				// sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS + "
-				// = " + status);
-				sql.append(" and (" /*+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " = \'\' or "*/
-						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is null) "
-//								+ "and "+
-//						 DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " < "
-//							+ System.currentTimeMillis() + " and "
-//							+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " > "
-//							+ System.currentTimeMillis()
-						);
-						
-			}
-			// 执行中
-			else if (status.equals("1")) {
-				sql.append(" and (" /*+DatabaseHelper.FIELD_TASKINFO_START_TIME + " != \'\' or "*/
-						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null ) and ("
-						/*+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " = \'\' or "*/
-						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null ) and "
-						+ DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " < "
-						+ System.currentTimeMillis() + " and "
+				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is null) and "
 						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " > "
 						+ System.currentTimeMillis());
 			}
+			// 执行中
+			else if (status.equals("1")) {
+				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_START_TIME
+						+ " is not null ) and (" + DatabaseHelper.FIELD_TASKINFO_END_TIME
+						+ " is null ) " + "and " + DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME
+						+ " > " + System.currentTimeMillis());
+			}
 			// 延误的
 			else if (status.equals("2")) {
-				sql.append(" and (" /*+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " != \'\' or "*/
-						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null) and ("
-						/*+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " = \'\' or "*/
-						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null) and "
+				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null) and "
 						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " < "
 						+ System.currentTimeMillis());
 			}
 			// 完成
 			else if (status.equals("3")) {
-				sql.append(" and (" /*+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " != \'\' or "*/
-						+ DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null) and ("
-						/*+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " = \'\' or "*/
-						+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is not null)");
+				sql.append(
+						" and (" + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null) and ("
+								+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is not null)");
 			}
 			// 取消
 			else if (status.equals("4")) {
