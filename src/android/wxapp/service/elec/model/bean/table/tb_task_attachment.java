@@ -7,6 +7,7 @@ public class tb_task_attachment {
 	String standard;
 	String type;
 	String url;
+	String status;
 	@Override
 	public String toString() {
 		return "tb_task_attachment [id=" + id + ", task_id=" + task_id + ", historygps="
@@ -17,7 +18,7 @@ public class tb_task_attachment {
 	String md5;
 	public tb_task_attachment(String id, String task_id, String historygps,
 			String standard, String type, String url, String upload_time,
-			String md5) {
+			String md5,String status) {
 		super();
 		this.id = id;
 		this.task_id = task_id;
@@ -27,7 +28,20 @@ public class tb_task_attachment {
 		this.url = url;
 		this.upload_time = upload_time;
 		this.md5 = md5;
+		this.status=status;
 	}
+	
+	
+	public String getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
 	public tb_task_attachment() {
 		super();
 		// TODO Auto-generated constructor stub

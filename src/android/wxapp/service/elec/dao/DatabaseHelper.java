@@ -197,12 +197,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_ATTCHMENT_URL = "url";
 	public static final String FIELD_TASK_ATTCHMENT_UPLOAD_TIME = "upload_time";
 	public static final String FIELD_TASK_ATTCHMENT_MD5 = "md5";
+	public static final String FIELD_TASK_ATTACHMENT_STATUS = "statue";
 	public static final String SQL_TASK_ATTACHMENT_CREATE_TABLE = "create table "
 			+ TB_TASK_ATTACHMENT + " (" + FIELD_TASK_ATTCHMENT_ID
 			+ " integer primary key autoincrement, " + FIELD_TASK_ATTCHMENT_TASK_ID + " text,"
 			+ FIELD_TASK_ATTCHMENT_HISTORYGPS + " text," + FIELD_TASK_ATTCHMENT_STANDARD + " text,"
 			+ FIELD_TASK_ATTCHMENT_TYPE + " text," + FIELD_TASK_ATTCHMENT_URL + " text,"
-			+ FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " text," + FIELD_TASK_ATTCHMENT_MD5 + " text)";
+			+ FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " text," + FIELD_TASK_ATTCHMENT_MD5 + " text,"
+			+ FIELD_TASK_ATTACHMENT_STATUS + " text)";
 
 	public static final String TB_TASK_INSTRUCTIONS = "tb_task_instructions";
 	public static final String FIELD_TASK_INSTRUCTIONS_ID = "id";
