@@ -3,6 +3,8 @@ package android.wxapp.service.elec.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.conn.BasicEofSensorWatcher;
+
 import com.imooc.treeview.utils.Node;
 
 import android.R.array;
@@ -385,7 +387,7 @@ public class PlanTaskDao extends BaseDAO {
 	}
 
 	public boolean savePlanTaskAtt(String id, String task_id, String historygps, String standard,
-			String type, String url, String upload_time, String md5) {
+			String type, String url, String upload_time, String md5, String status) {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_ID, id);
@@ -396,6 +398,7 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_TYPE, type);
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME, upload_time);
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_URL, url);
+		values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS, status);
 		return db.insert(DatabaseHelper.TB_TASK_ATTACHMENT, null, values) > 0;
 	}
 
@@ -404,6 +407,29 @@ public class PlanTaskDao extends BaseDAO {
 		Cursor c = db.query(DatabaseHelper.TB_TASK_ATTACHMENT, null,
 				DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = ?", new String[] { tid }, null,
 				null, null);
+		List<tb_task_attachment> result = new ArrayList<tb_task_attachment>();
+		while (c.moveToNext()) {
+			result.add(new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_HISTORYGPS),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_STANDARD),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TYPE),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_URL),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS)));
+		}
+		c.close();
+		return result;
+	}
+
+	public List<tb_task_attachment> getPlanTaskAtt(String startTime, String endTime,
+			String status) {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.rawQuery("select * from " + DatabaseHelper.TB_TASK_ATTACHMENT + " where "
+				+ DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " > " + startTime + " and "
+				+ DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " < " + endTime + " and "
+				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS + " = " + status, null);
 		List<tb_task_attachment> result = new ArrayList<tb_task_attachment>();
 		while (c.moveToNext()) {
 			result.add(new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
@@ -446,7 +472,7 @@ public class PlanTaskDao extends BaseDAO {
 	 * 
 	 * @param taskAttId
 	 * @param status
-	 *            0:未上传 1:正在上传 2：已上传
+	 *            0或者是null或者是空:未上传 1:正在上传 2：已上传
 	 * @return
 	 */
 	public boolean changeTaskAttachmentStatus(String taskAttId, String status) {
@@ -461,7 +487,7 @@ public class PlanTaskDao extends BaseDAO {
 		for (tb_task_attachment att : r.getAttachments()) {
 			if (savePlanTaskAtt(att.getId(), att.getTask_id(), att.getHistorygps(),
 					att.getStandard(), att.getType(), att.getUrl(), att.getUpload_time(),
-					att.getMd5())) {
+					att.getMd5(), att.getStatus())) {
 				continue;
 			} else
 				return false;
