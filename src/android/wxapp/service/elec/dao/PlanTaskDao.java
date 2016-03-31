@@ -423,13 +423,31 @@ public class PlanTaskDao extends BaseDAO {
 		return result;
 	}
 
-	public List<tb_task_attachment> getPlanTaskAtt(String startTime, String endTime,
+	/**
+	 * 
+	 * @param startTime
+	 *            可为null
+	 * @param endTime
+	 *            可为null
+	 * @param status
+	 * @return
+	 */
+	public List<tb_task_attachment> getPlanTaskAtts(String startTime, String endTime,
 			String status) {
 		db = dbHelper.getReadableDatabase();
-		Cursor c = db.rawQuery("select * from " + DatabaseHelper.TB_TASK_ATTACHMENT + " where "
-				+ DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " > " + startTime + " and "
-				+ DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " < " + endTime + " and "
-				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS + " = " + status, null);
+		StringBuilder builder = new StringBuilder();
+		builder.append("select * from " + DatabaseHelper.TB_TASK_ATTACHMENT + " where ");
+		if (!TextUtils.isEmpty(startTime)) {
+			builder.append(
+					DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " > " + startTime + " and ");
+		}
+		if (!TextUtils.isEmpty(endTime)) {
+			builder.append(
+					DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " < " + endTime + " and ");
+		}
+		builder.append(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS + " = " + status);
+		Log.e(PlanTaskDao.class.getSimpleName(), builder.toString());
+		Cursor c = db.rawQuery(builder.toString(), null);
 		List<tb_task_attachment> result = new ArrayList<tb_task_attachment>();
 		while (c.moveToNext()) {
 			result.add(new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
