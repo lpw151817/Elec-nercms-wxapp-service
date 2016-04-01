@@ -526,7 +526,7 @@ public class PlanTaskDao extends BaseDAO {
 			if (dao.saveHistory(gps.getId(), gps.getPerson_id(), gps.getOllectionTime(),
 					gps.getLongitude(), gps.getLatitude(), gps.getGps_type(), gps.getAccuracy(),
 					gps.getHeight(), gps.getSpeed(), gps.getUpdate_time(), gps.getCoordinate(),
-					gps.getRemark()))
+					gps.getRemark()) > 0)
 				continue;
 			else
 				return false;

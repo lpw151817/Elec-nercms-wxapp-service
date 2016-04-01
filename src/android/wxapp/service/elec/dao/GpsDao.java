@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.renderscript.Type.CubemapFace;
+import android.text.TextUtils;
 import android.wxapp.service.elec.model.bean.GPS;
 import android.wxapp.service.elec.model.bean.table.tb_gps_history;
 
@@ -13,12 +14,29 @@ public class GpsDao extends BaseDAO {
 		super(context);
 	}
 
-	public boolean saveHistory(String id, String person_id, String ollectionTime, String longitude,
+	/**
+	 * 
+	 * @param id
+	 * @param person_id
+	 * @param ollectionTime
+	 * @param longitude
+	 * @param latitude
+	 * @param gps_type
+	 * @param accuracy
+	 * @param height
+	 * @param speed
+	 * @param update_time
+	 * @param coordinate
+	 * @param remark
+	 * @return ·µ»Øid
+	 */
+	public long saveHistory(String id, String person_id, String ollectionTime, String longitude,
 			String latitude, String gps_type, String accuracy, String height, String speed,
 			String update_time, String coordinate, String remark) {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(DatabaseHelper.FIELD_GPS_HISTORY_ID, id);
+		if (!TextUtils.isEmpty(id))
+			values.put(DatabaseHelper.FIELD_GPS_HISTORY_ID, id);
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_PERSON_ID, person_id);
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_OLLECTIONTIME, ollectionTime);
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_LONGITUDE, longitude);
@@ -30,7 +48,7 @@ public class GpsDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_UPDATE_TIME, update_time);
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_COORDINATE, coordinate);
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_REMARK, remark);
-		return db.insert(DatabaseHelper.TB_GPS_HISTORY, null, values) > 0;
+		return db.insert(DatabaseHelper.TB_GPS_HISTORY, null, values);
 	}
 
 	public GPS getHistory(String id) {
