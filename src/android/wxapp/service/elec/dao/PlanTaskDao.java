@@ -501,6 +501,17 @@ public class PlanTaskDao extends BaseDAO {
 				DatabaseHelper.FIELD_TASK_ATTCHMENT_ID + " = ?", new String[] { taskAttId }) > 0;
 	}
 
+	public boolean changeTaskAttachmentsStatus(List<tb_task_attachment> attachments,
+			List<String> statuses) {
+		for (int i = 0; i < attachments.size(); i++) {
+			if (changeTaskAttachmentStatus(attachments.get(i).getId(), statuses.get(i)))
+				continue;
+			else
+				return false;
+		}
+		return true;
+	}
+
 	public boolean savePlanTaskAtt(UploadTaskAttachmentResponse r) {
 		for (tb_task_attachment att : r.getAttachments()) {
 			if (savePlanTaskAtt(att.getId(), att.getTask_id(), att.getHistorygps(),

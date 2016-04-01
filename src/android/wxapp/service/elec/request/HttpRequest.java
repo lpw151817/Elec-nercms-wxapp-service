@@ -37,6 +37,7 @@ import android.wxapp.service.elec.dao.PlanTaskDao;
 import android.wxapp.service.elec.dao.TaskInsDao;
 import android.wxapp.service.elec.dao.UpdateDao;
 import android.wxapp.service.elec.model.bean.User;
+import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
 import android.wxapp.service.handler.MessageHandlerManager;
 import android.wxapp.service.jerry.model.mqtt.MqttResponse;
 import android.wxapp.service.util.MySharedPreference;
@@ -98,7 +99,7 @@ public class HttpRequest extends BaseRequest {
 		});
 	}
 
-	public JsonObjectRequest mqttUpdateRequest(final Context c,final MqttResponse response) {
+	public JsonObjectRequest mqttUpdateRequest(final Context c, final MqttResponse response) {
 
 		return getUpdateRequest(c, new Listener<JSONObject>() {
 
@@ -115,7 +116,7 @@ public class HttpRequest extends BaseRequest {
 								if (new UpdateDao(c).saveUpdate(arg0)) {
 									Log.v("MQTT", "MQTT SAVE TURE");
 									MessageHandlerManager.getInstance().sendMessage(
-											Constants.MQTT_UPDATE_SUCCESS,response,
+											Constants.MQTT_UPDATE_SUCCESS, response,
 											UpdateResponse.class.getName());
 									saveLastUpdateTime(c);
 								} else {
@@ -374,13 +375,28 @@ public class HttpRequest extends BaseRequest {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
 						final UploadTaskAttachmentResponse r = gson.fromJson(arg0.toString(),
 								UploadTaskAttachmentResponse.class);
-						// 进行数据库操作
-						if (new PlanTaskDao(c).savePlanTaskAtt(r)) {
+
+						// // 进行数据库操作
+						// if (new PlanTaskDao(c).savePlanTaskAtt(r)) {
+						// MessageHandlerManager.getInstance().sendMessage(
+						// Constants.UPLOAD_TASK_ATT_SUCCESS, r,
+						// UploadTaskAttachmentResponse.class.getName());
+						// saveLastUpdateTime(c);
+						// }
+
+						List<String> statuses = new ArrayList<String>(r.getAttachments().size());
+						for (int i = 0; i < r.getAttachments().size(); i++) {
+							statuses.add("2");
+						}
+						if (new PlanTaskDao(c).changeTaskAttachmentsStatus(r.getAttachments(),
+								statuses)) {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.UPLOAD_TASK_ATT_SUCCESS, r,
 									UploadTaskAttachmentResponse.class.getName());
 							saveLastUpdateTime(c);
-						} else {
+						}
+
+						else {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.UPLOAD_TASK_ATT_SAVE_FAIL,
 									UploadTaskAttachmentResponse.class.getName());
