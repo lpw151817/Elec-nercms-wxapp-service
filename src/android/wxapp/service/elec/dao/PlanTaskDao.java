@@ -445,7 +445,7 @@ public class PlanTaskDao extends BaseDAO {
 			builder.append(
 					DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " < " + endTime + " and ");
 		}
-		builder.append(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS + " = " + status);
+		builder.append(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS + " = '" + status + "'");
 		Log.e(PlanTaskDao.class.getSimpleName(), builder.toString());
 		Cursor c = db.rawQuery(builder.toString(), null);
 		List<tb_task_attachment> result = new ArrayList<tb_task_attachment>();
