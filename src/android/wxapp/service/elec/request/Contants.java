@@ -24,6 +24,8 @@ public class Contants {
 //	public static String SCHEDULE_SERVER_WAN = SERVER;
 //	public static String SCHEDULE_SERVER_LAN = "192.168.0.208";
 //	public static int SCHEDULE_PORT = 5060;
+	
+//	http://120.26.78.7:88/supervise ∞¢¿Ô  http://58.50.28.139:8080/superviseæ£÷›
 
 	/////////////////////////////////////////////////////////
 
@@ -31,7 +33,7 @@ public class Contants {
 	 public static String PORT = "88";
 	
 	 public static String HFS_SERVER = SERVER;
-	 public static String HFS_PORT = "9898";
+	 public static String HFS_PORT = "3000";
 	 public static String HFS_URL = "http://" + HFS_SERVER + ":" +
 	 HFS_PORT
 	 + "/ScheduleFileServer";

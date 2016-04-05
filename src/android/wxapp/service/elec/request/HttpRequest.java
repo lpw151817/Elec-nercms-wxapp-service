@@ -388,8 +388,10 @@ public class HttpRequest extends BaseRequest {
 						for (int i = 0; i < r.getAttachments().size(); i++) {
 							statuses.add("2");
 						}
-						if (new PlanTaskDao(c).changeTaskAttachmentsStatus(r.getAttachments(),
-								statuses)) {
+						PlanTaskDao dao=new PlanTaskDao(c);
+						boolean isChangeSuccess=dao.changeTaskAttachmentsStatus(r.getAttachments(),
+								statuses);
+						if (isChangeSuccess) {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.UPLOAD_TASK_ATT_SUCCESS, r,
 									UploadTaskAttachmentResponse.class.getName());

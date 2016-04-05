@@ -21,6 +21,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.webkit.URLUtil;
 import android.widget.TextView;
+import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
 import android.wxapp.service.handler.MessageHandlerManager;
 import android.wxapp.service.util.CustomMultipartEntity.ProgressListener;
 
@@ -34,12 +35,15 @@ import android.wxapp.service.util.CustomMultipartEntity.ProgressListener;
 public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 	private TextView mytext;
 	private long totalSize;
-	private ProgressDialog pd;
+	// private ProgressDialog pd;
 	private Context context;
+	private tb_task_attachment data;
 
-	public HttpUploadTask(TextView mytext, Context context) {
+	public HttpUploadTask(TextView mytext, Context context,
+			tb_task_attachment attachment) {
 		this.mytext = mytext;
 		this.context = context;
+		this.data = attachment;
 	}
 
 	@Override
@@ -64,8 +68,8 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 	 * 
 	 * @param?uploadUrl?服务器端接收地址????? ?@return?String?????? ?
 	 */
-	public String post(String pathToOurFile, String urlServer) throws ClientProtocolException,
-			IOException, JSONException {
+	public String post(String pathToOurFile, String urlServer)
+			throws ClientProtocolException, IOException, JSONException {
 		String result = null;
 		if (!URLUtil.isNetworkUrl(urlServer)) {
 			result = "服务器地址无效";
@@ -74,7 +78,8 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 
 		HttpClient httpclient = new DefaultHttpClient();
 		// 设置通信协议版本
-		httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+		httpclient.getParams().setParameter(
+				CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
 		HttpPost httppost = new HttpPost(urlServer);
 		File file = new File(pathToOurFile);
@@ -82,14 +87,15 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 		// MultipartEntity mpEntity = new MultipartEntity(); //文件传输
 		FileBody cbFile = new FileBody(file);
 
-		CustomMultipartEntity multipartContent = new CustomMultipartEntity(new ProgressListener() {
-			@Override
-			public void transferred(long num) {
-				// TODO Auto-generated method stub
-				publishProgress((int) ((num / (float) totalSize) * 100));
-			}
+		CustomMultipartEntity multipartContent = new CustomMultipartEntity(
+				new ProgressListener() {
+					@Override
+					public void transferred(long num) {
+						// TODO Auto-generated method stub
+						publishProgress((int) ((num / (float) totalSize) * 100));
+					}
 
-		});
+				});
 
 		multipartContent.addPart("data", cbFile);
 		totalSize = multipartContent.getContentLength();
@@ -121,21 +127,23 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>out upload");
-		pd.dismiss();
+		// pd.dismiss();
 		if (result.equals("success")) {
-			MessageHandlerManager.getInstance().sendMessage(Constant.FILE_UPLOAD_SUCCESS,
+			MessageHandlerManager.getInstance().sendMessage(
+					Constant.FILE_UPLOAD_SUCCESS, data,
 					context.getClass().getSimpleName());
 			if (mytext != null) {
 				mytext.setText("附件上传成功");
 			}
 		} else {
-			MessageHandlerManager.getInstance().sendMessage(Constant.FILE_UPLOAD_FAIL,
+			MessageHandlerManager.getInstance().sendMessage(
+					Constant.FILE_UPLOAD_FAIL,
 					context.getClass().getSimpleName());
 			if (mytext != null) {
 				mytext.setText("附件上传失败");
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -152,11 +160,11 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 
-		this.pd = new ProgressDialog(context);
-		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		pd.setMessage("附件上传中 ...");
-		pd.setCancelable(false);
-		pd.show();
+		// this.pd = new ProgressDialog(context);
+		// pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		// pd.setMessage("附件上传中 ...");
+		// pd.setCancelable(false);
+		// pd.show();
 
 		if (mytext != null) {
 			mytext.setText("上传中");
@@ -167,7 +175,7 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 	protected void onProgressUpdate(Integer... values) {
 		// TODO Auto-generated method stub
 		super.onProgressUpdate(values);
-		pd.setProgress((int) (values[0]));
+		// pd.setProgress((int) (values[0]));
 		System.out.println(values[0]);
 	}
 
