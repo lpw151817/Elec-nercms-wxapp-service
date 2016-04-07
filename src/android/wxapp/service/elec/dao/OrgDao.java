@@ -24,6 +24,7 @@ public class OrgDao extends BaseDAO {
 			result = getData(c, DatabaseHelper.FIELD_ORG_ID);
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -61,6 +62,7 @@ public class OrgDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_PERSON_UPDATE_TIME)));
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -68,21 +70,26 @@ public class OrgDao extends BaseDAO {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_PERSON, null, DatabaseHelper.FIELD_PERSON_ID + " = ?",
 				new String[] { pid }, null, null, null);
-		if (c.moveToFirst()) {
-			return new TB_SYS_Person(getData(c, DatabaseHelper.FIELD_PERSON_ID),
-					getData(c, DatabaseHelper.FIELD_PERSON_ALIAS),
-					getData(c, DatabaseHelper.FIELD_PERSON_ORG_CODE),
-					getData(c, DatabaseHelper.FIELD_PERSON_NAME),
-					getData(c, DatabaseHelper.FIELD_PERSON_CONTACT),
-					getData(c, DatabaseHelper.FIELD_PERSON_TYPE),
-					getData(c, DatabaseHelper.FIELD_PERSON_IDENTIFY_CODE),
-					getData(c, DatabaseHelper.FIELD_PERSON_REMARK),
-					getData(c, DatabaseHelper.FIELD_PERSON_IMSI),
-					getData(c, DatabaseHelper.FIELD_PERSON_FORCE_OFFLINE),
-					getData(c, DatabaseHelper.FIELD_PERSON_SEQUENCE),
-					getData(c, DatabaseHelper.FIELD_PERSON_UPDATE_TIME));
-		} else
-			return null;
+		try {
+			if (c.moveToFirst()) {
+				return new TB_SYS_Person(getData(c, DatabaseHelper.FIELD_PERSON_ID),
+						getData(c, DatabaseHelper.FIELD_PERSON_ALIAS),
+						getData(c, DatabaseHelper.FIELD_PERSON_ORG_CODE),
+						getData(c, DatabaseHelper.FIELD_PERSON_NAME),
+						getData(c, DatabaseHelper.FIELD_PERSON_CONTACT),
+						getData(c, DatabaseHelper.FIELD_PERSON_TYPE),
+						getData(c, DatabaseHelper.FIELD_PERSON_IDENTIFY_CODE),
+						getData(c, DatabaseHelper.FIELD_PERSON_REMARK),
+						getData(c, DatabaseHelper.FIELD_PERSON_IMSI),
+						getData(c, DatabaseHelper.FIELD_PERSON_FORCE_OFFLINE),
+						getData(c, DatabaseHelper.FIELD_PERSON_SEQUENCE),
+						getData(c, DatabaseHelper.FIELD_PERSON_UPDATE_TIME));
+			} else
+				return null;
+		} finally {
+			c.close();
+			db.close();
+		}
 	}
 
 	public Org getOrg(String id) {
@@ -102,6 +109,7 @@ public class OrgDao extends BaseDAO {
 			return null;
 		} finally {
 			c.close();
+			db.close();
 		}
 
 	}
@@ -128,6 +136,7 @@ public class OrgDao extends BaseDAO {
 						name));
 		}
 		c.close();
+		db.close();
 		return r;
 	}
 
@@ -143,6 +152,7 @@ public class OrgDao extends BaseDAO {
 			r.add(new Org("p" + uid, "o" + orgcode, name));
 		}
 		c.close();
+		db.close();
 		return r;
 	}
 	// /////////////////以上用于组织结构树使用//////////////////////////

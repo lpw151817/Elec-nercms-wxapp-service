@@ -37,8 +37,12 @@ public class PlanTaskDao extends BaseDAO {
 
 	public boolean deleteTask(String tid) {
 		db = dbHelper.getWritableDatabase();
-		return db.delete(DatabaseHelper.TB_TASK, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
-				new String[] { tid }) > 0;
+		try {
+			return db.delete(DatabaseHelper.TB_TASK, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
+					new String[] { tid }) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	public boolean changeTaskTime(boolean isStart, String tid, String time) {
@@ -49,8 +53,12 @@ public class PlanTaskDao extends BaseDAO {
 		} else {
 			values.put(DatabaseHelper.FIELD_TASKINFO_END_TIME, time);
 		}
-		return db.update(DatabaseHelper.TB_TASK, values, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
-				new String[] { tid }) > 0;
+		try {
+			return db.update(DatabaseHelper.TB_TASK, values,
+					DatabaseHelper.FIELD_TASKINFO_ID + " = ?", new String[] { tid }) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	/**
@@ -159,8 +167,12 @@ public class PlanTaskDao extends BaseDAO {
 			values.put(DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID, examine_id);
 		if (approve_id != null)
 			values.put(DatabaseHelper.FIELD_TASKINFO_APPROVE_ID, approve_id);
-		return db.update(DatabaseHelper.TB_TASK, values, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
-				new String[] { id }) > 0;
+		try {
+			return db.update(DatabaseHelper.TB_TASK, values,
+					DatabaseHelper.FIELD_TASKINFO_ID + " = ?", new String[] { id }) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	public boolean savePlanTask(String id, String weather, String name, String power_cut_range,
@@ -224,8 +236,11 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID, examine_id);
 		values.put(DatabaseHelper.FIELD_TASKINFO_STATUS, "0");
 		values.put(DatabaseHelper.FIELD_TASKINFO_APPROVE_ID, approve_id);
-
-		return db.insert(DatabaseHelper.TB_TASK, null, values) > 0;
+		try {
+			return db.insert(DatabaseHelper.TB_TASK, null, values) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	/**
@@ -338,6 +353,7 @@ public class PlanTaskDao extends BaseDAO {
 			result.add(info);
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -383,6 +399,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASKINFO_HISTORY_ID));
 		}
 		c.close();
+		db.close();
 		return info;
 	}
 
@@ -399,7 +416,11 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME, upload_time);
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_URL, url);
 		values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS, status);
-		return db.insert(DatabaseHelper.TB_TASK_ATTACHMENT, null, values) > 0;
+		try {
+			return db.insert(DatabaseHelper.TB_TASK_ATTACHMENT, null, values) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	public List<tb_task_attachment> getPlanTaskAtts(String tid) {
@@ -420,6 +441,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS)));
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -461,6 +483,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS)));
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -482,6 +505,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS));
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -497,8 +521,13 @@ public class PlanTaskDao extends BaseDAO {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS, status);
-		return db.update(DatabaseHelper.TB_TASK_ATTACHMENT, values,
-				DatabaseHelper.FIELD_TASK_ATTCHMENT_ID + " = ?", new String[] { taskAttId }) > 0;
+		try {
+			return db.update(DatabaseHelper.TB_TASK_ATTACHMENT, values,
+					DatabaseHelper.FIELD_TASK_ATTCHMENT_ID + " = ?",
+					new String[] { taskAttId }) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	public boolean changeTaskAttachmentsStatus(List<tb_task_attachment> attachments,

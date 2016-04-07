@@ -110,7 +110,11 @@ public class TaskInsDao extends BaseDAO {
 			sendtime = Utils.parseDateInFormat(sendtime);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME, sendtime);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE, type);
-		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS, null, values) > 0;
+		try {
+			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS, null, values) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	public boolean saveInsRec(String id, String instructions_id, String receie_id,
@@ -122,7 +126,11 @@ public class TaskInsDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID, receie_id);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME, receive_time);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ, is_read);
-		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null, values) > 0;
+		try {
+			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null, values) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	public boolean saveInsAtt(String id, String instructions_id, String type, String url,
@@ -136,7 +144,11 @@ public class TaskInsDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_URL, url);
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_UPDATE_TIME, update_time);
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_MD5, md5);
-		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null, values) > 0;
+		try {
+			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null, values) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	/**
@@ -162,6 +174,7 @@ public class TaskInsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ)));
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -169,10 +182,14 @@ public class TaskInsDao extends BaseDAO {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ, isRead);
-		return db.update(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, values,
-				DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID + " = ? and "
-						+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ + " = ?",
-				new String[] { uid, isRead }) > 0;
+		try {
+			return db.update(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, values,
+					DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID + " = ? and "
+							+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ + " = ?",
+					new String[] { uid, isRead }) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	public List<tb_task_instructions> getTaskIns(List<tb_task_instructions_receive> data) {
@@ -212,6 +229,7 @@ public class TaskInsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE));
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -232,6 +250,7 @@ public class TaskInsDao extends BaseDAO {
 			result.add(item);
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -251,6 +270,7 @@ public class TaskInsDao extends BaseDAO {
 			result.add(item);
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 
@@ -263,7 +283,11 @@ public class TaskInsDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ, is_read);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID, receive_id);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME, receive_time);
-		return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null, values) > 0;
+		try {
+			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null, values) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	public List<tb_task_instructions> getMsg(String tid) {
@@ -282,6 +306,7 @@ public class TaskInsDao extends BaseDAO {
 							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME), "1"));
 		}
 		c.close();
+		db.close();
 		return result;
 	}
 

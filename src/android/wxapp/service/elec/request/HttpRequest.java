@@ -199,7 +199,7 @@ public class HttpRequest extends BaseRequest {
 
 								}
 							}
-						}).run();
+						}).start();
 					} else {
 						MessageHandlerManager.getInstance().sendMessage(Constants.LOGIN_UPDATE_FAIL,
 								gson.fromJson(arg0.toString(), NormalServerResponse.class),

@@ -48,7 +48,11 @@ public class GpsDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_UPDATE_TIME, update_time);
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_COORDINATE, coordinate);
 		values.put(DatabaseHelper.FIELD_GPS_HISTORY_REMARK, remark);
-		return db.insert(DatabaseHelper.TB_GPS_HISTORY, null, values);
+		try {
+			return db.insert(DatabaseHelper.TB_GPS_HISTORY, null, values);
+		} finally {
+			db.close();
+		}
 	}
 
 	public GPS getHistory(String id) {
@@ -71,6 +75,7 @@ public class GpsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_GPS_HISTORY_REMARK));
 		}
 		c.close();
+		db.close();
 		return gps;
 	}
 }

@@ -644,6 +644,7 @@ public class UpdateDao extends BaseDAO {
 			}
 
 			return db.insert(tableName, null, values) > 0;
+
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			// 如果报错了就删除对应项再添加进来
@@ -679,18 +680,29 @@ public class UpdateDao extends BaseDAO {
 				deleteGpsHistory(bean);
 			}
 			return saveOrg(bean);
+		} finally {
+			db.close();
 		}
 	}
 
 	private boolean deleteBean(String tableName, String id) {
 		db = dbHelper.getWritableDatabase();
-		return db.delete(tableName, "id = ?", new String[] { id }) > 0;
+		try {
+			return db.delete(tableName, "id = ?", new String[] { id }) > 0;
+		} finally {
+			db.close();
+		}
 	}
 
 	private boolean containsBean(String tableName, String id) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(tableName, null, "id = ?", new String[] { id }, null, null, null);
-		return c.getCount() > 0;
+		try {
+			return c.getCount() > 0;
+		} finally {
+			c.close();
+			db.close();
+		}
 	}
 
 	/**
