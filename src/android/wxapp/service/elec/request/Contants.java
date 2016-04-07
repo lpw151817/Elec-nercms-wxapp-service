@@ -30,7 +30,7 @@ public class Contants {
 	/////////////////////////////////////////////////////////
 
 	 public static String SERVER = "120.26.78.7";
-	 public static String PORT = "88";
+	 public static String PORT = "8088";
 	
 	 public static String HFS_SERVER = SERVER;
 	 public static String HFS_PORT = "3000";
