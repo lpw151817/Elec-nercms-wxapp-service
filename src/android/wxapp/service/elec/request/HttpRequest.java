@@ -304,10 +304,14 @@ public class HttpRequest extends BaseRequest {
 			return null;
 		List<Uid> uidsList = new ArrayList<Uid>();
 		for (Node uid : uids) {
-			if (type.equals("0"))
-				uidsList.add(new Uid(uid.getId().substring(1)));
-			else
-				uidsList.add(new Uid(uid.getId()));
+			// ¹ýÂËµô×Ô¼º
+			if (type.equals("0")) {
+				if (!uid.getId().substring(1).equals(getUserId(c)))
+					uidsList.add(new Uid(uid.getId().substring(1)));
+			} else {
+				if (!uid.getId().equals(getUserId(c)))
+					uidsList.add(new Uid(uid.getId()));
+			}
 		}
 		CreateInsRequest ctr = new CreateInsRequest(getUserId(c), getUserIc(c), uidsList, tid, text,
 				attachments, type);
@@ -388,9 +392,9 @@ public class HttpRequest extends BaseRequest {
 						for (int i = 0; i < r.getAttachments().size(); i++) {
 							statuses.add("2");
 						}
-						PlanTaskDao dao=new PlanTaskDao(c);
-						boolean isChangeSuccess=dao.changeTaskAttachmentsStatus(r.getAttachments(),
-								statuses);
+						PlanTaskDao dao = new PlanTaskDao(c);
+						boolean isChangeSuccess = dao
+								.changeTaskAttachmentsStatus(r.getAttachments(), statuses);
 						if (isChangeSuccess) {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.UPLOAD_TASK_ATT_SUCCESS, r,
