@@ -102,4 +102,8 @@ public class WebRequestManager {
 	public void mqttUpdate(Context c, MqttResponse response) {
 		queue.add(httpRequest.mqttUpdateRequest(c, response));
 	}
+
+	public void heartBeat(Context c) {
+		queue.add(httpRequest.heartBeat(c));
+	}
 }

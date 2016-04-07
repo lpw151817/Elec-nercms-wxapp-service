@@ -4,6 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.content.Context;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.wxapp.service.AppApplication;
+
 public class Utils {
 	public static String formatDateMs(String ms) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -35,5 +40,15 @@ public class Utils {
 		} catch (Exception e) {
 			return true;
 		}
+	}
+
+	public static String getImei() {
+		TelephonyManager mTelephonyMgr = (TelephonyManager) AppApplication.getInstance()
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		String imsi = mTelephonyMgr.getSubscriberId();
+		String imei = mTelephonyMgr.getDeviceId();
+		Log.i("IMSI", imsi);
+		Log.i("IMEI", imei);
+		return imei;
 	}
 }

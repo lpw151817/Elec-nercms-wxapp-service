@@ -15,6 +15,7 @@ import android.wxapp.service.elec.model.CreatePlanTaskRequest;
 import android.wxapp.service.elec.model.CreatePlanTaskResponse;
 import android.wxapp.service.elec.model.DeleteTaskRequest;
 import android.wxapp.service.elec.model.DeleteTaskResponse;
+import android.wxapp.service.elec.model.HeartBeatRequest;
 import android.wxapp.service.elec.model.CreateInsRequest;
 import android.wxapp.service.elec.model.CreateInsResponse;
 import android.wxapp.service.elec.model.LoginRequest;
@@ -41,6 +42,7 @@ import android.wxapp.service.elec.model.bean.table.tb_task_attachment;
 import android.wxapp.service.handler.MessageHandlerManager;
 import android.wxapp.service.jerry.model.mqtt.MqttResponse;
 import android.wxapp.service.util.MySharedPreference;
+import android.wxapp.service.util.Utils;
 import net.tsz.afinal.FinalActivity;
 
 import com.android.volley.Response.ErrorListener;
@@ -578,5 +580,45 @@ public class HttpRequest extends BaseRequest {
 						DeleteTaskResponse.class.getName());
 			}
 		});
+	}
+
+	public JsonObjectRequest heartBeat(Context c) {
+		// 如果为获取到用户的id，则直接返回
+		if (getUserId(c) == null || getUserIc(c) == null)
+			return null;
+		HeartBeatRequest ctr = new HeartBeatRequest(getUserId(c), getUserIc(c), Utils.getImei());
+		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.HEART_BEAT_METHOD
+				+ Contants.HEART_BEAT_PARAM + parase2Json(ctr);
+		Log.e("URL", this.url);
+		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
+
+			@Override
+			public void onResponse(JSONObject arg0) {
+				Log.e("Response", arg0.toString());
+				try {
+					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
+
+					} else {
+						// MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
+						// gson.fromJson(arg0.toString(),
+						// NormalServerResponse.class),
+						// DeleteTaskResponse.class.getName());
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+					// MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
+					// DeleteTaskResponse.class.getName());
+				}
+			}
+		}, new ErrorListener() {
+
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				showError(arg0.toString());
+				// MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
+				// DeleteTaskResponse.class.getName());
+			}
+		});
+
 	}
 }
