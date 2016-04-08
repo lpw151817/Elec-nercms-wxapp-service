@@ -33,7 +33,7 @@ import android.wxapp.service.util.CustomMultipartEntity.ProgressListener;
  */
 
 public class HttpUploadTask extends AsyncTask<String, Integer, String> {
-	private TextView mytext;
+//	private TextView mytext;
 	private long totalSize;
 	// private ProgressDialog pd;
 	private Context context;
@@ -41,7 +41,7 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 
 	public HttpUploadTask(TextView mytext, Context context,
 			tb_task_attachment attachment) {
-		this.mytext = mytext;
+//		this.mytext = mytext;
 		this.context = context;
 		this.data = attachment;
 	}
@@ -132,16 +132,16 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 			MessageHandlerManager.getInstance().sendMessage(
 					Constant.FILE_UPLOAD_SUCCESS, data,
 					context.getClass().getSimpleName());
-			if (mytext != null) {
-				mytext.setText("附件上传成功");
-			}
+//			if (mytext != null) {
+//				mytext.setText("附件上传成功");
+//			}
 		} else {
 			MessageHandlerManager.getInstance().sendMessage(
 					Constant.FILE_UPLOAD_FAIL,
 					context.getClass().getSimpleName());
-			if (mytext != null) {
-				mytext.setText("附件上传失败");
-			}
+//			if (mytext != null) {
+//				mytext.setText("附件上传失败");
+//			}
 		}
 
 	}
@@ -150,9 +150,9 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 	protected void onCancelled() {
 		// TODO Auto-generated method stub
 		super.onCancelled();
-		if (mytext != null) {
-			mytext.setText("已取消上传");
-		}
+//		if (mytext != null) {
+//			mytext.setText("已取消上传");
+//		}
 	}
 
 	@Override
@@ -166,9 +166,9 @@ public class HttpUploadTask extends AsyncTask<String, Integer, String> {
 		// pd.setCancelable(false);
 		// pd.show();
 
-		if (mytext != null) {
-			mytext.setText("上传中");
-		}
+//		if (mytext != null) {
+//			mytext.setText("上传中");
+//		}
 	}
 
 	@Override
