@@ -70,8 +70,8 @@ public class Contants {
 	public static final String END_TASK_PARAM = "taskParameter=";
 	public static final String DELETE_TASK_METHOD = "mtaskdel.do?";
 	public static final String DELETE_TASK_PARAM = "taskParameter=";
-	public static final String HEART_BEAT_METHOD = "";
-	public static final String HEART_BEAT_PARAM = "";
+	public static final String HEART_BEAT_METHOD = "mstatus.do?";
+	public static final String HEART_BEAT_PARAM = "statusParameter=";
 
 	// 服务器是否返回成功标志
 	public static final String RESULT_SUCCESS = "0";

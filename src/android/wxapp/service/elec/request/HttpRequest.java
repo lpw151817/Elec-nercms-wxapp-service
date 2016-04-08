@@ -67,7 +67,7 @@ public class HttpRequest extends BaseRequest {
 	 * @return
 	 */
 	public JsonObjectRequest getLoginRequest(String aliasName, String identifyCode) {
-		LoginRequest lr = new LoginRequest(aliasName, identifyCode);
+		LoginRequest lr = new LoginRequest(aliasName, identifyCode, Utils.getImei());
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.LOGIN_METHOD
 				+ Contants.LOGIN_PARAM + parase2Json(lr);
 		Log.e("URL", this.url);
