@@ -41,7 +41,7 @@ public class PlanTaskDao extends BaseDAO {
 			return db.delete(DatabaseHelper.TB_TASK, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
 					new String[] { tid }) > 0;
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -57,7 +57,7 @@ public class PlanTaskDao extends BaseDAO {
 			return db.update(DatabaseHelper.TB_TASK, values,
 					DatabaseHelper.FIELD_TASKINFO_ID + " = ?", new String[] { tid }) > 0;
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -171,7 +171,7 @@ public class PlanTaskDao extends BaseDAO {
 			return db.update(DatabaseHelper.TB_TASK, values,
 					DatabaseHelper.FIELD_TASKINFO_ID + " = ?", new String[] { id }) > 0;
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -239,7 +239,7 @@ public class PlanTaskDao extends BaseDAO {
 		try {
 			return db.insert(DatabaseHelper.TB_TASK, null, values) > 0;
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -353,7 +353,7 @@ public class PlanTaskDao extends BaseDAO {
 			result.add(info);
 		}
 		c.close();
-		db.close();
+		//db.close();
 		return result;
 	}
 
@@ -399,7 +399,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASKINFO_HISTORY_ID));
 		}
 		c.close();
-		db.close();
+		//db.close();
 		return info;
 	}
 
@@ -419,7 +419,7 @@ public class PlanTaskDao extends BaseDAO {
 		try {
 			return db.insert(DatabaseHelper.TB_TASK_ATTACHMENT, null, values) > 0;
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -441,7 +441,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS)));
 		}
 		c.close();
-		db.close();
+		//db.close();
 		return result;
 	}
 
@@ -483,7 +483,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS)));
 		}
 		c.close();
-		db.close();
+		//db.close();
 		return result;
 	}
 
@@ -505,7 +505,7 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS));
 		}
 		c.close();
-		db.close();
+		//db.close();
 		return result;
 	}
 
@@ -526,7 +526,7 @@ public class PlanTaskDao extends BaseDAO {
 					DatabaseHelper.FIELD_TASK_ATTCHMENT_ID + " = ?",
 					new String[] { taskAttId }) > 0;
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 

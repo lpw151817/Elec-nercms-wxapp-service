@@ -681,7 +681,7 @@ public class UpdateDao extends BaseDAO {
 			}
 			return saveOrg(bean);
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -690,7 +690,7 @@ public class UpdateDao extends BaseDAO {
 		try {
 			return db.delete(tableName, "id = ?", new String[] { id }) > 0;
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -701,7 +701,7 @@ public class UpdateDao extends BaseDAO {
 			return c.getCount() > 0;
 		} finally {
 			c.close();
-			db.close();
+			//db.close();
 		}
 	}
 

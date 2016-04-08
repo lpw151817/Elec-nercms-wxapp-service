@@ -51,7 +51,7 @@ public class GpsDao extends BaseDAO {
 		try {
 			return db.insert(DatabaseHelper.TB_GPS_HISTORY, null, values);
 		} finally {
-			db.close();
+			//db.close();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class GpsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_GPS_HISTORY_REMARK));
 		}
 		c.close();
-		db.close();
+		//db.close();
 		return gps;
 	}
 }
