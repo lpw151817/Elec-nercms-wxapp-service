@@ -16,6 +16,7 @@ import android.wxapp.service.elec.model.CreatePlanTaskResponse;
 import android.wxapp.service.elec.model.DeleteTaskRequest;
 import android.wxapp.service.elec.model.DeleteTaskResponse;
 import android.wxapp.service.elec.model.HeartBeatRequest;
+import android.wxapp.service.elec.model.HeartBeatResponse;
 import android.wxapp.service.elec.model.CreateInsRequest;
 import android.wxapp.service.elec.model.CreateInsResponse;
 import android.wxapp.service.elec.model.LoginRequest;
@@ -49,6 +50,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.gson.reflect.TypeToken;
 import com.imooc.treeview.utils.Node;
 
@@ -582,7 +584,7 @@ public class HttpRequest extends BaseRequest {
 		});
 	}
 
-	public JsonObjectRequest heartBeat(Context c) {
+	public StringRequest heartBeat(Context c) {
 		// 如果为获取到用户的id，则直接返回
 		if (getUserId(c) == null || getUserIc(c) == null)
 			return null;
@@ -590,35 +592,66 @@ public class HttpRequest extends BaseRequest {
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.HEART_BEAT_METHOD
 				+ Contants.HEART_BEAT_PARAM + parase2Json(ctr);
 		Log.e("URL", this.url);
-		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
+		return new StringRequest(url, new Listener<String>() {
 
 			@Override
-			public void onResponse(JSONObject arg0) {
+			public void onResponse(String arg0) {
 				Log.e("Response", arg0.toString());
-				try {
-					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
-
-					} else {
-						// MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
-						// gson.fromJson(arg0.toString(),
-						// NormalServerResponse.class),
-						// DeleteTaskResponse.class.getName());
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-					// MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
-					// DeleteTaskResponse.class.getName());
-				}
+				MessageHandlerManager.getInstance().sendMessage(Constants.HEART_BEAT_SUCCESS,
+						HeartBeatResponse.class.getName());
 			}
 		}, new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError arg0) {
 				showError(arg0.toString());
-				// MessageHandlerManager.getInstance().sendMessage(Constants.DELETE_TASK_FAIL,
-				// DeleteTaskResponse.class.getName());
+				MessageHandlerManager.getInstance().sendMessage(Constants.HEART_BEAT_FAIL,
+						HeartBeatResponse.class.getName());
 			}
 		});
-
 	}
+
+	// public JsonObjectRequest heartBeat(Context c) {
+	// // 如果为获取到用户的id，则直接返回
+	// if (getUserId(c) == null || getUserIc(c) == null)
+	// return null;
+	// HeartBeatRequest ctr = new HeartBeatRequest(getUserId(c), getUserIc(c),
+	// Utils.getImei());
+	// this.url = Contants.SERVER_URL + Contants.MODEL_NAME +
+	// Contants.HEART_BEAT_METHOD
+	// + Contants.HEART_BEAT_PARAM + parase2Json(ctr);
+	// Log.e("URL", this.url);
+	// return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
+	//
+	// @Override
+	// public void onResponse(JSONObject arg0) {
+	// Log.e("Response", arg0.toString());
+	// try {
+	// if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
+	// MessageHandlerManager.getInstance().sendMessage(
+	// Constants.HEART_BEAT_SUCCESS,
+	// gson.fromJson(arg0.toString(), HeartBeatResponse.class),
+	// HeartBeatResponse.class.getName());
+	// } else {
+	// MessageHandlerManager.getInstance().sendMessage(Constants.HEART_BEAT_FAIL,
+	// gson.fromJson(arg0.toString(), NormalServerResponse.class),
+	// HeartBeatResponse.class.getName());
+	// }
+	// } catch (JSONException e) {
+	// e.printStackTrace();
+	// MessageHandlerManager.getInstance().sendMessage(Constants.HEART_BEAT_FAIL,
+	// HeartBeatResponse.class.getName());
+	// }
+	// }
+	// }, new ErrorListener() {
+	//
+	// @Override
+	// public void onErrorResponse(VolleyError arg0) {
+	// showError(arg0.toString());
+	// MessageHandlerManager.getInstance().sendMessage(Constants.HEART_BEAT_FAIL,
+	// HeartBeatResponse.class.getName());
+	// }
+	// });
+	//
+	// }
 }

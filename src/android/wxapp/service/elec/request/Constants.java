@@ -38,4 +38,7 @@ public class Constants {
 
 	public static final int MQTT_UPDATE_SUCCESS = 123;
 	public static final int MQTT_UPDATE_FAIL = 124;
+
+	public static final int HEART_BEAT_SUCCESS = 125;
+	public static final int HEART_BEAT_FAIL = 126;
 }
