@@ -27,7 +27,7 @@ public class Contants {
 	// public static int SCHEDULE_PORT = 5060;
 
 	// http://120.26.78.7:88/supervise ∞¢¿Ô http://58.50.28.139:8080/superviseæ£÷›
-
+	// http://120.26.78.7:8088/supervise 
 	/////////////////////////////////////////////////////////
 
 	public static String SERVER = "120.26.78.7";
