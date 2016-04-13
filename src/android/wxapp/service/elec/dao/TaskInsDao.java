@@ -31,7 +31,10 @@ public class TaskInsDao extends BaseDAO {
 	}
 
 	public String getTaskId(String taskInsId) {
-		return getTaskIns(taskInsId, "1").getTask_id();
+		if (getTaskIns(taskInsId, "1") != null)
+			return getTaskIns(taskInsId, "1").getTask_id();
+		else
+			return null;
 	}
 
 	public boolean saveTaskIns(String planTaskId, String taskInsId, String uids_s, String text,
@@ -113,7 +116,7 @@ public class TaskInsDao extends BaseDAO {
 		try {
 			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS, null, values) > 0;
 		} finally {
-			//db.close();
+			// db.close();
 		}
 	}
 
@@ -129,7 +132,7 @@ public class TaskInsDao extends BaseDAO {
 		try {
 			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null, values) > 0;
 		} finally {
-			//db.close();
+			// db.close();
 		}
 	}
 
@@ -147,7 +150,7 @@ public class TaskInsDao extends BaseDAO {
 		try {
 			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null, values) > 0;
 		} finally {
-			//db.close();
+			// db.close();
 		}
 	}
 
@@ -174,7 +177,7 @@ public class TaskInsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ)));
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return result;
 	}
 
@@ -188,7 +191,7 @@ public class TaskInsDao extends BaseDAO {
 							+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ + " = ?",
 					new String[] { uid, isRead }) > 0;
 		} finally {
-			//db.close();
+			// db.close();
 		}
 	}
 
@@ -229,7 +232,7 @@ public class TaskInsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE));
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return result;
 	}
 
@@ -250,7 +253,7 @@ public class TaskInsDao extends BaseDAO {
 			result.add(item);
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return result;
 	}
 
@@ -270,7 +273,7 @@ public class TaskInsDao extends BaseDAO {
 			result.add(item);
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return result;
 	}
 
@@ -286,7 +289,7 @@ public class TaskInsDao extends BaseDAO {
 		try {
 			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_RECEIVE, null, values) > 0;
 		} finally {
-			//db.close();
+			// db.close();
 		}
 	}
 
@@ -306,7 +309,7 @@ public class TaskInsDao extends BaseDAO {
 							getData(c, DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME), "1"));
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return result;
 	}
 

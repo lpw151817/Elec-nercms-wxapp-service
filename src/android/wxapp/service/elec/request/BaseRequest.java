@@ -38,7 +38,8 @@ public class BaseRequest {
 	}
 
 	protected void saveLastUpdateTime(Context c) {
-		saveLastUpdateTime(c, (System.currentTimeMillis() + 1000) + "");
+		// 缓解服务器时戳与客户端时戳不一致
+		saveLastUpdateTime(c, (System.currentTimeMillis() - 60 * 1000) + "");
 	}
 
 	protected void saveLastUpdateTime(Context c, String time) {

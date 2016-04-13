@@ -24,7 +24,7 @@ public class OrgDao extends BaseDAO {
 			result = getData(c, DatabaseHelper.FIELD_ORG_ID);
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return result;
 	}
 
@@ -48,6 +48,8 @@ public class OrgDao extends BaseDAO {
 				DatabaseHelper.FIELD_PERSON_TYPE + " = ?", new String[] { type }, null, null, null);
 		List<TB_SYS_Person> result = new ArrayList<TB_SYS_Person>();
 		while (c.moveToNext()) {
+			if (getData(c, DatabaseHelper.FIELD_PERSON_NAME).contains("管理员"))
+				continue;
 			result.add(new TB_SYS_Person(getData(c, DatabaseHelper.FIELD_PERSON_ID),
 					getData(c, DatabaseHelper.FIELD_PERSON_ALIAS),
 					getData(c, DatabaseHelper.FIELD_PERSON_ORG_CODE),
@@ -62,7 +64,7 @@ public class OrgDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_PERSON_UPDATE_TIME)));
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return result;
 	}
 
@@ -88,7 +90,7 @@ public class OrgDao extends BaseDAO {
 				return null;
 		} finally {
 			c.close();
-			//db.close();
+			// db.close();
 		}
 	}
 
@@ -109,7 +111,7 @@ public class OrgDao extends BaseDAO {
 			return null;
 		} finally {
 			c.close();
-			//db.close();
+			// db.close();
 		}
 
 	}
@@ -136,7 +138,7 @@ public class OrgDao extends BaseDAO {
 						name));
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return r;
 	}
 
@@ -152,7 +154,7 @@ public class OrgDao extends BaseDAO {
 			r.add(new Org("p" + uid, "o" + orgcode, name));
 		}
 		c.close();
-		//db.close();
+		// db.close();
 		return r;
 	}
 	// /////////////////以上用于组织结构树使用//////////////////////////

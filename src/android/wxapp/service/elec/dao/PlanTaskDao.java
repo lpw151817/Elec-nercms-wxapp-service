@@ -407,6 +407,7 @@ public class PlanTaskDao extends BaseDAO {
 			String type, String url, String upload_time, String md5, String status) {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
+		
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_ID, id);
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5, md5);
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_HISTORYGPS, historygps);

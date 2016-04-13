@@ -2,7 +2,9 @@ package android.wxapp.service.elec.request;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,7 +106,6 @@ public class HttpRequest extends BaseRequest {
 	}
 
 	public JsonObjectRequest mqttUpdateRequest(final Context c, final MqttResponse response) {
-
 		return getUpdateRequest(c, new Listener<JSONObject>() {
 
 			@Override
@@ -119,8 +120,11 @@ public class HttpRequest extends BaseRequest {
 							public void run() {
 								if (new UpdateDao(c).saveUpdate(arg0)) {
 									Log.v("MQTT", "MQTT SAVE TURE");
+									Map<Integer, Object> result = new HashMap<Integer, Object>();
+									result.put(1, response);
+									result.put(2, arg0.toString());
 									MessageHandlerManager.getInstance().sendMessage(
-											Constants.MQTT_UPDATE_SUCCESS, response,
+											Constants.MQTT_UPDATE_SUCCESS, result,
 											UpdateResponse.class.getName());
 									saveLastUpdateTime(c);
 								} else {
