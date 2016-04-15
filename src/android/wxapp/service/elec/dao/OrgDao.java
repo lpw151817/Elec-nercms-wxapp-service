@@ -31,7 +31,7 @@ public class OrgDao extends BaseDAO {
 	public List<Org> convert(List<TB_SYS_Person> data) {
 		List<Org> result = new ArrayList<Org>();
 		for (TB_SYS_Person tb_SYS_Person : data) {
-			result.add(new Org("p" + tb_SYS_Person.getId(), "", tb_SYS_Person.getName()));
+			result.add(new Org("p" + tb_SYS_Person.getId(), "o"+tb_SYS_Person.getOrg_code(), tb_SYS_Person.getName()));
 		}
 		return result;
 	}
@@ -39,7 +39,7 @@ public class OrgDao extends BaseDAO {
 	/**
 	 * 
 	 * @param type
-	 *            0,现场负责人员；1,检查人员
+	 *            0,现场人员；1,管理人员 ；2,领导人员
 	 * @return
 	 */
 	public List<TB_SYS_Person> getPersons(String type) {
