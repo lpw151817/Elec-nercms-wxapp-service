@@ -2,6 +2,8 @@ package android.wxapp.service;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -20,11 +22,15 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.wxapp.service.elec.model.ConfigBean;
+import android.wxapp.service.elec.request.Contants;
 import android.wxapp.service.request.WebRequestManager;
 import android.wxapp.service.util.Constant;
+import android.wxapp.service.util.MySharedPreference;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -42,7 +48,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 @ReportsCrashes(formKey = "", mailTo = "ponyw@qq.com", customReportContent = {
 		ReportField.APP_VERSION_NAME, ReportField.APP_VERSION_CODE, ReportField.ANDROID_VERSION,
-		ReportField.PHONE_MODEL, ReportField.CUSTOM_DATA, ReportField.STACK_TRACE, ReportField.LOGCAT }, mode = ReportingInteractionMode.SILENT, forceCloseDialogAfterToast = false)
+		ReportField.PHONE_MODEL, ReportField.CUSTOM_DATA, ReportField.STACK_TRACE,
+		ReportField.LOGCAT }, mode = ReportingInteractionMode.SILENT, forceCloseDialogAfterToast = false)
 public class AppApplication extends Application {
 
 	public static AppApplication appInstance;
@@ -52,25 +59,26 @@ public class AppApplication extends Application {
 
 	@Override
 	public void onCreate() {
-		
+
 		System.loadLibrary("push"); // call .so
-		
+
 		// 应用程序启动时候创建RequestQueue
 		myQueue = Volley.newRequestQueue(getApplicationContext());
 		Log.d("debug", "Request Queue is Created!");
 		webRequestManager = new WebRequestManager(this, getApplicationContext());
 
 		// 图片缓存配置
-		File cacheDir = new File(Environment.getExternalStorageDirectory().getPath()
-				+ "/nercms-Schedule/cache/");
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-				.denyCacheImageMultipleSizesInMemory().memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-				.memoryCacheSize(2 * 1024 * 1024).discCacheSize(50 * 1024 * 1024)
-				.denyCacheImageMultipleSizesInMemory()
-				.discCacheFileNameGenerator(new Md5FileNameGenerator())
-				.tasksProcessingOrder(QueueProcessingType.LIFO)
-				.discCache(new UnlimitedDiscCache(cacheDir))// 自定义缓存路径
-				.discCacheFileCount(100).writeDebugLogs().build();
+		File cacheDir = new File(
+				Environment.getExternalStorageDirectory().getPath() + "/nercms-Schedule/cache/");
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				getApplicationContext()).denyCacheImageMultipleSizesInMemory()
+						.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+						.memoryCacheSize(2 * 1024 * 1024).discCacheSize(50 * 1024 * 1024)
+						.denyCacheImageMultipleSizesInMemory()
+						.discCacheFileNameGenerator(new Md5FileNameGenerator())
+						.tasksProcessingOrder(QueueProcessingType.LIFO)
+						.discCache(new UnlimitedDiscCache(cacheDir))// 自定义缓存路径
+						.discCacheFileCount(100).writeDebugLogs().build();
 		ImageLoader.getInstance().init(config);// 全局初始化此配置
 
 		// 异常捕获ACRA配置
@@ -176,11 +184,11 @@ public class AppApplication extends Application {
 			String customData = arg0.getProperty(ReportField.CUSTOM_DATA);
 			String stackTrace = arg0.getProperty(ReportField.STACK_TRACE);
 
-			String logName = "CrashReport_"
-					+ new SimpleDateFormat("yyyyMMddHHmmss")
-							.format(new Date(System.currentTimeMillis())) + ".txt";
-			File logFile = new File(Environment.getExternalStorageDirectory().getPath()
-					+ "/nercms-Schedule/Log/", logName);
+			String logName = "CrashReport_" + new SimpleDateFormat("yyyyMMddHHmmss")
+					.format(new Date(System.currentTimeMillis())) + ".txt";
+			File logFile = new File(
+					Environment.getExternalStorageDirectory().getPath() + "/nercms-Schedule/Log/",
+					logName);
 			if (!logFile.exists()) {
 				try {
 					logFile.createNewFile();

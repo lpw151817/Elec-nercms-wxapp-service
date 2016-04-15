@@ -1,5 +1,6 @@
 package android.wxapp.service.elec.request;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +58,8 @@ import com.google.gson.reflect.TypeToken;
 import com.imooc.treeview.utils.Node;
 
 public class HttpRequest extends BaseRequest {
+	
+	
 
 	private void sendNetworkError(int what, String className) {
 		MessageHandlerManager.getInstance().sendMessage(what, null, className);
