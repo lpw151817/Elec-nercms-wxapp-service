@@ -11,7 +11,7 @@ import java.io.File;
 public class Contants {
 
 	// TIP：所有的url结尾均带
-	public static String PORT = "8080";
+	public static String PORT = "9521";
 	public static String SERVER = "58.50.28.139";
 
 	public static String HFS_SERVER = SERVER;
