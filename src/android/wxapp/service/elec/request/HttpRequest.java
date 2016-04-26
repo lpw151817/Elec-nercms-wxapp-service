@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,8 +59,6 @@ import com.google.gson.reflect.TypeToken;
 import com.imooc.treeview.utils.Node;
 
 public class HttpRequest extends BaseRequest {
-	
-	
 
 	private void sendNetworkError(int what, String className) {
 		MessageHandlerManager.getInstance().sendMessage(what, null, className);
@@ -129,7 +128,41 @@ public class HttpRequest extends BaseRequest {
 									MessageHandlerManager.getInstance().sendMessage(
 											Constants.MQTT_UPDATE_SUCCESS, result,
 											UpdateResponse.class.getName());
-									saveLastUpdateTime(c);
+
+									//////////////////// 存储服务器返回附件最晚的时间戳
+									try {
+										long lastTime = 0;
+										JSONArray d = arg0.getJSONArray("d");
+										for (int i = 0; i < d.length(); i++) {
+											JSONObject subJs = (JSONObject) d.get(i);
+											String tableName = subJs.getString("table");
+											if (tableName.toLowerCase()
+													.equals(tb_task_attachment.class.getSimpleName()
+															.toLowerCase())) {
+												List<tb_task_attachment> r = gson.fromJson(
+														subJs.getString("data"),
+														new TypeToken<List<tb_task_attachment>>() {
+												}.getType());
+												for (tb_task_attachment item : r) {
+													if (lastTime == 0)
+														lastTime = Long
+																.parseLong(item.getUpload_time());
+													else if (Long.parseLong(
+															item.getUpload_time()) > lastTime)
+														lastTime = Long
+																.parseLong(item.getUpload_time());
+												}
+												saveLastUpdateTime(c, lastTime + "");
+											}
+										}
+									} catch (JSONException e) {
+										e.printStackTrace();
+										Log.v("MQTT", "MQTT SAVE false3");
+										MessageHandlerManager.getInstance().sendMessage(
+												Constants.MQTT_UPDATE_FAIL, null,
+												UpdateResponse.class.getName());
+									}
+									///////////////////////////
 								} else {
 									Log.v("MQTT", "MQTT SAVE false1");
 									MessageHandlerManager.getInstance().sendMessage(
@@ -201,7 +234,41 @@ public class HttpRequest extends BaseRequest {
 									MessageHandlerManager.getInstance().sendMessage(
 											Constants.LOGIN_UPDATE_SUCCESS,
 											UpdateResponse.class.getName());
-									saveLastUpdateTime(c);
+
+									//////////////////// 存储服务器返回附件最晚的时间戳
+									try {
+										long lastTime = 0;
+										JSONArray d = arg0.getJSONArray("d");
+										for (int i = 0; i < d.length(); i++) {
+											JSONObject subJs = (JSONObject) d.get(i);
+											String tableName = subJs.getString("table");
+											if (tableName.toLowerCase()
+													.equals(tb_task_attachment.class.getSimpleName()
+															.toLowerCase())) {
+												List<tb_task_attachment> r = gson.fromJson(
+														subJs.getString("data"),
+														new TypeToken<List<tb_task_attachment>>() {
+												}.getType());
+												for (tb_task_attachment item : r) {
+													if (lastTime == 0)
+														lastTime = Long
+																.parseLong(item.getUpload_time());
+													else if (Long.parseLong(
+															item.getUpload_time()) > lastTime)
+														lastTime = Long
+																.parseLong(item.getUpload_time());
+												}
+												saveLastUpdateTime(c, lastTime + "");
+											}
+										}
+									} catch (JSONException e) {
+										e.printStackTrace();
+										Log.v("MQTT", "MQTT SAVE false3");
+										MessageHandlerManager.getInstance().sendMessage(
+												Constants.MQTT_UPDATE_FAIL, null,
+												UpdateResponse.class.getName());
+									}
+									////////////////////
 								} else {
 
 									MessageHandlerManager.getInstance().sendMessage(
@@ -279,7 +346,7 @@ public class HttpRequest extends BaseRequest {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.CREATE_TASK_SUCCESS, r,
 									CreatePlanTaskResponse.class.getName());
-							saveLastUpdateTime(c);
+							// saveLastUpdateTime(c);
 						} else {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.CREATE_TASK_SAVE_FAIL, r,
@@ -343,7 +410,7 @@ public class HttpRequest extends BaseRequest {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.CREATE_INS_SUCCESS, r,
 									CreateInsResponse.class.getName());
-							saveLastUpdateTime(c);
+							// saveLastUpdateTime(c);
 						} else
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.CREATE_INS_SAVE_FAIL,
@@ -410,7 +477,7 @@ public class HttpRequest extends BaseRequest {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.UPLOAD_TASK_ATT_SUCCESS, r,
 									UploadTaskAttachmentResponse.class.getName());
-							saveLastUpdateTime(c);
+							// saveLastUpdateTime(c);
 						}
 
 						else {
@@ -463,7 +530,7 @@ public class HttpRequest extends BaseRequest {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.START_TASK_SUCCESS, r,
 									StartTaskResponse.class.getName());
-							saveLastUpdateTime(c);
+							// saveLastUpdateTime(c);
 						} else {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.START_TASK_SAVE_FAIL,
@@ -513,7 +580,7 @@ public class HttpRequest extends BaseRequest {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.END_TASK_SUCCESS, r,
 									StartTaskResponse.class.getName());
-							saveLastUpdateTime(c);
+							// saveLastUpdateTime(c);
 						} else {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.END_TASK_SAVE_FAIL,
@@ -563,7 +630,7 @@ public class HttpRequest extends BaseRequest {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.DELETE_TASK_SUCCESS, r,
 									DeleteTaskResponse.class.getName());
-							saveLastUpdateTime(c);
+							// saveLastUpdateTime(c);
 						} else {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.DELETE_TASK_SAVE_FAIL,

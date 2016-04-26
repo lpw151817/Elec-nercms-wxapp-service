@@ -39,11 +39,12 @@ public class BaseRequest {
 
 	protected void saveLastUpdateTime(Context c) {
 		// 缓解服务器时戳与客户端时戳不一致
-		saveLastUpdateTime(c, (System.currentTimeMillis() - 60 * 1000) + "");
+		saveLastUpdateTime(c, System.currentTimeMillis() + "");
 	}
 
 	protected void saveLastUpdateTime(Context c, String time) {
-		MySharedPreference.save(c, MySharedPreference.LAST_UPDATE_ORGCODE_TIMESTAMP, time);
+		MySharedPreference.save(c, MySharedPreference.LAST_UPDATE_ORGCODE_TIMESTAMP,
+				(Long.parseLong(time) - 60 * 1000) + "");
 	}
 
 	protected String getUserIc(Context context) {
