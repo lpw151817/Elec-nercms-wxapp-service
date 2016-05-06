@@ -9,6 +9,8 @@ import java.io.File;
  *
  */
 public class Contants {
+	// http://120.26.78.7:88/supervise 阿里 http://58.50.28.139:8080/supervise荆州
+	// http://120.26.78.7:8088/supervise
 
 	// TIP：所有的url结尾均带
 	public static String PORT = "9521";
@@ -16,7 +18,6 @@ public class Contants {
 
 	public static String HFS_SERVER = SERVER;
 	public static String HFS_PORT = "9898";
-	public static String HFS_URL = "http://" + HFS_SERVER + ":" + HFS_PORT + "/ScheduleFileServer";
 
 	public static String MQTT_SERVER = SERVER;
 	public static String MQTT_PORT = "1883";
@@ -25,8 +26,6 @@ public class Contants {
 	public static String SCHEDULE_SERVER_LAN = "192.168.0.208";
 	public static int SCHEDULE_PORT = 5060;
 
-	// http://120.26.78.7:88/supervise 阿里 http://58.50.28.139:8080/supervise荆州
-	// http://120.26.78.7:8088/supervise
 	/////////////////////////////////////////////////////////
 
 	// public static String SERVER = "120.26.78.7";
@@ -34,21 +33,18 @@ public class Contants {
 	//
 	// public static String HFS_SERVER = SERVER;
 	// public static String HFS_PORT = "3000";
-	// public static String HFS_URL = "http://" + HFS_SERVER + ":" + HFS_PORT +
-	// "/ScheduleFileServer";
 	//
 	// public static String MQTT_SERVER = SERVER;
 	// public static String MQTT_PORT = "1883";
-	// // public static String MQTT_SERVER = "120.26.78.7";
-	// // public static String MQTT_PORT = "1883";
 	//
 	// public static String SCHEDULE_SERVER_WAN = SERVER;
-	// // public static String SCHEDULE_SERVER_LAN = "192.168.0.208";
 	// public static String SCHEDULE_SERVER_LAN = SERVER;
 	// public static int SCHEDULE_PORT = 5060;
 
 	///////////////////////////////////////////////////////
-	public static String SERVER_URL = "http://" + Contants.SERVER + ":" + Contants.PORT + File.separator;
+	public static String HFS_URL = "http://" + HFS_SERVER + ":" + HFS_PORT + "/ScheduleFileServer";
+	public static String SERVER_URL = "http://" + Contants.SERVER + ":" + Contants.PORT
+			+ File.separator;
 	// 模块名称
 	public static final String MODEL_NAME = "supervise/mobile" + File.separator;
 
