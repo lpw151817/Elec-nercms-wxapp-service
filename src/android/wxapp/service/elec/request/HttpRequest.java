@@ -52,13 +52,17 @@ import net.tsz.afinal.FinalActivity;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+
 import com.google.gson.reflect.TypeToken;
 import com.imooc.treeview.utils.Node;
 
 public class HttpRequest extends BaseRequest {
+
+	public static int timeOut = 10 * 1000;
 
 	private void sendNetworkError(int what, String className) {
 		MessageHandlerManager.getInstance().sendMessage(what, null, className);
@@ -728,4 +732,25 @@ public class HttpRequest extends BaseRequest {
 	// });
 	//
 	// }
+}
+
+class StringRequest extends com.android.volley.toolbox.StringRequest {
+
+	public StringRequest(String url, Listener<String> listener, ErrorListener errorListener) {
+		super(url, listener, errorListener);
+		setRetryPolicy(new DefaultRetryPolicy(HttpRequest.timeOut,
+				DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+	}
+
+}
+
+class JsonObjectRequest extends com.android.volley.toolbox.JsonObjectRequest {
+
+	public JsonObjectRequest(String url, JSONObject jsonRequest, Listener<JSONObject> listener,
+			ErrorListener errorListener) {
+		super(url, jsonRequest, listener, errorListener);
+		setRetryPolicy(new DefaultRetryPolicy(HttpRequest.timeOut,
+				DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+	}
+
 }

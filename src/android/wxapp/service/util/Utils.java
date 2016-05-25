@@ -47,8 +47,10 @@ public class Utils {
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		String imsi = mTelephonyMgr.getSubscriberId();
 		String imei = mTelephonyMgr.getDeviceId();
-		Log.i("IMSI", imsi);
-		Log.i("IMEI", imei);
+		if (null != imsi)
+			Log.i("IMSI", imsi);
+		if (null != imei)
+			Log.i("IMEI", imei);
 		return imei;
 	}
 }
