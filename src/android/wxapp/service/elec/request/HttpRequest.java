@@ -229,15 +229,18 @@ public class HttpRequest extends BaseRequest {
 				Log.e("Response", arg0.toString());
 				try {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
+						// 请求成功后直接跳转
+						MessageHandlerManager.getInstance().sendMessage(
+								Constants.LOGIN_UPDATE_SUCCESS, UpdateResponse.class.getName());
 						// 开启线程存储
 						new Thread(new Runnable() {
 
 							@Override
 							public void run() {
 								if (new UpdateDao(c).saveUpdate(arg0)) {
-									MessageHandlerManager.getInstance().sendMessage(
-											Constants.LOGIN_UPDATE_SUCCESS,
-											UpdateResponse.class.getName());
+									// MessageHandlerManager.getInstance().sendMessage(
+									// Constants.LOGIN_UPDATE_SUCCESS,
+									// UpdateResponse.class.getName());
 
 									//////////////////// 存储服务器返回附件最晚的时间戳
 									try {

@@ -338,11 +338,18 @@ public class PlanTaskDao extends BaseDAO {
 		}
 
 		if (!TextUtils.isEmpty(startTime))
-			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME + " > " + startTime);
+			// sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME +
+			// " > " + startTime);
+			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " > " + startTime);
 		if (!TextUtils.isEmpty(endTime))
-			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME + " < " + endTime);
+			// sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME +
+			// " < " + endTime);
+			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " < " + endTime);
 
-		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME + " desc");
+		// sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME
+		// + " desc");
+		// 按照计划开始时间进行排序
+		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " desc");
 
 		Log.v(getClass().getSimpleName() + ">>>>>>>", sql.toString());
 		Cursor c = db.rawQuery(sql.toString(), null);
