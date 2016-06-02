@@ -30,6 +30,25 @@ public class TaskInsDao extends BaseDAO {
 		super(context);
 	}
 
+	public tb_task_instructions_attachment getInsAttachment(String taskInsId) {
+		db = dbHelper.getWritableDatabase();
+		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null,
+				DatabaseHelper.FIELD_TASK_INS_ATT_INSTRUCTIONS_ID + " = ? ",
+				new String[] { taskInsId }, null, null, null);
+		tb_task_instructions_attachment result = null;
+		if (c.moveToFirst()) {
+			result = new tb_task_instructions_attachment(
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_INSTRUCTIONS_ID),
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_TYPE),
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_URL),
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_UPDATE_TIME),
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_MD5));
+		}
+		c.close();
+		return result;
+	}
+
 	public String getTaskId(String taskInsId) {
 		if (getTaskIns(taskInsId, "1") != null)
 			return getTaskIns(taskInsId, "1").getTask_id();
