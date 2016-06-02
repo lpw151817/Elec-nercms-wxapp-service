@@ -30,23 +30,20 @@ public class TaskInsDao extends BaseDAO {
 		super(context);
 	}
 
-	public tb_task_instructions_attachment getInsAttachment(String taskInsId) {
+	/**
+	 * 更改附件上传状态
+	 * 
+	 * @param taskAttId
+	 * @param status
+	 *            0或者是null或者是空:未上传 1:正在上传 2：已上传
+	 * @return
+	 */
+	public boolean changeInsAttachmentStatus(String insAttId, String status) {
 		db = dbHelper.getWritableDatabase();
-		Cursor c = db.query(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null,
-				DatabaseHelper.FIELD_TASK_INS_ATT_INSTRUCTIONS_ID + " = ? ",
-				new String[] { taskInsId }, null, null, null);
-		tb_task_instructions_attachment result = null;
-		if (c.moveToFirst()) {
-			result = new tb_task_instructions_attachment(
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_ID),
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_INSTRUCTIONS_ID),
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_TYPE),
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_URL),
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_UPDATE_TIME),
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_MD5));
-		}
-		c.close();
-		return result;
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_STATUS, status);
+		return db.update(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, values,
+				DatabaseHelper.FIELD_TASK_INS_ATT_ID + " = ?", new String[] { status }) > 0;
 	}
 
 	public String getTaskId(String taskInsId) {
@@ -114,6 +111,7 @@ public class TaskInsDao extends BaseDAO {
 	 * @param id
 	 * @param planTaskId
 	 * @param content
+	 *            如果为空，则为附件消息
 	 * @param send_id
 	 * @param sendtime
 	 * @param type
@@ -155,7 +153,26 @@ public class TaskInsDao extends BaseDAO {
 		}
 	}
 
-	public boolean saveInsAtt(String id, String instructions_id, String type, String url,
+	public boolean saveInsAtt(String planTaskId, String content, String send_id, String sendtime,
+			String type, String attType, String url, String update_time, String md5) {
+		db = dbHelper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID, planTaskId);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_CONTENT, content);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_ID, send_id);
+		if (Utils.dateIsFormat(sendtime))
+			sendtime = Utils.parseDateInFormat(sendtime);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME, sendtime);
+		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE, type);
+		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_STATUS, "0");
+		long insId = db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS, null, values);
+		if (insId > 0)
+			return saveInsAtt(null, insId + "", attType, url, update_time, md5);
+		else
+			return false;
+	}
+
+	private boolean saveInsAtt(String id, String instructions_id, String type, String url,
 			String update_time, String md5) {
 
 		db = dbHelper.getWritableDatabase();

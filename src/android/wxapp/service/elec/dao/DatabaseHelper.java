@@ -241,11 +241,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_INS_ATT_URL = "url";
 	public static final String FIELD_TASK_INS_ATT_UPDATE_TIME = "update_time";
 	public static final String FIELD_TASK_INS_ATT_MD5 = "md5";
+	public static final String FIELD_TASK_INS_ATT_STATUS = "status";
 	public static final String SQL_TASK_INS_ATT_CREATE_TABLE = "create table "
 			+ TB_TASK_INSTRUCTIONS_ATTACHMENT + " (" + FIELD_TASK_INS_ATT_ID
 			+ " integer primary key autoincrement, " + FIELD_TASK_INS_ATT_INSTRUCTIONS_ID + " text,"
 			+ FIELD_TASK_INS_ATT_TYPE + " text," + FIELD_TASK_INS_ATT_URL + " text,"
-			+ FIELD_TASK_INS_ATT_UPDATE_TIME + " text," + FIELD_TASK_INS_ATT_MD5 + " text)";
+			+ FIELD_TASK_INS_ATT_UPDATE_TIME + " text," + FIELD_TASK_INS_ATT_MD5 + " text,"
+			+ FIELD_TASK_INS_ATT_STATUS + " text)";
 
 	// Èº×é±í
 	public static final String TB_SYS_GROUP = "tb_sys_group";
