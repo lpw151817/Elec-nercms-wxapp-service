@@ -640,7 +640,13 @@ public class UpdateDao extends BaseDAO {
 			ContentValues values = new ContentValues();
 			Field[] fs = bean.getClass().getDeclaredFields();
 			for (Field field : fs) {
-				values.put(field.getName(), getFieldValueByName(field.getName(), bean));
+				Object value = getFieldValueByName(field.getName(), bean);
+				// 如果是String，就插入String
+				if (value instanceof String)
+					values.put(field.getName(), (String) value);
+				// 如果是int就插入int
+				else if (value instanceof Integer)
+					values.put(field.getName(), (Integer) value);
 			}
 
 			return db.insert(tableName, null, values) > 0;
@@ -681,7 +687,7 @@ public class UpdateDao extends BaseDAO {
 			}
 			return saveOrg(bean);
 		} finally {
-			//db.close();
+			// db.close();
 		}
 	}
 
@@ -690,7 +696,7 @@ public class UpdateDao extends BaseDAO {
 		try {
 			return db.delete(tableName, "id = ?", new String[] { id }) > 0;
 		} finally {
-			//db.close();
+			// db.close();
 		}
 	}
 
@@ -701,20 +707,20 @@ public class UpdateDao extends BaseDAO {
 			return c.getCount() > 0;
 		} finally {
 			c.close();
-			//db.close();
+			// db.close();
 		}
 	}
 
 	/**
 	 * 根据属性名获取属性值
 	 */
-	private String getFieldValueByName(String fieldName, Object o) {
+	private Object getFieldValueByName(String fieldName, Object o) {
 		try {
 			String firstLetter = fieldName.substring(0, 1).toUpperCase();
 			String getter = "get" + firstLetter + fieldName.substring(1);
 			Method method = o.getClass().getMethod(getter, new Class[] {});
 			Object value = method.invoke(o, new Object[] {});
-			return value.toString();
+			return value;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
