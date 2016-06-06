@@ -205,7 +205,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASK_ATTCHMENT_HISTORYGPS + " text," + FIELD_TASK_ATTCHMENT_STANDARD + " text,"
 			+ FIELD_TASK_ATTCHMENT_TYPE + " text," + FIELD_TASK_ATTCHMENT_URL + " text,"
 			+ FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " text," + FIELD_TASK_ATTCHMENT_MD5 + " text,"
-			+ FIELD_TASK_ATTACHMENT_STATUS + " text" + FIELD_TASK_ATTACHMENT_DIXIAN + " INTEGER"
+			+ FIELD_TASK_ATTACHMENT_STATUS + " text," + FIELD_TASK_ATTACHMENT_DIXIAN + " integer"
 			+ ")";
 
 	public static final String TB_TASK_INSTRUCTIONS = "tb_task_instructions";

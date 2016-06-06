@@ -363,7 +363,7 @@ public class PlanTaskDao extends BaseDAO {
 		// 按照计划开始时间进行排序
 		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " desc");
 
-		Log.v(getClass().getSimpleName() + ">>>>>>>", sql.toString());
+//		Log.v(getClass().getSimpleName() + ">>>>>>>", sql.toString());
 		Cursor c = db.rawQuery(sql.toString(), null);
 		List<tb_task_info> result = new ArrayList<tb_task_info>();
 		while (c.moveToNext()) {
@@ -486,6 +486,9 @@ public class PlanTaskDao extends BaseDAO {
 		Cursor c = db.query(DatabaseHelper.TB_TASK_ATTACHMENT, null,
 				DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = ?", new String[] { tid }, null,
 				null, null);
+		for (String tmp : c.getColumnNames()) {
+			Log.v("login", tmp);
+		}
 		List<tb_task_attachment> result = new ArrayList<tb_task_attachment>();
 		while (c.moveToNext()) {
 			result.add(new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
