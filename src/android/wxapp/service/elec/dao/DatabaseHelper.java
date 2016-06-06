@@ -198,13 +198,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_ATTCHMENT_UPLOAD_TIME = "upload_time";
 	public static final String FIELD_TASK_ATTCHMENT_MD5 = "md5";
 	public static final String FIELD_TASK_ATTACHMENT_STATUS = "status";
+	public static final String FIELD_TASK_ATTACHMENT_DIXIAN = "dixian";
 	public static final String SQL_TASK_ATTACHMENT_CREATE_TABLE = "create table "
 			+ TB_TASK_ATTACHMENT + " (" + FIELD_TASK_ATTCHMENT_ID
 			+ " integer primary key autoincrement, " + FIELD_TASK_ATTCHMENT_TASK_ID + " text,"
 			+ FIELD_TASK_ATTCHMENT_HISTORYGPS + " text," + FIELD_TASK_ATTCHMENT_STANDARD + " text,"
 			+ FIELD_TASK_ATTCHMENT_TYPE + " text," + FIELD_TASK_ATTCHMENT_URL + " text,"
 			+ FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " text," + FIELD_TASK_ATTCHMENT_MD5 + " text,"
-			+ FIELD_TASK_ATTACHMENT_STATUS + " text)";
+			+ FIELD_TASK_ATTACHMENT_STATUS + " text" + FIELD_TASK_ATTACHMENT_DIXIAN + " INTEGER"
+			+ ")";
 
 	public static final String TB_TASK_INSTRUCTIONS = "tb_task_instructions";
 	public static final String FIELD_TASK_INSTRUCTIONS_ID = "id";
@@ -242,13 +244,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_INS_ATT_UPDATE_TIME = "update_time";
 	public static final String FIELD_TASK_INS_ATT_MD5 = "md5";
 	public static final String FIELD_TASK_INS_ATT_STATUS = "status";
-	public static final String FIELD_TASK_INS_ATT_DIXIAN = "dixian";
+
 	public static final String SQL_TASK_INS_ATT_CREATE_TABLE = "create table "
 			+ TB_TASK_INSTRUCTIONS_ATTACHMENT + " (" + FIELD_TASK_INS_ATT_ID
 			+ " integer primary key autoincrement, " + FIELD_TASK_INS_ATT_INSTRUCTIONS_ID + " text,"
 			+ FIELD_TASK_INS_ATT_TYPE + " text," + FIELD_TASK_INS_ATT_URL + " text,"
 			+ FIELD_TASK_INS_ATT_UPDATE_TIME + " text," + FIELD_TASK_INS_ATT_MD5 + " text,"
-			+ FIELD_TASK_INS_ATT_STATUS + " text" + FIELD_TASK_INS_ATT_DIXIAN + " INTEGER" + ")";
+			+ FIELD_TASK_INS_ATT_STATUS + " text" + ")";
 
 	// Èº×é±í
 	public static final String TB_SYS_GROUP = "tb_sys_group";

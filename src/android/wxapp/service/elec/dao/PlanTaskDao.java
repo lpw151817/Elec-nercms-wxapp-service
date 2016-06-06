@@ -23,6 +23,18 @@ import android.wxapp.service.util.Utils;
 
 public class PlanTaskDao extends BaseDAO {
 
+	public int getLastDixian(String tid) {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.rawQuery("select * from " + DatabaseHelper.TB_TASK_ATTACHMENT + " where "
+				+ DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = " + tid + " and "
+				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN + "is not null order by "
+				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN + " desc", null);
+		if (c.moveToFirst())
+			return c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN));
+		else
+			return 0;
+	}
+
 	public String taskLeibieInt2String(int i) {
 		return "category0" + i;
 	}
@@ -455,6 +467,13 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME, upload_time);
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_URL, url);
 		values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS, status);
+		// 获取地线数值
+		String[] tmp = url.split("_");
+		if (tmp.length > 1) {
+			values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN,
+					Integer.parseInt(url.split("_")[0].substring(1)));
+		}
+
 		try {
 			return db.insert(DatabaseHelper.TB_TASK_ATTACHMENT, null, values) > 0;
 		} finally {
@@ -477,7 +496,8 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_URL),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5),
-					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS)));
+					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS),
+					c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN))));
 		}
 		c.close();
 		// db.close();
@@ -519,7 +539,8 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_URL),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5),
-					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS)));
+					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS),
+					c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN))));
 		}
 		c.close();
 		// db.close();
@@ -541,7 +562,8 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_URL),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5),
-					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS));
+					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS),
+					c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN)));
 		}
 		c.close();
 		// db.close();

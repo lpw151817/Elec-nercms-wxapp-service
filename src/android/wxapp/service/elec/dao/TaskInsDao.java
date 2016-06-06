@@ -30,20 +30,6 @@ public class TaskInsDao extends BaseDAO {
 		super(context);
 	}
 
-	public int getLastDixian(String tid) {
-		db = dbHelper.getReadableDatabase();
-		Cursor c = db.rawQuery("select * from " + DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT
-				+ " where " + DatabaseHelper.FIELD_TASK_INS_ATT_INSTRUCTIONS_ID + " in ( select "
-				+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_ID + " from "
-				+ DatabaseHelper.TB_TASK_INSTRUCTIONS + " where "
-				+ DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TASK_ID + " = " + tid + ") order by "
-				+ DatabaseHelper.FIELD_TASK_INS_ATT_DIXIAN + " desc", null);
-		if (c.moveToFirst())
-			return c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_INS_ATT_DIXIAN));
-		else
-			return 0;
-	}
-
 	/**
 	 * 更改附件上传状态
 	 * 
@@ -197,9 +183,7 @@ public class TaskInsDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_URL, url);
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_UPDATE_TIME, update_time);
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_MD5, md5);
-		// 获取地线数值
-		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_DIXIAN,
-				Integer.parseInt(url.split("_")[0].substring(1)));
+
 		try {
 			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null, values) > 0;
 		} finally {
@@ -302,8 +286,7 @@ public class TaskInsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_TYPE),
 					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_URL),
 					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_UPDATE_TIME),
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_MD5),
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_DIXIAN));
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_MD5));
 			result.add(item);
 		}
 		c.close();

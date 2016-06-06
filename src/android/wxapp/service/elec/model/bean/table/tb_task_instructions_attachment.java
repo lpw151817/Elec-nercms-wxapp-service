@@ -7,33 +7,23 @@ public class tb_task_instructions_attachment {
 	String url;
 	String update_time;
 	String md5;
-	String dixian;
 
 	@Override
 	public String toString() {
 		return "tb_task_instructions_attachment [id=" + id + ", instructions_id=" + instructions_id
-				+ ", type=" + type + ", url=" + url + ", update_time=" + update_time + ", dixian="
-				+ dixian + ", md5=" + md5 + "]";
+				+ ", type=" + type + ", url=" + url + ", update_time=" + update_time + ", md5="
+				+ md5 + "]";
 	}
 
 	public tb_task_instructions_attachment(String id, String instructions_id, String type,
-			String url, String update_time, String md5, String dixian) {
+			String url, String update_time, String md5) {
 		super();
 		this.id = id;
 		this.instructions_id = instructions_id;
 		this.type = type;
 		this.url = url;
 		this.update_time = update_time;
-		this.dixian = dixian;
 		this.md5 = md5;
-	}
-
-	public String getDixian() {
-		return dixian;
-	}
-
-	public void setDixian(String dixian) {
-		this.dixian = dixian;
 	}
 
 	public tb_task_instructions_attachment() {
