@@ -1,5 +1,6 @@
 package android.wxapp.service.elec.dao;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -168,7 +169,8 @@ public class UpdateDao extends BaseDAO {
 					}
 				} else if (tableName.toLowerCase()
 						.equals(tb_task_attachment.class.getSimpleName().toLowerCase())) {
-					List<tb_task_attachment> r = gson.fromJson(subJs.getString("data"),
+					//添加反斜杠过滤
+					List<tb_task_attachment> r = gson.fromJson(subJs.getString("data").replace("\\", File.separator),
 							new TypeToken<List<tb_task_attachment>>() {
 							}.getType());
 					for (tb_task_attachment item : r) {
@@ -201,7 +203,8 @@ public class UpdateDao extends BaseDAO {
 					}
 				} else if (tableName.toLowerCase().equals(
 						tb_task_instructions_attachment.class.getSimpleName().toLowerCase())) {
-					List<tb_task_instructions_attachment> r = gson.fromJson(subJs.getString("data"),
+					//添加反斜杠过滤
+					List<tb_task_instructions_attachment> r = gson.fromJson(subJs.getString("data").replace("\\", File.separator),
 							new TypeToken<List<tb_task_instructions_attachment>>() {
 							}.getType());
 					for (tb_task_instructions_attachment item : r) {
