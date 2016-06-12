@@ -27,7 +27,7 @@ public class PlanTaskDao extends BaseDAO {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.rawQuery("select * from " + DatabaseHelper.TB_TASK_ATTACHMENT + " where "
 				+ DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = " + tid + " and "
-				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN + "is not null order by "
+				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN + " is not null order by "
 				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN + " desc", null);
 		if (c.moveToFirst())
 			return c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN));
@@ -363,7 +363,7 @@ public class PlanTaskDao extends BaseDAO {
 		// 按照计划开始时间进行排序
 		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " desc");
 
-//		Log.v(getClass().getSimpleName() + ">>>>>>>", sql.toString());
+		// Log.v(getClass().getSimpleName() + ">>>>>>>", sql.toString());
 		Cursor c = db.rawQuery(sql.toString(), null);
 		List<tb_task_info> result = new ArrayList<tb_task_info>();
 		while (c.moveToNext()) {
@@ -468,10 +468,10 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_URL, url);
 		values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS, status);
 		// 获取地线数值
-		String[] tmp = url.split("_");
+		String[] tmp = url.split("-");
 		if (tmp.length > 1) {
 			values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN,
-					Integer.parseInt(url.split("_")[0].substring(1)));
+					Integer.parseInt(url.split("-")[0].substring(1)));
 		}
 
 		try {

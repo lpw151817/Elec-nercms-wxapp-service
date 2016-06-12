@@ -164,7 +164,6 @@ public class TaskInsDao extends BaseDAO {
 			sendtime = Utils.parseDateInFormat(sendtime);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_SEND_TIME, sendtime);
 		values.put(DatabaseHelper.FIELD_TASK_INSTRUCTIONS_TYPE, type);
-		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_STATUS, "0");
 		long insId = db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS, null, values);
 		if (insId > 0)
 			return saveInsAtt(null, insId + "", attType, url, update_time, md5);
@@ -183,7 +182,7 @@ public class TaskInsDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_URL, url);
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_UPDATE_TIME, update_time);
 		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_MD5, md5);
-
+		values.put(DatabaseHelper.FIELD_TASK_INS_ATT_STATUS, "0");
 		try {
 			return db.insert(DatabaseHelper.TB_TASK_INSTRUCTIONS_ATTACHMENT, null, values) > 0;
 		} finally {
