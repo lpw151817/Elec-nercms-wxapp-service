@@ -2,3 +2,5 @@
 
 /gen/
 project.properties
+lint.xml
+/.settings/
