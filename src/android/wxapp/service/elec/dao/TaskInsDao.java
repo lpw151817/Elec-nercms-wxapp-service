@@ -285,7 +285,8 @@ public class TaskInsDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_TYPE),
 					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_URL),
 					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_UPDATE_TIME),
-					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_MD5));
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_MD5),
+					getData(c, DatabaseHelper.FIELD_TASK_INS_ATT_STATUS));
 			result.add(item);
 		}
 		c.close();

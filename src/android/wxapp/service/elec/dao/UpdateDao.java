@@ -169,11 +169,26 @@ public class UpdateDao extends BaseDAO {
 					}
 				} else if (tableName.toLowerCase()
 						.equals(tb_task_attachment.class.getSimpleName().toLowerCase())) {
-					//添加反斜杠过滤
-					List<tb_task_attachment> r = gson.fromJson(subJs.getString("data").replace("\\", File.separator),
+					List<tb_task_attachment> r = gson.fromJson(subJs.getString("data"),
 							new TypeToken<List<tb_task_attachment>>() {
 							}.getType());
 					for (tb_task_attachment item : r) {
+						// 添加反斜杠过滤
+						item.setUrl(item.getUrl().replace("\\", File.separator));
+						item.setStatus("2");
+
+						// 获取地线数值
+						try {
+							String[] tmp = item.getUrl().split("-");
+							if (tmp.length > 1) {
+								tmp = tmp[0].split(File.separator);
+								item.setDixian(Integer.parseInt(tmp[tmp.length - 1].substring(1)));
+							}
+						} catch (Exception e) {
+							Log.e("update>>>>>>>>>", "地线转换出错！！！！！");
+							e.printStackTrace();
+						}
+
 						if (!saveAtt(item)) {
 							Log.e("update>>>>>>>>>", "error>>>>>>" + item);
 							return false;
@@ -203,11 +218,13 @@ public class UpdateDao extends BaseDAO {
 					}
 				} else if (tableName.toLowerCase().equals(
 						tb_task_instructions_attachment.class.getSimpleName().toLowerCase())) {
-					//添加反斜杠过滤
-					List<tb_task_instructions_attachment> r = gson.fromJson(subJs.getString("data").replace("\\", File.separator),
+					List<tb_task_instructions_attachment> r = gson.fromJson(subJs.getString("data"),
 							new TypeToken<List<tb_task_instructions_attachment>>() {
 							}.getType());
 					for (tb_task_instructions_attachment item : r) {
+						// 添加反斜杠过滤
+						item.setUrl(item.getUrl().replace("\\", File.separator));
+						item.setStatus("2");
 						if (!saveInsAtt(item)) {
 							Log.e("update>>>>>>>>>", "error>>>>>>" + item);
 							return false;

@@ -1,5 +1,6 @@
 package android.wxapp.service.elec.dao;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -470,8 +471,12 @@ public class PlanTaskDao extends BaseDAO {
 		// 获取地线数值
 		String[] tmp = url.split("-");
 		if (tmp.length > 1) {
-			values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN,
-					Integer.parseInt(url.split("-")[0].substring(1)));
+			try {
+				tmp = tmp[0].split(File.separator);
+				values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN,
+						Integer.parseInt(tmp[tmp.length - 1].substring(1)));
+			} catch (Exception e) {
+			}
 		}
 
 		try {

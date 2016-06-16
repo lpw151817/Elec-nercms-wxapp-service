@@ -8,6 +8,8 @@ public class tb_task_instructions_attachment {
 	String update_time;
 	String md5;
 
+	String status;
+
 	@Override
 	public String toString() {
 		return "tb_task_instructions_attachment [id=" + id + ", instructions_id=" + instructions_id
@@ -15,8 +17,16 @@ public class tb_task_instructions_attachment {
 				+ md5 + "]";
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public tb_task_instructions_attachment(String id, String instructions_id, String type,
-			String url, String update_time, String md5) {
+			String url, String update_time, String md5, String status) {
 		super();
 		this.id = id;
 		this.instructions_id = instructions_id;
@@ -24,6 +34,7 @@ public class tb_task_instructions_attachment {
 		this.url = url;
 		this.update_time = update_time;
 		this.md5 = md5;
+		this.status = status;
 	}
 
 	public tb_task_instructions_attachment() {
