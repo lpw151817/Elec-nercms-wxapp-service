@@ -111,6 +111,7 @@ public class HttpRequest extends BaseRequest {
 		});
 	}
 
+	//fym 收到mqtt消息后显示Notification推送及更新时戳
 	public JsonObjectRequest mqttUpdateRequest(final Context c, final MqttResponse response) {
 		return getUpdateRequest(c, new Listener<JSONObject>() {
 
@@ -522,12 +523,14 @@ public class HttpRequest extends BaseRequest {
 		StartTaskRequest ctr = new StartTaskRequest(getUserId(c), getUserIc(c), tid, time);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.START_TASK_METHOD
 				+ Contants.START_TASK_PARAM + parase2Json(ctr);
-		Log.e("URL", this.url);
+		//Log.e("Demo", this.url);
+		Log.v("Temp", this.url);
 		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject arg0) {
-				Log.e("Response", arg0.toString());
+				//Log.e("Demo", arg0.toString());
+				Log.v("Temp", arg0.toString());
 				try {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
 						final StartTaskResponse r = gson.fromJson(arg0.toString(),

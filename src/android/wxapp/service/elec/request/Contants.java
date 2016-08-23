@@ -10,7 +10,7 @@ import java.io.File;
  */
 public class Contants {
 	// http://120.26.78.7:88/supervise ∞¢¿Ô http://58.50.28.139:8080/superviseæ£÷›
-	// http://120.26.78.7:8088/supervise
+	// http://120.26.78.7:8088/supervise  172.16.12.2
 	
 	
 	
@@ -22,7 +22,7 @@ public class Contants {
 //	public static String HFS_SERVER = SERVER;
 //	public static String HFS_PORT = "9898";
 //
-//	public static String MQTT_SERVER = SERVER;
+ //	public static String MQTT_SERVER = SERVER;
 //	public static String MQTT_PORT = "1883";
 //
 //	public static String SCHEDULE_SERVER_WAN = SERVER;

@@ -26,7 +26,7 @@ import android.wxapp.service.handler.MessageHandlerManager;
 @SuppressLint("NewApi")
 public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 
-	private String TAG = "HttpDownloadTask";
+	private String TAG = "Http";
 
 	// 2014-5-28 WeiHao 新增：用户在下载完成时返回给界面的文件名
 	private String mediaName;
@@ -77,12 +77,14 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 		file.delete();
 	}
 
-	private void start_downloading(String url, String filepath, String filename) {
+	private void start_downloading(String url, String filepath, String filename)
+	{
 		System.out.println("begin download!!!!!!");
+		Log.v("Http", "download begin " + url + ", " + filepath + ", " + filename);
 		try {
 			delete_old_file(filepath, filename);
 
-			Log.i(TAG, "download url " + url);
+			Log.i(TAG, "download file: " + filename + ", url: " + url);
 			// String url = "http://10.0.2.2/android/film/G3.mp4";
 			_download_request = new DownloadManager.Request(Uri.parse(url));
 
@@ -135,7 +137,8 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 	// 该方法并不运行在UI线程当中，主要用于异步操作，所有在该方法中不能对UI当中的空间进行设置和修改
 	@SuppressLint("NewApi")
 	@Override
-	protected Boolean doInBackground(String... params) {
+	protected Boolean doInBackground(String... params)
+	{
 
 		mediaName = params[2];
 
@@ -147,7 +150,8 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 			return false;
 
 		int status = -1;
-		while (true) {
+		while (true)
+		{
 			status = query_status(_download_id);
 
 			publishProgress(status);
@@ -156,21 +160,28 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 				Log.i(TAG, "Download app fail " + status);
 				_download_manager.remove(_download_id);
 				return false;
-			} else if (DownloadManager.STATUS_PAUSED == status
+			}
+			else if (DownloadManager.STATUS_PAUSED == status
 					|| DownloadManager.STATUS_PENDING == status
-					|| DownloadManager.STATUS_RUNNING == status) {
-				// Log.v("Baidu", "Downloading app " + status);
+					|| DownloadManager.STATUS_RUNNING == status)
+			{
+				Log.v("Baidu", "Downloading app " + status);
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} else if (DownloadManager.STATUS_SUCCESSFUL == status) {
+			}
+			else if (DownloadManager.STATUS_SUCCESSFUL == status)
+			{
 				Log.i(TAG, "Download app success " + status);
 				break;
 			}
 		}
+		
+		DownloadMutex._download_task_tasks.remove(params[0]);//fym
+		//_download_feedback_tasks的清理在FeedbackListAdapter中进行
 
 		return true;
 	}
@@ -182,6 +193,7 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 
 		// context.unregisterReceiver(_download_receiver);
 		if (result) {
+			Log.v("Http", "download success " + mediaName + ", " + context.getClass().getSimpleName());
 			// 2014-5-28 通知相应的页面刷新显示
 			MessageHandlerManager.getInstance().sendMessage(Constant.FILE_DOWNLOAD_SUCCESS, mediaName,
 					context.getClass().getSimpleName());
@@ -192,6 +204,7 @@ public class HttpDownloadTask extends AsyncTask<String, Integer, Boolean> {
 					context.getClass().getName());
 			Toast.makeText(context, "下载失败", Toast.LENGTH_SHORT).show();
 		}
+		
 		_download_id = -1;
 	}
 

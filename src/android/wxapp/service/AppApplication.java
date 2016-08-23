@@ -60,7 +60,7 @@ public class AppApplication extends Application {
 	@Override
 	public void onCreate() {
 
-		System.loadLibrary("push"); // call .so
+		//System.loadLibrary("push"); // call .so
 
 		// 应用程序启动时候创建RequestQueue
 		myQueue = Volley.newRequestQueue(getApplicationContext());
