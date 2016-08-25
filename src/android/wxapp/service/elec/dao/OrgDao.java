@@ -31,7 +31,8 @@ public class OrgDao extends BaseDAO {
 	public List<Org> convert(List<TB_SYS_Person> data) {
 		List<Org> result = new ArrayList<Org>();
 		for (TB_SYS_Person tb_SYS_Person : data) {
-			result.add(new Org("p" + tb_SYS_Person.getId(), "o"+tb_SYS_Person.getOrg_code(), tb_SYS_Person.getName()));
+			result.add(new Org("p" + tb_SYS_Person.getId(), "o" + tb_SYS_Person.getOrg_code(),
+					tb_SYS_Person.getName()));
 		}
 		return result;
 	}
@@ -122,6 +123,44 @@ public class OrgDao extends BaseDAO {
 		result.addAll(getAllOrgs());
 		result.addAll(getAllPersons());
 		return result;
+	}
+
+	public List<Org> getShigongdanwei() {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.rawQuery("SELECT * from " + DatabaseHelper.TB_ORG + " where "
+				+ DatabaseHelper.FIELD_ORG_ORG_CODE + " like '1%'", null);
+		List<Org> r = new ArrayList<Org>();
+		while (c.moveToNext()) {
+			String name = getData(c, DatabaseHelper.FIELD_ORG_ORG_NAME);
+			String org_code = getData(c, DatabaseHelper.FIELD_ORG_ORG_CODE);
+			if (org_code.length() == 1)
+				r.add(new Org("o" + org_code, 0 + "", name));
+			else
+				r.add(new Org("o" + org_code, "o" + org_code.substring(0, org_code.length() - 1),
+						name));
+		}
+		c.close();
+		// db.close();
+		return r;
+	}
+
+	public List<Org> getGongdiansuo() {
+		db = dbHelper.getReadableDatabase();
+		Cursor c = db.rawQuery("SELECT * from " + DatabaseHelper.TB_ORG + " where "
+				+ DatabaseHelper.FIELD_ORG_ORG_CODE + " like '2%'", null);
+		List<Org> r = new ArrayList<Org>();
+		while (c.moveToNext()) {
+			String name = getData(c, DatabaseHelper.FIELD_ORG_ORG_NAME);
+			String org_code = getData(c, DatabaseHelper.FIELD_ORG_ORG_CODE);
+			if (org_code.length() == 1)
+				r.add(new Org("o" + org_code, 0 + "", name));
+			else
+				r.add(new Org("o" + org_code, "o" + org_code.substring(0, org_code.length() - 1),
+						name));
+		}
+		c.close();
+		// db.close();
+		return r;
 	}
 
 	public List<Org> getAllOrgs() {

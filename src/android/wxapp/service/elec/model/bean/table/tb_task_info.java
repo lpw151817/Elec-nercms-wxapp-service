@@ -4,7 +4,10 @@ public class tb_task_info {
 	String id;
 	String weather;
 	String name;
-	String task_code;//新增
+	String task_code,
+
+			line_num, under_district, task_location;
+
 	String power_cut_range;
 	String effect_eara;
 	String content;
@@ -15,7 +18,7 @@ public class tb_task_info {
 	String end_time;
 	String category;
 	String is_publish;
-	
+
 	@Override
 	public String toString() {
 		return "tb_task_info [id=" + id + "]";
@@ -28,7 +31,6 @@ public class tb_task_info {
 	String is_power_cut;
 	String cut_type;
 	String implement_org;
-	String number;
 	String remark;
 	String plan_type;
 	String creator_id;
@@ -40,24 +42,57 @@ public class tb_task_info {
 	String examine_id;
 	String approve_id;
 	String history_id;
+	String score;
 
+	public String getLine_num() {
+		return line_num;
+	}
 
-	public tb_task_info(String id, String weather, String name,
-			String task_code, String power_cut_range, String effect_eara,
+	public void setLine_num(String line_num) {
+		this.line_num = line_num;
+	}
+
+	public String getUnder_district() {
+		return under_district;
+	}
+
+	public void setUnder_district(String under_district) {
+		this.under_district = under_district;
+	}
+
+	public String getTask_location() {
+		return task_location;
+	}
+
+	public void setTask_location(String task_location) {
+		this.task_location = task_location;
+	}
+
+	public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+	public tb_task_info(String id, String weather, String name, String task_code, String line_num,
+			String under_district, String task_location, String power_cut_range, String effect_eara,
 			String content, String responsibility_user, String plan_start_time,
-			String plan_end_time, String start_time, String end_time,
-			String category, String is_publish, String special, String leader,
-			String measures, String domain, String is_power_cut,
-			String cut_type, String implement_org, String number,
-			String remark, String plan_type, String creator_id,
-			String creator_time, String update_id, String update_time,
-			String is_keep, String status, String examine_id,
-			String approve_id, String history_id) {
+			String plan_end_time, String start_time, String end_time, String category,
+			String is_publish, String special, String leader, String measures, String domain,
+			String is_power_cut, String cut_type, String implement_org, String remark,
+			String plan_type, String creator_id, String creator_time, String update_id,
+			String update_time, String is_keep, String status, String examine_id, String approve_id,
+			String history_id, String score) {
 		super();
 		this.id = id;
 		this.weather = weather;
 		this.name = name;
 		this.task_code = task_code;
+		this.line_num = line_num;
+		this.under_district = under_district;
+		this.task_location = task_location;
 		this.power_cut_range = power_cut_range;
 		this.effect_eara = effect_eara;
 		this.content = content;
@@ -75,7 +110,6 @@ public class tb_task_info {
 		this.is_power_cut = is_power_cut;
 		this.cut_type = cut_type;
 		this.implement_org = implement_org;
-		this.number = number;
 		this.remark = remark;
 		this.plan_type = plan_type;
 		this.creator_id = creator_id;
@@ -86,7 +120,8 @@ public class tb_task_info {
 		this.status = status;
 		this.examine_id = examine_id;
 		this.approve_id = approve_id;
-		this.history_id = history_id;//新增
+		this.history_id = history_id;
+		this.score = score;
 	}
 
 	public String getTask_code() {
@@ -267,14 +302,6 @@ public class tb_task_info {
 
 	public void setImplement_org(String implement_org) {
 		this.implement_org = implement_org;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
 	}
 
 	public String getRemark() {

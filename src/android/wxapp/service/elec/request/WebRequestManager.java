@@ -56,15 +56,16 @@ public class WebRequestManager {
 		queue.add(httpRequest.getUpdateRequest(c));
 	}
 
-	public void createPlanTask(Context c, String weather, String name, String power_cut_range,
+	public void createPlanTask(Context c, String weather, String name, String task_code,
+			String line_num, String under_district, Node task_location, String power_cut_range,
 			String effect_eara, String content, List<Node> responsibility_user,
 			String plan_start_time, String plan_end_time, String category, boolean is_publish,
 			String special, List<Node> leader, String measures, String domain, boolean is_power_cut,
-			String cut_type, Node implement_org, String number, String remark) {
-		queue.add(httpRequest.getCreatePlanTaskRequest(c, weather, name, power_cut_range,
-				effect_eara, content, responsibility_user, plan_start_time, plan_end_time, category,
-				is_publish, special, leader, measures, domain, is_power_cut, cut_type,
-				implement_org, number, remark));
+			String cut_type, Node implement_org, String remark) {
+		queue.add(httpRequest.getCreatePlanTaskRequest(c, weather, name, task_code, line_num,
+				under_district, task_location, power_cut_range, effect_eara, content,
+				responsibility_user, plan_start_time, plan_end_time, category, is_publish, special,
+				leader, measures, domain, is_power_cut, cut_type, implement_org, remark));
 	}
 
 	/**

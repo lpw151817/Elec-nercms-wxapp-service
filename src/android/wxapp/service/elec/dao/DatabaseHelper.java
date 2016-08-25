@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_ORG_ORG_NAME = "org_name";
 	public static final String FIELD_ORG_REMARK = "remark";
 	public static final String FIELD_ORG_UPDATE_TIME = "update_time";
-	public static final String SQL_ORGE_CREATE_TABLE = "create table " + TB_ORG + " ("
+	public static final String SQL_ORGE_CREATE_TABLE = "create table if not exists " + TB_ORG + " ("
 			+ FIELD_ORG_ID + " integer primary key autoincrement, " + FIELD_ORG_ORG_CODE + " text,"
 			+ FIELD_ORG_ORG_NAME + " text," + FIELD_ORG_REMARK + " text," + FIELD_ORG_UPDATE_TIME
 			+ " text)";
@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_PERSON_FORCE_OFFLINE = "force_offline";
 	public static final String FIELD_PERSON_SEQUENCE = "sequence";
 	public static final String FIELD_PERSON_UPDATE_TIME = "update_time";
-	public static final String SQL_PERSON_CREATE_TABLE = "create table " + TB_PERSON + " ("
+	public static final String SQL_PERSON_CREATE_TABLE = "create table if not exists " + TB_PERSON + " ("
 			+ FIELD_PERSON_ID + " integer primary key autoincrement, " + FIELD_PERSON_ALIAS
 			+ " text," + FIELD_PERSON_ORG_CODE + " text," + FIELD_PERSON_NAME + " text,"
 			+ FIELD_PERSON_CONTACT + " text," + FIELD_PERSON_TYPE + " text,"
@@ -53,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_ROLE_NAME = "role_name";
 	public static final String FIELD_ROLE_REMARK = "remark";
 	public static final String FIELD_ROLE_UPDATE_TIME = "update_time";
-	public static final String SQL_ROLE_CREATE_TABLE = "create table " + TB_ROLE + " ("
+	public static final String SQL_ROLE_CREATE_TABLE = "create table if not exists " + TB_ROLE + " ("
 			+ FIELD_ROLE_ID + " integer primary key autoincrement, " + FIELD_ROLE_NAME + " text,"
 			+ FIELD_ROLE_REMARK + " text," + FIELD_ROLE_UPDATE_TIME + " text)";
 
@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_ROLE_PERSON_ID = "id";
 	public static final String FIELD_ROLE_PERSON_PID = "person_id";
 	public static final String FIELD_ROLE_PERSON_RID = "role_id";
-	public static final String SQL_ROLE_PERSON_CREATE_TABLE = "create table " + TB_ROLE_PERSON
+	public static final String SQL_ROLE_PERSON_CREATE_TABLE = "create table if not exists " + TB_ROLE_PERSON
 			+ " (" + FIELD_ROLE_PERSON_ID + " integer primary key autoincrement, "
 			+ FIELD_ROLE_PERSON_PID + " text," + FIELD_ROLE_PERSON_RID + " text)";
 
@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_PERMISSION_CODE = "code";
 	public static final String FIELD_PERMISSION_NAME = "name";
 	public static final String FIELD_PERMISSION_ROLE_ID = "Role_id";
-	public static final String SQL_PERMISSION_CREATE_TABLE = "create table " + TB_PERMISSION + " ("
+	public static final String SQL_PERMISSION_CREATE_TABLE = "create table if not exists " + TB_PERMISSION + " ("
 			+ FIELD_PERMISSION_ID + " integer primary key autoincrement, "
 			+ FIELD_PERMISSION_MENU_CODE + " text," + FIELD_PERMISSION_CODE + " text,"
 			+ FIELD_PERMISSION_NAME + " text," + FIELD_PERMISSION_ROLE_ID + " text)";
@@ -86,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static String FIELD_LOG_LATITUDE = "latitude";
 	public static String FIELD_LOG_CLIENT = "client";
 	public static String FIELD_LOG_IP = "ip";
-	public static final String SQL_LOG_CREATE_TABLE = "create table " + TB_LOG + " (" + FIELD_LOG_ID
+	public static final String SQL_LOG_CREATE_TABLE = "create table if not exists " + TB_LOG + " (" + FIELD_LOG_ID
 			+ " integer primary key autoincrement, " + FIELD_LOG_USER_NAME + " text,"
 			+ FIELD_LOG_TYPE + " text," + FIELD_LOG_CONTENT + " text," + FIELD_LOG_TIME + " text,"
 			+ FIELD_LOG_LONGITUDE + " text," + FIELD_LOG_LATITUDE + " text," + FIELD_LOG_CLIENT
@@ -96,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_DIC_ID = "id";
 	public static final String FIELD_DIC_CODE = "code";
 	public static final String FIELD_DIC_NAME = "name";
-	public static final String SQL_DIC_CREATE_TABLE = "create table " + TB_DICTIONARY + " ("
+	public static final String SQL_DIC_CREATE_TABLE = "create table if not exists " + TB_DICTIONARY + " ("
 			+ FIELD_DIC_ID + " integer primary key autoincrement, " + FIELD_DIC_CODE + " text,"
 			+ FIELD_DIC_NAME + " text)";
 
@@ -105,7 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_DICDATA_DATA_CODE = "data_code";
 	public static final String FIELD_DICDATA_DATA_VALUE = "data_value";
 	public static final String FIELD_DICDATA_DICTIONARY_CODE = "dictionary_code";
-	public static final String SQL_DIC_DATA_CREATE_TABLE = "create table " + TB_DIC_DATA + " ("
+	public static final String SQL_DIC_DATA_CREATE_TABLE = "create table if not exists " + TB_DIC_DATA + " ("
 			+ FIELD_DICDATA_ID + " integer primary key autoincrement, " + FIELD_DICDATA_DATA_CODE
 			+ " text," + FIELD_DICDATA_DATA_VALUE + " text," + FIELD_DICDATA_DICTIONARY_CODE
 			+ " text)";
@@ -115,6 +115,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASKINFO_WEATHER = "weather";
 	public static final String FIELD_TASKINFO_NAME = "name";
 	public static final String FIELD_TASKINFO_TASK_CODE = "task_code";// 新增
+	public static final String FIELD_TASKINFO_LINE_NUM = "line_num";// 新增
+	public static final String FIELD_TASKINFO_UNDER_DISTRICT = "under_district";// 新增
+	public static final String FIELD_TASKINFO_TASK_LOCATION = "task_location";// 新增
 	public static final String FIELD_TASKINFO_POWER_CUT_RANGE = "power_cut_range";
 	public static final String FIELD_TASKINFO_EFFECT_EARA = "effect_eara";
 	public static final String FIELD_TASKINFO_CONTENT = "content";
@@ -132,20 +135,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASKINFO_IS_POWER_CUT = "is_power_cut";
 	public static final String FIELD_TASKINFO_CUT_TYPE = "cut_type";
 	public static final String FIELD_TASKINFO_IMPLEMENT_ORG = "implement_org";
-	public static final String FIELD_TASKINFO_NUMBER = "number";
 	public static final String FIELD_TASKINFO_REMARK = "remark";
 	public static final String FIELD_TASKINFO_PLAN_TYPE = "plan_type";
 	public static final String FIELD_TASKINFO_CREATOR_ID = "creator_id";
 	public static final String FIELD_TASKINFO_CREATOR_TIME = "creator_time";
+	public static final String FIELD_TASKINFO_UPDATE_ID = "update_id";
+	public static final String FIELD_TASKINFO_UPDATE_TIME = "update_time";
 	public static final String FIELD_TASKINFO_IS_KEEP = "is_keep";
 	public static final String FIELD_TASKINFO_STATUS = "status";
 	public static final String FIELD_TASKINFO_EXAMINE_ID = "examine_id";
 	public static final String FIELD_TASKINFO_APPROVE_ID = "approve_id";
-	public static final String FIELD_TASKINFO_UPDATE_ID = "update_id";
-	public static final String FIELD_TASKINFO_UPDATE_TIME = "update_time";
 	public static final String FIELD_TASKINFO_HISTORY_ID = "history_id";
+	public static final String FIELD_TASKINFO_SCORE = "score";
 
-	public static final String SQL_TASK_CREATE_TABLE = "create table " + TB_TASK + " ("
+	public static final String SQL_TASK_CREATE_TABLE = "create table if not exists " + TB_TASK + " ("
 			+ FIELD_TASKINFO_ID + " integer primary key autoincrement, " + FIELD_TASKINFO_WEATHER
 			+ " text," + FIELD_TASKINFO_NAME + " text," + FIELD_TASKINFO_POWER_CUT_RANGE + " text,"
 			+ FIELD_TASKINFO_EFFECT_EARA + " text," + FIELD_TASKINFO_CONTENT + " text,"
@@ -156,20 +159,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ FIELD_TASKINFO_LEADER + " text," + FIELD_TASKINFO_MEASURES + " text,"
 			+ FIELD_TASKINFO_DOMAIN + " text," + FIELD_TASKINFO_IS_POWER_CUT + " text,"
 			+ FIELD_TASKINFO_CUT_TYPE + " text," + FIELD_TASKINFO_IMPLEMENT_ORG + " text,"
-			+ FIELD_TASKINFO_NUMBER + " text," + FIELD_TASKINFO_REMARK + " text,"
+			+ FIELD_TASKINFO_SCORE + " text," + FIELD_TASKINFO_REMARK + " text,"
 			+ FIELD_TASKINFO_TASK_CODE + " text," + FIELD_TASKINFO_PLAN_TYPE + " text,"
 			+ FIELD_TASKINFO_CREATOR_ID + " text," + FIELD_TASKINFO_CREATOR_TIME + " text,"
 			+ FIELD_TASKINFO_IS_KEEP + " text," + FIELD_TASKINFO_STATUS + " text,"
 			+ FIELD_TASKINFO_EXAMINE_ID + " text," + FIELD_TASKINFO_APPROVE_ID + " text,"
 			+ FIELD_TASKINFO_UPDATE_ID + " text," + FIELD_TASKINFO_HISTORY_ID + " text,"
-			+ FIELD_TASKINFO_UPDATE_TIME + " text)";
+			+ FIELD_TASKINFO_LINE_NUM + " text, " + FIELD_TASKINFO_UNDER_DISTRICT + " text, "
+			+ FIELD_TASKINFO_TASK_LOCATION + " text, " + FIELD_TASKINFO_UPDATE_TIME + " text)";
 
 	public static final String TB_TASK_STANDARD = "tb_task_standard";
 	public static final String FIELD_TASK_STANDARD_ID = "id";
 	public static final String FIELD_TASK_STANDARD_STANDARD = "standard";
 	public static final String FIELD_TASK_STANDARD_TOTAL_SCORE = "total_score";
 	public static final String FIELD_TASK_STANDARD_CAREGORE = "category";
-	public static final String SQL_TASK_STANDARD_CREATE_TABLE = "create table " + TB_TASK_STANDARD
+	public static final String SQL_TASK_STANDARD_CREATE_TABLE = "create table if not exists " + TB_TASK_STANDARD
 			+ " (" + FIELD_TASK_STANDARD_ID + " integer primary key autoincrement, "
 			+ FIELD_TASK_STANDARD_STANDARD + " text," + FIELD_TASK_STANDARD_TOTAL_SCORE + " text,"
 			+ FIELD_TASK_STANDARD_CAREGORE + " text)";
@@ -182,7 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_EVALUATE_EVALUATE = "evaluate";
 	public static final String FIELD_TASK_EVALUATE_USER_ID = "user_id";
 	public static final String FIELD_TASK_EVALUATE_TIME = "time";
-	public static final String SQL_TASK_EVALUATE_CREATE_TABLE = "create table " + TB_TASK_EVALUATE
+	public static final String SQL_TASK_EVALUATE_CREATE_TABLE = "create table if not exists " + TB_TASK_EVALUATE
 			+ " (" + FIELD_TASK_EVALUATE_ID + " integer primary key autoincrement, "
 			+ FIELD_TASK_EVALUATE_TASK_ID + " text," + FIELD_TASK_EVALUATE_STANDARD_ID + " text,"
 			+ FIELD_TASK_EVALUATE_SCORE + " text," + FIELD_TASK_EVALUATE_EVALUATE + " text,"
@@ -199,7 +203,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_ATTCHMENT_MD5 = "md5";
 	public static final String FIELD_TASK_ATTACHMENT_STATUS = "status";
 	public static final String FIELD_TASK_ATTACHMENT_DIXIAN = "dixian";
-	public static final String SQL_TASK_ATTACHMENT_CREATE_TABLE = "create table "
+	public static final String SQL_TASK_ATTACHMENT_CREATE_TABLE = "create table if not exists "
 			+ TB_TASK_ATTACHMENT + " (" + FIELD_TASK_ATTCHMENT_ID
 			+ " integer primary key autoincrement, " + FIELD_TASK_ATTCHMENT_TASK_ID + " text,"
 			+ FIELD_TASK_ATTCHMENT_HISTORYGPS + " text," + FIELD_TASK_ATTCHMENT_STANDARD + " text,"
@@ -215,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_INSTRUCTIONS_SEND_ID = "send_id";
 	public static final String FIELD_TASK_INSTRUCTIONS_SEND_TIME = "send_time";
 	public static final String FIELD_TASK_INSTRUCTIONS_TYPE = "type";// 新增
-	public static final String SQL_TASK_INSTRUCTIONS_CREATE_TABLE = "create table "
+	public static final String SQL_TASK_INSTRUCTIONS_CREATE_TABLE = "create table if not exists "
 			+ TB_TASK_INSTRUCTIONS + " (" + FIELD_TASK_INSTRUCTIONS_ID
 			+ " integer primary key autoincrement, " + FIELD_TASK_INSTRUCTIONS_TASK_ID + " text,"
 			+ FIELD_TASK_INSTRUCTIONS_CONTENT + " text," + FIELD_TASK_INSTRUCTIONS_SEND_ID
@@ -228,7 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_ID = "receive_id";
 	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_RECEIVE_TIME = "receive_time";
 	public static final String FIELD_TASK_INSTRUCTIONS_RECIEVE_IS_READ = "is_read";
-	public static final String SQL_TASK_INSTRUCTIONS_RECEIVE_CREATE_TABLE = "create table "
+	public static final String SQL_TASK_INSTRUCTIONS_RECEIVE_CREATE_TABLE = "create table if not exists "
 			+ TB_TASK_INSTRUCTIONS_RECEIVE + " (" + FIELD_TASK_INSTRUCTIONS_RECIEVE_ID
 			+ " integer primary key autoincrement, "
 			+ FIELD_TASK_INSTRUCTIONS_RECIEVE_INSTRUCTIONS_ID + " text,"
@@ -244,7 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_TASK_INS_ATT_UPDATE_TIME = "update_time";
 	public static final String FIELD_TASK_INS_ATT_MD5 = "md5";
 	public static final String FIELD_TASK_INS_ATT_STATUS = "status";
-	public static final String SQL_TASK_INS_ATT_CREATE_TABLE = "create table "
+	public static final String SQL_TASK_INS_ATT_CREATE_TABLE = "create table if not exists "
 			+ TB_TASK_INSTRUCTIONS_ATTACHMENT + " (" + FIELD_TASK_INS_ATT_ID
 			+ " integer primary key autoincrement, " + FIELD_TASK_INS_ATT_INSTRUCTIONS_ID + " text,"
 			+ FIELD_TASK_INS_ATT_TYPE + " text," + FIELD_TASK_INS_ATT_URL + " text,"
@@ -258,7 +262,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_SYS_GROUP_NAME = "name";
 	public static final String FIELD_SYS_GROUP_CREATE_TIME = "create_time";
 	public static final String FIELD_SYS_GROUP_UPDATE_TIME = "update_time";
-	public static final String SQL_SYS_GROUP = "create table " + TB_SYS_GROUP + " ("
+	public static final String SQL_SYS_GROUP = "create table if not exists " + TB_SYS_GROUP + " ("
 			+ FIELD_SYS_GROUP_ID + " integer primary key autoincrement, " + FIELD_SYS_GROUP_TYPE
 			+ " text," + FIELD_SYS_GROUP_NAME + " text," + FIELD_SYS_GROUP_CREATE_TIME + " text,"
 			+ FIELD_SYS_GROUP_UPDATE_TIME + " text)";
@@ -268,7 +272,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_SYS_GROUP_MEMBER_ID = "id";
 	public static final String FIELD_SYS_GROUP_MEMBER_GROUP_ID = "group_id";
 	public static final String FIELD_SYS_GROUP_MEMBER_PERSON_ID = "person_id";
-	public static final String SQL_SYS_GROUP_MEMBER = "create table " + TB_SYS_GROUP_MEMBER + " ("
+	public static final String SQL_SYS_GROUP_MEMBER = "create table if not exists " + TB_SYS_GROUP_MEMBER + " ("
 			+ FIELD_SYS_GROUP_MEMBER_ID + " integer primary key autoincrement, "
 			+ FIELD_SYS_GROUP_MEMBER_GROUP_ID + " text," + FIELD_SYS_GROUP_MEMBER_PERSON_ID
 			+ " text)";
@@ -282,7 +286,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_SYS_MESSAGE_SEND_TIME = "send_time";
 	public static final String FIELD_SYS_MESSAGE_CONTENT = "content";
 	public static final String FIELD_SYS_MESSAGE_UPDATE_TIME = "update_time";
-	public static final String SQL_SYS_MESSAGE = "create table " + TB_SYS_MESSAGE + " ("
+	public static final String SQL_SYS_MESSAGE = "create table if not exists " + TB_SYS_MESSAGE + " ("
 			+ FIELD_SYS_MESSAGE_ID + " integer primary key autoincrement, " + FIELD_SYS_MESSAGE_TYPE
 			+ " text," + FIELD_SYS_MESSAGE_SENDER_ID + " text," + FIELD_SYS_MESSAGE_RELATION_ID
 			+ " text," + FIELD_SYS_MESSAGE_SEND_TIME + " text," + FIELD_SYS_MESSAGE_CONTENT
@@ -292,7 +296,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TB_SYS_PERSON_TYPE = "tb_sys_person_type";
 	public static final String FIELD_SYS_PERSON_TYPE_ID = "id";
 	public static final String FIELD_SYS_PERSON_TYPE_DESCRIPTION = "description";
-	public static final String SQL_SYS_PERSON_TYPE = "create table " + TB_SYS_PERSON_TYPE + " ("
+	public static final String SQL_SYS_PERSON_TYPE = "create table if not exists " + TB_SYS_PERSON_TYPE + " ("
 			+ FIELD_SYS_PERSON_TYPE_ID + " integer primary key autoincrement, "
 			+ FIELD_SYS_PERSON_TYPE_DESCRIPTION + " text)";
 
@@ -304,7 +308,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_SYS_MESSAGE_PERSON_IS_READ = "is_read";
 	public static final String FIELD_SYS_MESSAGE_PERSON_TYPE = "type";
 	public static final String FIELD_SYS_MESSAGE_PERSON_UPDATE_TIME = "update_time";
-	public static final String SQL_SYS_MESSAGE_PERSON = "create table " + TB_SYS_MESSAGE_PERSON
+	public static final String SQL_SYS_MESSAGE_PERSON = "create table if not exists " + TB_SYS_MESSAGE_PERSON
 			+ " (" + FIELD_SYS_MESSAGE_PERSON_ID + " integer primary key autoincrement, "
 			+ FIELD_SYS_MESSAGE_PERSON_MESSAGE_ID + " text," + FIELD_SYS_MESSAGE_PERSON_RELATOR_ID
 			+ " text," + FIELD_SYS_MESSAGE_PERSON_IS_READ + " text," + FIELD_SYS_MESSAGE_PERSON_TYPE
@@ -323,7 +327,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String FIELD_GPS_HISTORY_UPDATE_TIME = "update_time";
 	public static final String FIELD_GPS_HISTORY_COORDINATE = "coordinate";
 	public static final String FIELD_GPS_HISTORY_REMARK = "remark";
-	public static final String SQL_GPS_HISTORY_CREATE_TABLE = "create table " + TB_GPS_HISTORY
+	public static final String SQL_GPS_HISTORY_CREATE_TABLE = "create table if not exists " + TB_GPS_HISTORY
 			+ " (" + FIELD_GPS_HISTORY_ID + " integer primary key autoincrement, "
 			+ FIELD_GPS_HISTORY_PERSON_ID + " text," + FIELD_GPS_HISTORY_OLLECTIONTIME + " text,"
 			+ FIELD_GPS_HISTORY_LONGITUDE + " text," + FIELD_GPS_HISTORY_LATITUDE + " text,"
@@ -391,6 +395,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.v(LOG_TAG, "SQLite: onUpgrade");
+		onCreate(db);
+
 	}
 
 }

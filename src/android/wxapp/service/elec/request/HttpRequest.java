@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import android.R.raw;
 import android.content.Context;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.wxapp.service.elec.model.CreatePlanTaskRequest;
 import android.wxapp.service.elec.model.CreatePlanTaskResponse;
@@ -111,7 +112,7 @@ public class HttpRequest extends BaseRequest {
 		});
 	}
 
-	//fym 收到mqtt消息后显示Notification推送及更新时戳
+	// fym 收到mqtt消息后显示Notification推送及更新时戳
 	public JsonObjectRequest mqttUpdateRequest(final Context c, final MqttResponse response) {
 		return getUpdateRequest(c, new Listener<JSONObject>() {
 
@@ -147,7 +148,7 @@ public class HttpRequest extends BaseRequest {
 												List<tb_task_attachment> r = gson.fromJson(
 														subJs.getString("data"),
 														new TypeToken<List<tb_task_attachment>>() {
-												}.getType());
+														}.getType());
 												for (tb_task_attachment item : r) {
 													if (lastTime == 0)
 														lastTime = Long
@@ -247,6 +248,10 @@ public class HttpRequest extends BaseRequest {
 									try {
 										long lastTime = 0;
 										JSONArray d = arg0.getJSONArray("d");
+
+										// 服务器是否返回时间戳////////////lpw 8.25
+										boolean isServerGiveTime = false;
+
 										for (int i = 0; i < d.length(); i++) {
 											JSONObject subJs = (JSONObject) d.get(i);
 											String tableName = subJs.getString("table");
@@ -256,7 +261,7 @@ public class HttpRequest extends BaseRequest {
 												List<tb_task_attachment> r = gson.fromJson(
 														subJs.getString("data"),
 														new TypeToken<List<tb_task_attachment>>() {
-												}.getType());
+														}.getType());
 												for (tb_task_attachment item : r) {
 													if (lastTime == 0)
 														lastTime = Long
@@ -266,9 +271,13 @@ public class HttpRequest extends BaseRequest {
 														lastTime = Long
 																.parseLong(item.getUpload_time());
 												}
+												isServerGiveTime = true;
 												saveLastUpdateTime(c, lastTime + "");
 											}
 										}
+										// 如果服务器没有返回时间戳，则保存当前的时戳
+										if (!isServerGiveTime)
+											saveLastUpdateTime(c, System.currentTimeMillis() + "");
 									} catch (JSONException e) {
 										e.printStackTrace();
 										Log.v("MQTT", "MQTT SAVE false3");
@@ -305,13 +314,14 @@ public class HttpRequest extends BaseRequest {
 	 * 
 	 */
 	public JsonObjectRequest getCreatePlanTaskRequest(final Context c, final String weather,
-			final String name, final String power_cut_range, final String effect_eara,
-			final String content, final List<Node> responsibility_user,
+			final String name, final String task_code, final String line_num,
+			final String under_district, final Node task_location, final String power_cut_range,
+			final String effect_eara, final String content, final List<Node> responsibility_user,
 			final String plan_start_time, final String plan_end_time, final String category,
 			final boolean is_publish, final String special, final List<Node> leader,
 			final String measures, final String domain, final boolean is_power_cut,
-			final String cut_type, final Node implement_org, final String number,
-			final String remark) {
+			final String cut_type, final Node implement_org, final String remark) {
+
 		// 如果为获取到用户的id，则直接返回
 		if (getUserId(c) == null || getUserIc(c) == null)
 			return null;
@@ -326,12 +336,15 @@ public class HttpRequest extends BaseRequest {
 			Leader item = new Leader(node.getId().substring(1));
 			ysgdwld.add(item);
 		}
-		final String implement_org_Id = new OrgDao(c)
-				.getIdFromOc(implement_org.getId().substring(1));
+		OrgDao dao = new OrgDao(c);
+		final String implement_org_Id = dao.getIdFromOc(implement_org.getId().substring(1));
+		final String gongdiansuo_org_Id = dao.getIdFromOc(task_location.getId().substring(1));
+
 		CreatePlanTaskRequest cptr = new CreatePlanTaskRequest(getUserId(c), getUserIc(c), weather,
-				name, power_cut_range, effect_eara, content, gzfzr, plan_start_time, plan_end_time,
-				category, is_publish + "", special, ysgdwld, measures, domain, is_power_cut + "",
-				cut_type, implement_org_Id, number, remark);
+				name, task_code, line_num, under_district, gongdiansuo_org_Id, power_cut_range,
+				effect_eara, content, gzfzr, plan_start_time, plan_end_time, category,
+				is_publish + "", special, ysgdwld, measures, domain, is_power_cut + "", cut_type,
+				implement_org_Id, remark);
 
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.CREATEPLANTASK_METHOD
 				+ Contants.CREATEPLANTASK_PARAM + parase2Json(cptr);
@@ -345,12 +358,13 @@ public class HttpRequest extends BaseRequest {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {
 						CreatePlanTaskResponse r = gson.fromJson(arg0.toString(),
 								CreatePlanTaskResponse.class);
-						if (new PlanTaskDao(c).savePlanTask(r.getTid(), weather, name,
-								power_cut_range, effect_eara, content, responsibility_user,
-								plan_start_time, plan_end_time, "", "", category, is_publish + "",
-								special, leader, measures, domain, is_power_cut + "", cut_type,
-								implement_org_Id, number, remark, "", getUserId(c),
-								System.currentTimeMillis() + "", "", "", "", "", "", "")) {
+						if (new PlanTaskDao(c).savePlanTask(r.getTid(), weather, name, task_code,
+								line_num, under_district, gongdiansuo_org_Id, power_cut_range,
+								effect_eara, content, responsibility_user, plan_start_time,
+								plan_end_time, "", "", category, is_publish + "", special, leader,
+								measures, domain, is_power_cut + "", cut_type, implement_org_Id,
+								remark, "", getUserId(c), System.currentTimeMillis() + "", "", "",
+								"", "", "", "", "", "")) {
 							MessageHandlerManager.getInstance().sendMessage(
 									Constants.CREATE_TASK_SUCCESS, r,
 									CreatePlanTaskResponse.class.getName());
@@ -523,13 +537,13 @@ public class HttpRequest extends BaseRequest {
 		StartTaskRequest ctr = new StartTaskRequest(getUserId(c), getUserIc(c), tid, time);
 		this.url = Contants.SERVER_URL + Contants.MODEL_NAME + Contants.START_TASK_METHOD
 				+ Contants.START_TASK_PARAM + parase2Json(ctr);
-		//Log.e("Demo", this.url);
+		// Log.e("Demo", this.url);
 		Log.v("Temp", this.url);
 		return new JsonObjectRequest(this.url, null, new Listener<JSONObject>() {
 
 			@Override
 			public void onResponse(JSONObject arg0) {
-				//Log.e("Demo", arg0.toString());
+				// Log.e("Demo", arg0.toString());
 				Log.v("Temp", arg0.toString());
 				try {
 					if (arg0.getString("s").equals(Contants.RESULT_SUCCESS)) {

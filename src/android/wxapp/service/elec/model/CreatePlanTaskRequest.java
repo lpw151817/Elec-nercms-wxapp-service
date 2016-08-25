@@ -10,6 +10,9 @@ public class CreatePlanTaskRequest extends BaseRequestModel {
 
 	String weather;
 	String name;
+
+	String task_code, line_num, under_district, task_location;
+
 	String power_cut_range;
 	String effect_eara;
 	String content;
@@ -29,18 +32,23 @@ public class CreatePlanTaskRequest extends BaseRequestModel {
 	String is_power_cut;
 	String cut_type;
 	String implement_org;
-	String number;
+	// String number;
 	String remark;
 
 	public CreatePlanTaskRequest(String uid, String ic, String weather, String name,
+			String task_code, String line_num, String under_district, String task_location,
 			String power_cut_range, String effect_eara, String content,
 			List<User> responsibility_user, String plan_start_time, String plan_end_time,
 			String category, String is_publish, String special, List<Leader> leader,
 			String measures, String domain, String is_power_cut, String cut_type,
-			String implement_org, String number, String remark) {
+			String implement_org, String remark) {
 		super(uid, ic);
 		this.weather = weather;
 		this.name = name;
+		this.task_code = task_code;
+		this.line_num = line_num;
+		this.under_district = under_district;
+		this.task_location = task_location;
 		this.power_cut_range = power_cut_range;
 		this.effect_eara = effect_eara;
 		this.content = content;
@@ -56,7 +64,6 @@ public class CreatePlanTaskRequest extends BaseRequestModel {
 		this.is_power_cut = is_power_cut;
 		this.cut_type = cut_type;
 		this.implement_org = implement_org;
-		this.number = number;
 		this.remark = remark;
 	}
 
@@ -200,12 +207,40 @@ public class CreatePlanTaskRequest extends BaseRequestModel {
 		this.implement_org = implement_org;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getTask_code() {
+		return task_code;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setTask_code(String task_code) {
+		this.task_code = task_code;
+	}
+
+	public String getLine_num() {
+		return line_num;
+	}
+
+	public void setLine_num(String line_num) {
+		this.line_num = line_num;
+	}
+
+	public String getUnder_district() {
+		return under_district;
+	}
+
+	public void setUnder_district(String under_district) {
+		this.under_district = under_district;
+	}
+
+	public String getTask_location() {
+		return task_location;
+	}
+
+	public void setTask_location(String task_location) {
+		this.task_location = task_location;
+	}
+
+	public void setLeader(List<Leader> leader) {
+		this.leader = leader;
 	}
 
 	public String getRemark() {
