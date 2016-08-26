@@ -39,7 +39,9 @@ public class UpdateDao extends BaseDAO {
 	}
 
 	public boolean saveUpdate(JSONObject js) {
-
+		if (db == null)
+			db = dbHelper.getWritableDatabase();
+		db.beginTransaction();
 		try {
 			JSONArray d = js.getJSONArray("d");
 			for (int i = 0; i < d.length(); i++) {
@@ -243,9 +245,12 @@ public class UpdateDao extends BaseDAO {
 					}
 				}
 			}
+			db.setTransactionSuccessful();
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			db.endTransaction();
 		}
 		return true;
 	}

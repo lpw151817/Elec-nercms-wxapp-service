@@ -26,12 +26,15 @@ public class PlanTaskDao extends BaseDAO {
 
 	public int getLastDixian(String tid) {
 		db = dbHelper.getReadableDatabase();
-		Cursor c = db.rawQuery("select * from " + DatabaseHelper.TB_TASK_ATTACHMENT + " where "
-				+ DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = " + tid + " and "
-				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN + " is not null order by "
+		Cursor c = db.rawQuery("select * from "
+				+ DatabaseHelper.TB_TASK_ATTACHMENT + " where "
+				+ DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = " + tid
+				+ " and " + DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN
+				+ " is not null order by "
 				+ DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN + " desc", null);
 		if (c.moveToFirst())
-			return c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN));
+			return c.getInt(c
+					.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN));
 		else
 			return 0;
 	}
@@ -51,7 +54,8 @@ public class PlanTaskDao extends BaseDAO {
 	public boolean deleteTask(String tid) {
 		db = dbHelper.getWritableDatabase();
 		try {
-			return db.delete(DatabaseHelper.TB_TASK, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
+			return db.delete(DatabaseHelper.TB_TASK,
+					DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
 					new String[] { tid }) > 0;
 		} finally {
 			// db.close();
@@ -68,7 +72,8 @@ public class PlanTaskDao extends BaseDAO {
 		}
 		try {
 			return db.update(DatabaseHelper.TB_TASK, values,
-					DatabaseHelper.FIELD_TASKINFO_ID + " = ?", new String[] { tid }) > 0;
+					DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
+					new String[] { tid }) > 0;
 		} finally {
 			// db.close();
 		}
@@ -110,14 +115,17 @@ public class PlanTaskDao extends BaseDAO {
 	 * @param approve_id
 	 * @return
 	 */
-	public boolean updatePlanTask(String id, String weather, String name, String task_code,
-			String line_num, String under_district, String task_location, String power_cut_range,
-			String effect_eara, String content, String responsibility_user, String plan_start_time,
-			String plan_end_time, String start_time, String end_time, String category,
-			String is_publish, String special, String leader, String measures, String domain,
-			String is_power_cut, String cut_type, String implement_org, String number,
-			String remark, String plan_type, String creator_id, String creator_time,
-			String update_id, String update_time, String is_keep, String status, String examine_id,
+	public boolean updatePlanTask(String id, String weather, String name,
+			String task_code, String line_num, String under_district,
+			String task_location, String power_cut_range, String effect_eara,
+			String content, String responsibility_user, String plan_start_time,
+			String plan_end_time, String start_time, String end_time,
+			String category, String is_publish, String special, String leader,
+			String measures, String domain, String is_power_cut,
+			String cut_type, String implement_org, String number,
+			String remark, String plan_type, String creator_id,
+			String creator_time, String update_id, String update_time,
+			String is_keep, String status, String examine_id,
 			String approve_id, String history_id, String score) {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
@@ -130,21 +138,27 @@ public class PlanTaskDao extends BaseDAO {
 		if (line_num != null)
 			values.put(DatabaseHelper.FIELD_TASKINFO_LINE_NUM, line_num);
 		if (under_district != null)
-			values.put(DatabaseHelper.FIELD_TASKINFO_UNDER_DISTRICT, under_district);
+			values.put(DatabaseHelper.FIELD_TASKINFO_UNDER_DISTRICT,
+					under_district);
 		if (task_location != null)
-			values.put(DatabaseHelper.FIELD_TASKINFO_TASK_LOCATION, task_location);
+			values.put(DatabaseHelper.FIELD_TASKINFO_TASK_LOCATION,
+					task_location);
 		if (power_cut_range != null)
-			values.put(DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE, power_cut_range);
+			values.put(DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE,
+					power_cut_range);
 		if (effect_eara != null)
 			values.put(DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA, effect_eara);
 		if (content != null)
 			values.put(DatabaseHelper.FIELD_TASKINFO_CONTENT, content);
 		if (responsibility_user != null)
-			values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER, responsibility_user);
+			values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER,
+					responsibility_user);
 		if (plan_start_time != null)
-			values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME, plan_start_time);
+			values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME,
+					plan_start_time);
 		if (plan_end_time != null)
-			values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, plan_end_time);
+			values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME,
+					plan_end_time);
 		if (start_time != null)
 			values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
 		if (end_time != null)
@@ -166,7 +180,8 @@ public class PlanTaskDao extends BaseDAO {
 		if (cut_type != null)
 			values.put(DatabaseHelper.FIELD_TASKINFO_CUT_TYPE, cut_type);
 		if (implement_org != null)
-			values.put(DatabaseHelper.FIELD_TASKINFO_IMPLEMENT_ORG, implement_org);
+			values.put(DatabaseHelper.FIELD_TASKINFO_IMPLEMENT_ORG,
+					implement_org);
 		if (remark != null)
 			values.put(DatabaseHelper.FIELD_TASKINFO_REMARK, remark);
 		if (plan_type != null)
@@ -193,20 +208,24 @@ public class PlanTaskDao extends BaseDAO {
 			values.put(DatabaseHelper.FIELD_TASKINFO_SCORE, score);
 		try {
 			return db.update(DatabaseHelper.TB_TASK, values,
-					DatabaseHelper.FIELD_TASKINFO_ID + " = ?", new String[] { id }) > 0;
+					DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
+					new String[] { id }) > 0;
 		} finally {
 			// db.close();
 		}
 	}
 
-	public boolean savePlanTask(String id, String weather, String name, String task_code,
-			String line_num, String under_district, String task_location, String power_cut_range,
-			String effect_eara, String content, List<Node> responsibility_user,
-			String plan_start_time, String plan_end_time, String start_time, String end_time,
-			String category, String is_publish, String special, List<Node> leader, String measures,
-			String domain, String is_power_cut, String cut_type, String implement_org,
-			String remark, String plan_type, String creator_id, String creator_time,
-			String update_id, String update_time, String is_keep, String status, String examine_id,
+	public boolean savePlanTask(String id, String weather, String name,
+			String task_code, String line_num, String under_district,
+			String task_location, String power_cut_range, String effect_eara,
+			String content, List<Node> responsibility_user,
+			String plan_start_time, String plan_end_time, String start_time,
+			String end_time, String category, String is_publish,
+			String special, List<Node> leader, String measures, String domain,
+			String is_power_cut, String cut_type, String implement_org,
+			String remark, String plan_type, String creator_id,
+			String creator_time, String update_id, String update_time,
+			String is_keep, String status, String examine_id,
 			String approve_id, String history_id, String score) {
 
 		db = dbHelper.getWritableDatabase();
@@ -221,14 +240,16 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASKINFO_TASK_LOCATION, task_location);
 		values.put(DatabaseHelper.FIELD_TASKINFO_HISTORY_ID, history_id);
 		values.put(DatabaseHelper.FIELD_TASKINFO_SCORE, score);
-		values.put(DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE, power_cut_range);
+		values.put(DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE,
+				power_cut_range);
 		values.put(DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA, effect_eara);
 		values.put(DatabaseHelper.FIELD_TASKINFO_CONTENT, content);
 		OrgDao orgDao = new OrgDao(c);
-		// ÔÝÊ±Ö»´æµÚÒ»¸ö
+		// ï¿½ï¿½Ê±Ö»ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		values.put(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER,
 				responsibility_user.get(0).getId().substring(1));
-		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME, (plan_start_time));
+		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME,
+				(plan_start_time));
 		values.put(DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME, (plan_end_time));
 		if (!TextUtils.isEmpty(start_time))
 			values.put(DatabaseHelper.FIELD_TASKINFO_START_TIME, start_time);
@@ -239,13 +260,14 @@ public class PlanTaskDao extends BaseDAO {
 			values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, "0");
 		else
 			values.put(DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH, "1");
-		if (special.equals("ÓÐ"))
+		if (special.equals("ï¿½ï¿½"))
 			values.put(DatabaseHelper.FIELD_TASKINFO_SPECIAL, "1");
 		else
 			values.put(DatabaseHelper.FIELD_TASKINFO_SPECIAL, "0");
-		// ÔÝÊ±Ö»´æµÚÒ»¸ö
+		// ï¿½ï¿½Ê±Ö»ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 		if (leader != null && leader.size() > 0)
-			values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, leader.get(0).getId().substring(1));
+			values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, leader.get(0)
+					.getId().substring(1));
 		else
 			values.put(DatabaseHelper.FIELD_TASKINFO_LEADER, "");
 		values.put(DatabaseHelper.FIELD_TASKINFO_MEASURES, measures);
@@ -275,41 +297,41 @@ public class PlanTaskDao extends BaseDAO {
 	}
 
 	/**
-	 * ²éÑ¯ÏÂµÄËùÓÐÈÎÎñ
+	 * ï¿½ï¿½Ñ¯ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param renwuleibie
-	 *            1×÷ÒµÏÖ³¡ 2²Ù×÷ÏÖ³¡ 3¹ÊÕÏÇÀÐÞÏÖ³¡ 4²»²éÑ¯¸Ã×Ö¶Î
+	 *            1ï¿½ï¿½Òµï¿½Ö³ï¿½ 2ï¿½ï¿½ï¿½ï¿½ï¿½Ö³ï¿½ 3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö³ï¿½ 4ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ö¶ï¿½
 	 * @param planType
-	 *            1,ÔÂ¼Æ»®£»2,ÖÜ¼Æ»®;3.ÈÕ¼Æ»®¡£ Ä¬ÈÏ´«3
+	 *            1,ï¿½Â¼Æ»ï¿½ï¿½ï¿½2,ï¿½Ü¼Æ»ï¿½;3.ï¿½Õ¼Æ»ï¿½ï¿½ï¿½ Ä¬ï¿½Ï´ï¿½3
 	 * @param uid
-	 *            ²éÑ¯ËùÓÐ£¬´«Èënull
+	 *            ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½null
 	 * @param status
-	 *            0,ÐÂµÄÈÎÎñ£»1,Ö´ÐÐÖÐ£»2,ÑÓÎó£»3,Íê³É£»4,È¡ÏûÈÎÎñ¡£ nullÔò²»²éÑ¯´Ë×Ö¶Î
+	 *            0,ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½1,Ö´ï¿½ï¿½ï¿½Ð£ï¿½2,ï¿½ï¿½ï¿½ï¿½3,ï¿½ï¿½É£ï¿½4,È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ nullï¿½ò²»²ï¿½Ñ¯ï¿½ï¿½ï¿½Ö¶ï¿½
 	 * @return
 	 */
-	public List<tb_task_info> getPlanTasks(int renwuleibie, int planType, String uid,
-			String status) {
+	public List<tb_task_info> getPlanTasks(int renwuleibie, int planType,
+			String uid, String status) {
 		return getPlanTasks(renwuleibie, planType, uid, status, null, null);
 	}
 
 	/**
 	 * 
-	 * ²éÑ¯ÏÂµÄËùÓÐÈÎÎñ
+	 * ï¿½ï¿½Ñ¯ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param renwuleibie
-	 *            1×÷ÒµÏÖ³¡ 2²Ù×÷ÏÖ³¡ 3¹ÊÕÏÇÀÐÞÏÖ³¡ 4²»²éÑ¯¸Ã×Ö¶Î
+	 *            1ï¿½ï¿½Òµï¿½Ö³ï¿½ 2ï¿½ï¿½ï¿½ï¿½ï¿½Ö³ï¿½ 3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö³ï¿½ 4ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ö¶ï¿½
 	 * @param planType
-	 *            1,ÔÂ¼Æ»®£»2,ÖÜ¼Æ»®;3.ÈÕ¼Æ»®¡£ Ä¬ÈÏ´«3
+	 *            1,ï¿½Â¼Æ»ï¿½ï¿½ï¿½2,ï¿½Ü¼Æ»ï¿½;3.ï¿½Õ¼Æ»ï¿½ï¿½ï¿½ Ä¬ï¿½Ï´ï¿½3
 	 * @param uid
-	 *            ²éÑ¯ËùÓÐ£¬´«Èënull
+	 *            ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½null
 	 * @param status
-	 *            0,ÐÂµÄÈÎÎñ£»1,Ö´ÐÐÖÐ£»2,ÑÓÎó£»3,Íê³É£»4,È¡ÏûÈÎÎñ¡£ nullÔò²»²éÑ¯´Ë×Ö¶Î
+	 *            0,ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½1,Ö´ï¿½ï¿½ï¿½Ð£ï¿½2,ï¿½ï¿½ï¿½ï¿½3,ï¿½ï¿½É£ï¿½4,È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ nullï¿½ò²»²ï¿½Ñ¯ï¿½ï¿½ï¿½Ö¶ï¿½
 	 * @param startTime
 	 * @param endTime
 	 * @return
 	 */
-	public List<tb_task_info> getPlanTasks(int renwuleibie, int planType, String uid, String status,
-			String startTime, String endTime) {
+	public List<tb_task_info> getPlanTasks(int renwuleibie, int planType,
+			String uid, String status, String startTime, String endTime) {
 		db = dbHelper.getReadableDatabase();
 		StringBuilder sql = new StringBuilder();
 		sql.append("select * from " + DatabaseHelper.TB_TASK);
@@ -319,15 +341,16 @@ public class PlanTaskDao extends BaseDAO {
 				sql.append(DatabaseHelper.FIELD_TASKINFO_CATEGORY + " = '"
 						+ taskLeibieInt2String(renwuleibie) + "'");
 				if (!TextUtils.isEmpty(uid)) {
-					sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER + " = '"
-							+ uid + "'");
+					sql.append(" and "
+							+ DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER
+							+ " = '" + uid + "'");
 				}
 			} else if (renwuleibie == 4) {
 				if (!TextUtils.isEmpty(uid)) {
 					if (!sql.toString().endsWith("where "))
 						sql.append(" and ");
-					sql.append(
-							DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER + " = '" + uid + "'");
+					sql.append(DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER
+							+ " = '" + uid + "'");
 				}
 			}
 		}
@@ -337,50 +360,59 @@ public class PlanTaskDao extends BaseDAO {
 		sql.append(DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE + " = " + planType);
 
 		if (!TextUtils.isEmpty(status)) {
-			// ÐÂÈÎÎñ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (status.equals("0")) {
-				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is null) and "
+				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_START_TIME
+						+ " is null) and "
 						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " > "
 						+ System.currentTimeMillis());
 			}
-			// Ö´ÐÐÖÐ
+			// Ö´ï¿½ï¿½ï¿½ï¿½
 			else if (status.equals("1")) {
 				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_START_TIME
-						+ " is not null ) and (" + DatabaseHelper.FIELD_TASKINFO_END_TIME
-						+ " is null ) " + "and " + DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME
-						+ " > " + System.currentTimeMillis());
+						+ " is not null ) and ("
+						+ DatabaseHelper.FIELD_TASKINFO_END_TIME
+						+ " is null ) " + "and "
+						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " > "
+						+ System.currentTimeMillis());
 			}
-			// ÑÓÎóµÄ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½
 			else if (status.equals("2")) {
-				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_END_TIME + " is null) and "
+				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_END_TIME
+						+ " is null) and "
 						+ DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME + " < "
 						+ System.currentTimeMillis());
 			}
-			// Íê³É
+			// ï¿½ï¿½ï¿½
 			else if (status.equals("3")) {
-				sql.append(
-						" and (" + DatabaseHelper.FIELD_TASKINFO_START_TIME + " is not null) and ("
-								+ DatabaseHelper.FIELD_TASKINFO_END_TIME + " is not null)");
+				sql.append(" and (" + DatabaseHelper.FIELD_TASKINFO_START_TIME
+						+ " is not null) and ("
+						+ DatabaseHelper.FIELD_TASKINFO_END_TIME
+						+ " is not null)");
 			}
-			// È¡Ïû
+			// È¡ï¿½ï¿½
 			else if (status.equals("4")) {
-				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS + " = 4");
+				sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_STATUS
+						+ " = 4");
 			}
 		}
 
 		if (!TextUtils.isEmpty(startTime))
 			// sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME +
 			// " > " + startTime);
-			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " > " + startTime);
+			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME
+					+ " > " + startTime);
 		if (!TextUtils.isEmpty(endTime))
 			// sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME +
 			// " < " + endTime);
-			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " < " + endTime);
+			sql.append(" and " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME
+					+ " < " + endTime);
 
 		// sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME
 		// + " desc");
-		// °´ÕÕ¼Æ»®¿ªÊ¼Ê±¼ä½øÐÐÅÅÐò
-		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME + " desc");
+		// ï¿½ï¿½ï¿½Õ¼Æ»ï¿½ï¿½ï¿½Ê¼Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		sql.append(" order by " + DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME
+				+ " desc");
 
 		// Log.v(getClass().getSimpleName() + ">>>>>>>", sql.toString());
 		List<tb_task_info> result = new ArrayList<tb_task_info>();
@@ -388,18 +420,22 @@ public class PlanTaskDao extends BaseDAO {
 			Cursor c = db.rawQuery(sql.toString(), null);
 			while (c.moveToNext()) {
 
-				tb_task_info info = new tb_task_info(getData(c, DatabaseHelper.FIELD_TASKINFO_ID),
+				tb_task_info info = new tb_task_info(
+						getData(c, DatabaseHelper.FIELD_TASKINFO_ID),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_WEATHER),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_NAME),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_TASK_CODE),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_LINE_NUM),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_UNDER_DISTRICT),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_TASK_LOCATION),
-						getData(c, DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE),
+						getData(c,
+								DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_CONTENT),
-						getData(c, DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER),
-						getData(c, DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME),
+						getData(c,
+								DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER),
+						getData(c,
+								DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_START_TIME),
 						getData(c, DatabaseHelper.FIELD_TASKINFO_END_TIME),
@@ -437,43 +473,46 @@ public class PlanTaskDao extends BaseDAO {
 	public tb_task_info getPlanTask(String id) {
 
 		db = dbHelper.getReadableDatabase();
-		Cursor c = db.query(DatabaseHelper.TB_TASK, null, DatabaseHelper.FIELD_TASKINFO_ID + " = ?",
-				new String[] { id }, null, null, null);
+		Cursor c = db.query(DatabaseHelper.TB_TASK, null,
+				DatabaseHelper.FIELD_TASKINFO_ID + " = ?", new String[] { id },
+				null, null, null);
 		tb_task_info info = null;
 		if (c.moveToFirst()) {
-			info = new tb_task_info(getData(c, DatabaseHelper.FIELD_TASKINFO_ID),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_WEATHER),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_NAME),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_TASK_CODE),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_LINE_NUM),
+			info = new tb_task_info(
+					getData(c, DatabaseHelper.FIELD_TASKINFO_ID), getData(c,
+							DatabaseHelper.FIELD_TASKINFO_WEATHER), getData(c,
+							DatabaseHelper.FIELD_TASKINFO_NAME), getData(c,
+							DatabaseHelper.FIELD_TASKINFO_TASK_CODE), getData(
+							c, DatabaseHelper.FIELD_TASKINFO_LINE_NUM),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_UNDER_DISTRICT),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_TASK_LOCATION),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_POWER_CUT_RANGE),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_EFFECT_EARA),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_CONTENT),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_CONTENT), getData(
+							c,
+							DatabaseHelper.FIELD_TASKINFO_RESPONSIBILITY_USER),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_PLAN_START_TIME),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_PLAN_END_TIME),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_START_TIME),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_END_TIME),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_CATEGORY),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_PUBLISH),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_SPECIAL),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_LEADER),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_MEASURES),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_DOMAIN),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_SPECIAL), getData(
+							c, DatabaseHelper.FIELD_TASKINFO_LEADER), getData(
+							c, DatabaseHelper.FIELD_TASKINFO_MEASURES),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_DOMAIN), getData(
+							c, DatabaseHelper.FIELD_TASKINFO_IS_POWER_CUT),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_CUT_TYPE),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_IMPLEMENT_ORG),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_REMARK),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_REMARK), getData(
+							c, DatabaseHelper.FIELD_TASKINFO_PLAN_TYPE),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_CREATOR_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_CREATOR_TIME),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_UPDATE_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_UPDATE_TIME),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_KEEP),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_STATUS),
-					getData(c, DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID),
+					getData(c, DatabaseHelper.FIELD_TASKINFO_IS_KEEP), getData(
+							c, DatabaseHelper.FIELD_TASKINFO_STATUS), getData(
+							c, DatabaseHelper.FIELD_TASKINFO_EXAMINE_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_APPROVE_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_HISTORY_ID),
 					getData(c, DatabaseHelper.FIELD_TASKINFO_SCORE));
@@ -483,8 +522,9 @@ public class PlanTaskDao extends BaseDAO {
 		return info;
 	}
 
-	public boolean savePlanTaskAtt(String id, String task_id, String historygps, String standard,
-			String type, String url, String upload_time, String md5, String status) {
+	public boolean savePlanTaskAtt(String id, String task_id,
+			String historygps, String standard, String type, String url,
+			String upload_time, String md5, String status) {
 		db = dbHelper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 
@@ -497,7 +537,7 @@ public class PlanTaskDao extends BaseDAO {
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME, upload_time);
 		values.put(DatabaseHelper.FIELD_TASK_ATTCHMENT_URL, url);
 		values.put(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS, status);
-		// »ñÈ¡µØÏßÊýÖµ
+		// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 		String[] tmp = url.split("-");
 		if (tmp.length > 1) {
 			try {
@@ -515,26 +555,30 @@ public class PlanTaskDao extends BaseDAO {
 		}
 	}
 
+	
+	/////////////////////////chenqiang1
 	public List<tb_task_attachment> getPlanTaskAtts(String tid) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_TASK_ATTACHMENT, null,
-				DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = ?", new String[] { tid }, null,
-				null, null);
+				DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID + " = ?",
+				new String[] { tid }, null, null, null);
 		for (String tmp : c.getColumnNames()) {
 			Log.v("login", tmp);
 		}
 		List<tb_task_attachment> result = new ArrayList<tb_task_attachment>();
 		while (c.moveToNext()) {
-			result.add(new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
+			result.add(new tb_task_attachment(
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_HISTORYGPS),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_STANDARD),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TYPE),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_URL),
+					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5),
-					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS),
-					c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN))));
+					c.getInt(c
+							.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN))));
 		}
 		c.close();
 		// db.close();
@@ -544,31 +588,34 @@ public class PlanTaskDao extends BaseDAO {
 	/**
 	 * 
 	 * @param startTime
-	 *            ¿ÉÎªnull
+	 *            ï¿½ï¿½Îªnull
 	 * @param endTime
-	 *            ¿ÉÎªnull
+	 *            ï¿½ï¿½Îªnull
 	 * @param status
 	 * @return
 	 */
-	public List<tb_task_attachment> getPlanTaskAtts(String startTime, String endTime,
-			String status) {
+	public List<tb_task_attachment> getPlanTaskAtts(String startTime,
+			String endTime, String status) {
 		db = dbHelper.getReadableDatabase();
 		StringBuilder builder = new StringBuilder();
-		builder.append("select * from " + DatabaseHelper.TB_TASK_ATTACHMENT + " where ");
+		builder.append("select * from " + DatabaseHelper.TB_TASK_ATTACHMENT
+				+ " where ");
 		if (!TextUtils.isEmpty(startTime)) {
-			builder.append(
-					DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " > " + startTime + " and ");
+			builder.append(DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME
+					+ " > " + startTime + " and ");
 		}
 		if (!TextUtils.isEmpty(endTime)) {
-			builder.append(
-					DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME + " < " + endTime + " and ");
+			builder.append(DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME
+					+ " < " + endTime + " and ");
 		}
-		builder.append(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS + " = '" + status + "'");
+		builder.append(DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS + " = '"
+				+ status + "'");
 		Log.v(PlanTaskDao.class.getSimpleName(), builder.toString());
 		Cursor c = db.rawQuery(builder.toString(), null);
 		List<tb_task_attachment> result = new ArrayList<tb_task_attachment>();
 		while (c.moveToNext()) {
-			result.add(new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
+			result.add(new tb_task_attachment(
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_HISTORYGPS),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_STANDARD),
@@ -577,7 +624,8 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS),
-					c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN))));
+					c.getInt(c
+							.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN))));
 		}
 		c.close();
 		// db.close();
@@ -587,11 +635,12 @@ public class PlanTaskDao extends BaseDAO {
 	public tb_task_attachment getPlanTaskAtt(String planTaskAttId) {
 		db = dbHelper.getReadableDatabase();
 		Cursor c = db.query(DatabaseHelper.TB_TASK_ATTACHMENT, null,
-				DatabaseHelper.FIELD_TASK_ATTCHMENT_ID + " = ?", new String[] { planTaskAttId },
-				null, null, null);
+				DatabaseHelper.FIELD_TASK_ATTCHMENT_ID + " = ?",
+				new String[] { planTaskAttId }, null, null, null);
 		tb_task_attachment result = null;
 		if (c.moveToFirst()) {
-			result = new tb_task_attachment(getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
+			result = new tb_task_attachment(
+					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_TASK_ID),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_HISTORYGPS),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_STANDARD),
@@ -600,7 +649,8 @@ public class PlanTaskDao extends BaseDAO {
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_UPLOAD_TIME),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTCHMENT_MD5),
 					getData(c, DatabaseHelper.FIELD_TASK_ATTACHMENT_STATUS),
-					c.getInt(c.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN)));
+					c.getInt(c
+							.getColumnIndex(DatabaseHelper.FIELD_TASK_ATTACHMENT_DIXIAN)));
 		}
 		c.close();
 		// db.close();
@@ -608,11 +658,11 @@ public class PlanTaskDao extends BaseDAO {
 	}
 
 	/**
-	 * ¸ü¸Ä¸½¼þÉÏ´«×´Ì¬
+	 * ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½Ï´ï¿½×´Ì¬
 	 * 
 	 * @param taskAttId
 	 * @param status
-	 *            0»òÕßÊÇnull»òÕßÊÇ¿Õ:Î´ÉÏ´« 1:ÕýÔÚÉÏ´« 2£ºÒÑÉÏ´«
+	 *            0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nullï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½:Î´ï¿½Ï´ï¿½ 1:ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ 2ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
 	 * @return
 	 */
 	public boolean changeTaskAttachmentStatus(String taskAttId, String status) {
@@ -628,10 +678,11 @@ public class PlanTaskDao extends BaseDAO {
 		}
 	}
 
-	public boolean changeTaskAttachmentsStatus(List<tb_task_attachment> attachments,
-			List<String> statuses) {
+	public boolean changeTaskAttachmentsStatus(
+			List<tb_task_attachment> attachments, List<String> statuses) {
 		for (int i = 0; i < attachments.size(); i++) {
-			if (changeTaskAttachmentStatus(attachments.get(i).getId(), statuses.get(i)))
+			if (changeTaskAttachmentStatus(attachments.get(i).getId(),
+					statuses.get(i)))
 				continue;
 			else
 				return false;
@@ -641,19 +692,21 @@ public class PlanTaskDao extends BaseDAO {
 
 	public boolean savePlanTaskAtt(UploadTaskAttachmentResponse r) {
 		for (tb_task_attachment att : r.getAttachments()) {
-			if (savePlanTaskAtt(att.getId(), att.getTask_id(), att.getHistorygps(),
-					att.getStandard(), att.getType(), att.getUrl(), att.getUpload_time(),
-					att.getMd5(), att.getStatus())) {
+			if (savePlanTaskAtt(att.getId(), att.getTask_id(),
+					att.getHistorygps(), att.getStandard(), att.getType(),
+					att.getUrl(), att.getUpload_time(), att.getMd5(),
+					att.getStatus())) {
 				continue;
 			} else
 				return false;
 		}
 		GpsDao dao = new GpsDao(c);
 		for (tb_gps_history gps : r.getGpss()) {
-			if (dao.saveHistory(gps.getId(), gps.getPerson_id(), gps.getOllectionTime(),
-					gps.getLongitude(), gps.getLatitude(), gps.getGps_type(), gps.getAccuracy(),
-					gps.getHeight(), gps.getSpeed(), gps.getUpdate_time(), gps.getCoordinate(),
-					gps.getRemark()) > 0)
+			if (dao.saveHistory(gps.getId(), gps.getPerson_id(),
+					gps.getOllectionTime(), gps.getLongitude(),
+					gps.getLatitude(), gps.getGps_type(), gps.getAccuracy(),
+					gps.getHeight(), gps.getSpeed(), gps.getUpdate_time(),
+					gps.getCoordinate(), gps.getRemark()) > 0)
 				continue;
 			else
 				return false;
